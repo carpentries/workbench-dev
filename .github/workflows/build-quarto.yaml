@@ -42,6 +42,8 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
+            any::devtools
+            any::pandoc
             any::sandpaper
             any::pegboard
             any::varnish
