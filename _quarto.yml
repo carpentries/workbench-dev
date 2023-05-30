@@ -8,6 +8,7 @@ book:
     The Carpentries Workbench.
   author: "Zhian N. Kamvar"
   date: '2023-12-31'
+  cover-image: 'images/cover.jpg'
   reader-mode: true
   repo-url: https://github.com/carpentries/workbench-dev/
   site-url: https://carpentries.github.io/workbench-dev/
