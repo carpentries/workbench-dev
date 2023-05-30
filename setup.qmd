@@ -1,0 +1,106 @@
+---
+title: "System Setup"
+---
+
+## Software Tools
+
+Development of Workbench components requires the same toolchain for working on
+lessons:
+
+ - R
+ - pandoc
+ - Git
+
+It is recommended to have the latest versions of R and pandoc available. You
+need at least git 2.28 for security purposes.
+
+```{r}
+#| echo: false
+#| message: true
+cat("R version\n---\n")
+writeLines(system2(c("R", "--version"), stdout = TRUE))
+cat("\npandoc version\n---\n")
+writeLines(system2(c("pandoc", "--version"), stdout = TRUE))
+cat("\ngit version\n---\n")
+writeLines(system2(c("git", "--version"), stdout = TRUE))
+```
+
+
+## R Packages
+
+Once you have these installed, make sure to install ALL of the dependencies for
+the workbench:
+
+```{.r}
+install.packages(c("sandpaper", "pegboard", "varnish", "tinkr"),
+  dependencies = TRUE,
+  repos = c(getOption("repos"), "https://carpentries.r-universe.dev"))
+```
+
+The {sandpaper} package comes with the {usethis} package embedded (though this
+may change in the future). In addition, you will need the
+[{devtools}](https://devtools.r-lib.org) for development.
+
+I would also _highly_ recommend the [{pandoc}](https://cderv.github.io/pandoc/)
+package for managing pandoc versions (NOTE: this requires you to have a 
+personal access token set up).
+
+```{.r}
+install.packages("devtools")
+install.packages("pandoc")
+```
+
+Once you have devtools, be sure to run `devtools::dev_sitrep()` and `usethis::git_sitrep()` to make sure you have the tools to build The Workbench:
+
+
+``` r
+devtools::dev_sitrep()
+#> ── R ───────────────────────────────────────────────────────────────────────────
+#> • version: 4.3.0
+#> • path: '/usr/lib/R/'
+#> ── devtools ────────────────────────────────────────────────────────────────────
+#> • version: 2.4.5
+#> ── dev package ─────────────────────────────────────────────────────────────────
+#> • package: <unset>
+#> • path: <unset>
+#> ✔ All checks passed
+
+usethis::git_sitrep()
+#> Git config (global)
+#> • Name: 'Zhian N. Kamvar'
+#> • Email: 'zkamvar@gmail.com'
+#> • Global (user-level) gitignore file: <unset>
+#> • Vaccinated: FALSE
+#> ℹ See `?git_vaccinate` to learn more
+#> ℹ Defaulting to 'https' Git protocol
+#> • Default Git protocol: 'https'
+#> • Default initial branch name: 'main'
+#> GitHub
+#> • Default GitHub host: 'https://github.com'
+#> • Personal access token for 'https://github.com': '<discovered>'
+#> • GitHub user: 'zkamvar'
+#> • Token scopes: 'gist, repo, user, workflow'
+#> • Email(s): 'zkamvar@gmail.com (primary)', ...
+#> Git repo for current project
+#> ℹ No active usethis project
+```
+
+<sup>Created on 2023-05-30 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
+
+
+## Development Workflow
+
+1. open RStudio and switch to the project for the package you are working on
+2. checkout a new branch for your feature/bug
+3. **load package** via `devtools::load_all()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>L</kbd> (
+   use <kbd>cmd</kbd> on macOS) to load the package NAMESPACE
+4. **run tests** (either via `devtools::test()` or
+   <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>T</kbd> to run the entire test suite
+   OR to test a single file, use the "run tests" button in a test file or run
+   `testthat::test_local(filter = '[FILE SLUG]')`
+5. **modify tests** for new functionality/bug fix
+6. **add functionality/bug fix** and move to 3 unless you are ready to push
+7. run check with `devtools::check()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>E</kbd>
+
+
+

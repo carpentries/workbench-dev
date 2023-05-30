@@ -1,0 +1,207 @@
+---
+title: "Introduction"
+---
+
+The core of The Carpentries Workbench consists of three packages: 
+
+ - [{sandpaper}]\: user interface and workflow engine
+ - [{pegboard}]\: parsing and validation engine
+ - [{varnish}]\: HTML templates, CSS, and JS elements
+
+These packages are all available and released to the [Carpentries 
+R-Universe][r-universe], which checks for updates to the source packages hourly.
+
+## Building Lessons
+
+In a broad sense, this is what happens when you run `sandpaper::serve()` or
+`sandpaper::build_lesson()`. The interaction between the three Workbench
+packages, the lesson content, and the author can be summarised like this where
+the author makes an edit:
+
+::: {.callout-note}
+
+### Summary Content
+
+This content is a general picture of what happens between the packages. For a
+more in-depth discussion and more detailed diagrams, please visit the [Flow 
+Diagrams page](flow.html).
+
+:::
+
+
+```{mermaid}
+sequenceDiagram
+    autonumber
+    actor Author
+    participant Lesson 
+    box rgb(255, 214, 216) The Workbench
+    participant {sandpaper}
+    participant {pegboard}
+    participant {varnish}
+    end
+
+    Author ->> {sandpaper}: sandpaper::serve()
+    activate Author
+    {sandpaper} --) Author: website preview
+    note left of {sandpaper}: monitor for changes
+    Author ->> Lesson: make an edit
+    deactivate Author
+    Lesson -->> {sandpaper}: READ changed file(s)
+    {sandpaper} -->> {pegboard}: validate Lesson
+    activate {pegboard}
+    note left of {sandpaper}: provision global menu elements
+    {pegboard} --) Author: report accessibility 
+    deactivate {pegboard}
+    activate {sandpaper}
+    note left of {sandpaper}: WRITE markdown
+    {varnish} -->> {sandpaper}: load and apply website template
+    note left of {sandpaper}: WRITE website
+    {sandpaper} --) Author: website preview
+    deactivate {sandpaper}
+```
+
+In terms of folder structure, the workflow looks like this: 
+
+
+```{mermaid}
+flowchart TB
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
+
+    subgraph "local repository"
+    BUILT["site/built"]:::local
+    SITE["site/docs"]:::local
+    SERVE("serve()"):::normal
+    BLESS("build_lesson()"):::normal
+    BUILDMD(["build_markdown()"]):::normal
+    BUILDSITE(["build_site()"]):::normal
+    end
+
+    BUILT ~~~ SITE
+
+    SERVE --> BLESS
+    BLESS --> BUILDMD
+    BLESS --> BUILDSITE
+    BUILDMD --> BUILT
+    BUILDSITE --> SITE
+```
+
+::: {.callout-note}
+
+### Resource folder names
+
+Please note, the names of these internal folders may change, so please do not
+rely on these values being static.
+
+:::
+
+The `site/docs` folder contains the full website that can be safely used
+offline. This is the core of the workflow and is used both locally and in a
+remote setting. The only difference with the remote setting is that we use a few
+Git tricks to provision the markdown cache without needing to store it in the
+default branch.
+
+## Building Lessons on GitHub
+
+In the remote workflow, we still use the same workflow as above, except now we
+use `ci_deploy()` to link the branches and folders using worktrees, which you
+can think of as Git branches assigned to separate folders. 
+
+
+```{mermaid}
+flowchart TB
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
+
+    subgraph GitHub Actions Runner
+    REPO["[repo]"]:::local
+    BUILT["[repo]/site/built"]:::local
+    SITE["[repo]/site/docs"]:::local
+    BUILDMD(["build_markdown()"]):::normal
+    BUILDSITE(["build_site()"]):::normal
+    end
+
+    subgraph GitHub
+    GH[("@main")]:::remote
+    MDOUT[("@md-outputs")]:::remote
+    PAGES[("@gh-pages")]:::remote
+    DEPLOY(["ci_deploy()"]):::external
+    CIBUILDMD(["ci_build_markdown()"]):::external
+    CIBUILDSITE(["ci_build_site()"]):::external
+    end
+
+    GH ---> REPO
+    GH ~~~ DEPLOY
+    REPO ~~~ BUILDMD
+    BUILT ~~~ BUILDSITE
+
+    BUILDMD --> BUILT
+    BUILDSITE --> SITE
+
+    DEPLOY -.-> CIBUILDMD
+    DEPLOY -.-> CIBUILDSITE
+    BUILT -.->  MDOUT
+    SITE -.->  PAGES
+    CIBUILDMD -.-> BUILDMD
+    CIBUILDSITE -.-> BUILDSITE
+```
+
+
+
+## Development
+
+Development of The Workbench is overseen by Zhian N. Kamvar. New features are
+added incrementally as pull requests. Pushes to the main branch are _rare_ and
+discouraged. New features must have tests associated (with the exception of
+{varnish}).
+
+If you are interested, we have [documentation for the release
+process](releases.html) available.
+
+
+
+## Documentation
+
+Reference documentation for individual functions for each package is written
+alongside the function using [{roxygen2}](https://roxygen2.r-lib.org/).
+
+This documentation is generated by `devtools::document()`
+
+## Testing
+
+Tests for each package live in `tests/testthat/` and follow a
+`test-[file-name].R` naming convention. These are controlled by the
+[{testthat}](https://testthat.r-lib.org/) package and run by `devtools::test()`.
+
+You can find more information about testing the core packages in [Testing The
+Workbench](testing.html)
+
+## Continous Integration
+
+The continous integration for each package tests on Ubuntu, MacOS, and Windows
+systems with the last five versions of R (same as the RStudio convention). 
+
+More information about the Continous Integration can be found in the [Continuous
+Integration section](testing.html#ci) of the testing section.
+
+--------
+
+Coming up:
+
+ - Testing Pull Requests (Locally and on your fork)
+ - Resources for R package development
+ - Adding functionality to {sandpaper}
+ - Adding functionality to {pegboard}
+ - Adding styling elements to {varnish}
+ - Adding functionality to carpentries/actions
+
+[{varnish}]: https://carpentries.github.io/varnish/
+[{pegboard}]: https://carpentries.github.io/pegboard/
+[{sandpaper}]: https://carpentries.github.io/sandpaper/
+[r-universe]: https://carpentries.r-universe.dev/

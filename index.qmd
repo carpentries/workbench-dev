@@ -1,0 +1,15 @@
+# Preface {.unnumbered}
+
+This book serves as development documentation for The Carpentries Workbench.
+It was written between June and December 2023 primarily to orient new developers
+and contributors to The Workbench ecosystem. 
+
+:::{.callout-note}
+
+## Prerequisite
+
+This book assumes familiarity with R Package Development. If you are unfamiliar,
+please read [R Packages (2e)](https://r-pkgs.org/) [@rpkgs].
+
+:::
+

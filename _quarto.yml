@@ -1,0 +1,50 @@
+project:
+  type: book
+
+book:
+  title: "Workbench Developer's Guide"
+  description: |
+    Learn how to build, debug, and contribute to the components that make up
+    The Carpentries Workbench.
+  author: "Zhian N. Kamvar"
+  date: '2023-12-31'
+  reader-mode: true
+  repo-url: https://github.com/carpentries/workbench-dev/
+  site-url: https://carpentries.github.io/workbench-dev/
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - setup.qmd
+    - testing.qmd
+    - part: "Building Lessons"
+      chapters: 
+      - flow.qmd
+    - part: "{sandpaper} User Interface"
+      chapters:
+      - sandpaper/intro.qmd
+    - part: "{pegboard} Validation and Parsing"
+      chapters:
+      - pegboard/intro.qmd
+    - part: "{varnish} Web Styling"
+      chapters:
+      - varnish/intro.qmd
+      # - varnish/testing.qmd
+      # - varnish/rendering.qmd
+    - part: "Package Distribution"
+      chapters:
+      - releases.qmd
+    - part: "Building Lessons Remotely"
+    - part: "GitHub Actions"
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

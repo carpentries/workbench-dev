@@ -1,0 +1,4 @@
+/.quarto/
+*_files/*
+_book/*
+_site/*
