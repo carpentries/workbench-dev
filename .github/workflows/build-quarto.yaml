@@ -38,17 +38,17 @@ jobs:
       - name: fix apt
         run: sudo apt update -y
 
-      # - name: setup dependencies
-      #   uses: r-lib/actions/setup-r-dependencies@v2
-      #   with:
-      #     packages: |
-      #       any::devtools
-      #       any::pandoc
-      #       any::sandpaper
-      #       any::pegboard
-      #       any::varnish
-      #       any::withr
-      #       any::sessioninfo
+      - name: setup dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::devtools
+            any::pandoc
+            any::sandpaper
+            any::pegboard
+            any::varnish
+            any::withr
+            any::sessioninfo
 
       - name: Deploy 🚀
         uses: quarto-dev/quarto-actions/publish@v2
