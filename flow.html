@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.114">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
+
+<title>Workbench Developer’s Guide - 4&nbsp; Flow Diagrams</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./sandpaper/intro.html" rel="next">
+<link href="./testing.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./flow.html">Building Lessons</a></li><li class="breadcrumb-item"><a href="./flow.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Workbench Developer’s Guide</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/carpentries/workbench-dev/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Building Lessons</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./flow.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">{sandpaper} User Interface</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">{pegboard} Validation and Parsing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">{varnish} Web Styling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Package Distribution</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./releases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Building Lessons Remotely</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">GitHub Actions</span></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">4.1</span> Introduction</a></li>
+  <li><a href="#preflight-checks" id="toc-preflight-checks" class="nav-link" data-scroll-target="#preflight-checks"><span class="header-section-number">4.2</span> Preflight Checks</a></li>
+  <li><a href="#validate-lesson" id="toc-validate-lesson" class="nav-link" data-scroll-target="#validate-lesson"><span class="header-section-number">4.3</span> <code>validate_lesson()</code></a></li>
+  <li><a href="#build-markdown" id="toc-build-markdown" class="nav-link" data-scroll-target="#build-markdown"><span class="header-section-number">4.4</span> <code>build_markdown()</code></a>
+  <ul class="collapse">
+  <li><a href="#flow-markdown" id="toc-flow-markdown" class="nav-link" data-scroll-target="#flow-markdown"><span class="header-section-number">4.4.1</span> Generating Markdown</a></li>
+  </ul></li>
+  <li><a href="#build-site" id="toc-build-site" class="nav-link" data-scroll-target="#build-site"><span class="header-section-number">4.5</span> <code>build_site()</code></a>
+  <ul class="collapse">
+  <li><a href="#flow-html" id="toc-flow-html" class="nav-link" data-scroll-target="#flow-html"><span class="header-section-number">4.5.1</span> Generating HTML</a></li>
+  <li><a href="#flow-tweaks" id="toc-flow-tweaks" class="nav-link" data-scroll-target="#flow-tweaks"><span class="header-section-number">4.5.2</span> Processing HTML</a></li>
+  <li><a href="#flow-website" id="toc-flow-website" class="nav-link" data-scroll-target="#flow-website"><span class="header-section-number">4.5.3</span> Applying Website Template</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
+<p>This section builds on <a href="index.html#workflows">The broad workflow</a> and details the internal process that are invoked with the <a href="https://carpentries.github.io/sandpaper/reference/build_lesson.html"><code>sandpaper::build_lesson()</code></a> function. If you look at <a href="https://github.com/carpentries/sandpaper/blob/HEAD/R/build_lesson.R">the source for this function</a>, it contains a total of sevens significant lines of code (many more due to documentation and comments).</p>
+<p>The pre-flight steps all happen before a single source file is built. These check for pandoc, validate the lesson, and configure global elements. The last two lines are responsible for building the site and combining them with the global variables and templates.</p>
+<p>Users will invoke this function in the following ways:</p>
+<table class="table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 38%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>venue</th>
+<th>function</th>
+<th>purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>local</td>
+<td><code>sandpaper::build_lesson()</code></td>
+<td>render content for offline use</td>
+</tr>
+<tr class="even">
+<td>local</td>
+<td><code>sandpaper::serve()</code></td>
+<td>dynamically render and preview content</td>
+</tr>
+<tr class="odd">
+<td>remote</td>
+<td><code>sandpaper:::ci_deploy()</code></td>
+<td>render content and deploy to branches</td>
+</tr>
+</tbody>
+</table>
+<p>All of these methods will call <code>sandpaper::validate_lesson()</code> (which also sets up global metadata and menu variables) and the two-step internal functions <code>sandpaper:::build_markdown()</code> and <code>sandpaper:::build_site()</code>. Below, I break down and detail the process for each.</p>
+</section>
+<section id="preflight-checks" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="preflight-checks"><span class="header-section-number">4.2</span> Preflight Checks</h2>
+<p>Before a lesson can be built, we need to confirm the following:</p>
+<ol type="1">
+<li>We have access to the tools needed to build a lesson (e.g. <a href="https://pandoc.org">pandoc</a>). This is achieved via the <a href="https://carpentries.github.io/sandpaper/reference/check_pandoc.html"><code>sandpaper::check_pandoc()</code></a></li>
+<li>We are inside a lesson that can be built with The Carpentries Workbench</li>
+</ol>
+</section>
+<section id="validate-lesson" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="validate-lesson"><span class="header-section-number">4.3</span> <code>validate_lesson()</code></h2>
+<p>The <a href="https://carpentries.github.io/sandpaper/reference/validate_lesson.html">lesson validator</a> is a bit of a misnomer. Yes, it does peform lesson validation, which it does so through the methods in the <a href="https://carpentries.github.io/pegboard/reference/Lesson.html"><code>pegboard::Lesson</code> R6 class</a>.</p>
+<p>In order to use thse methods, it first loads the lesson, via the <a href="https://carpentries.github.io/sandpaper/reference/lesson_storage.html"><code>sandpaper::this_lesson()</code></a> function, which loads <em>and</em> caches the <code>pegboard::Lesson</code> object. It also caches elements that are mostly duplicated across episodes with small tweaks for each episode:</p>
+<ul>
+<li>metadata in JSON-LD format</li>
+<li>sidebar</li>
+<li>extras menu for learner and instructor views</li>
+</ul>
+</section>
+<section id="build-markdown" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="build-markdown"><span class="header-section-number">4.4</span> <code>build_markdown()</code></h2>
+<section id="flow-markdown" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="flow-markdown"><span class="header-section-number">4.4.1</span> Generating Markdown</h3>
+<p>Markdown generation for the lesson is controlled by the internal function <code>sandpaper:::build_markdown()</code>.</p>
+<p>When a lesson contains R Markdown files, these need to have content rendered to markdownsot hat we can further process them. This content is processed with the <a href="https://yihui.org/knitr/">{knitr}</a> R package <em>in a separate R process</em>. Markdown source content on the other hand is copied to the <code>site/built</code> folder.</p>
+<p>Because R Markdown files can take some time to render, we use MD5 sums of the episode contents (stored in the <code>site/built/md5sum.txt</code> file) to skip any files that have not changed.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+    autonumber
+    participant episodes/episode.Rmd
+    box rgb(255, 214, 216) The Workbench
+    participant {sandpaper}
+    end
+    box rgb(230, 234, 240) Document Engine
+    participant {renv}
+    participant {knitr}
+    end
+    box rgb(255, 231, 168) Generated Files
+    participant site/built/md5sum.txt
+    participant site/built/episode.md
+    end
+
+    site/built/md5sum.txt --&gt;&gt; {sandpaper}: READ file cache
+    {sandpaper} --&gt;&gt; {knitr}: RUN conversion
+    episodes/episode.Rmd --&gt;&gt; {knitr}: PROCESS changed file(s)
+    {knitr} --&gt;&gt; site/built/episode.md: WRITE Markdown
+    {sandpaper} --&gt;&gt; site/built/md5sum.txt: WRITE file cache
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Package Cache and Reproducibility
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One package that is missing from the above diagram is {renv} and that’s partially because it has an indirect effect on the lesson: it provisions the packages needed to build the lesson.</p>
+<p>When episodes are rendered from R Markdown to Markdown, we attempt to reproduce the build environment as closely as possible by using the {renv} package. If the global package cache from {renv} is available, then the lesson profile is activated before the episode is sent to {knitr} and R will use the packages provided in that profile. This has two distinct advantages:</p>
+<ol type="1">
+<li>The user does not have to worry about overwriting packages in their own library (i.e.&nbsp;a graduate researcher working on their dissertation does not want to have to rewrite their analyses because of a new version of {sf})</li>
+<li>The package versions will be the same as the versions on the GitHub version of the site, which means that there will be no false positives of new errors popping up</li>
+</ol>
+<p>For details on the package cache, see the <a href="https://carpentries.github.io/sandpaper/articles/building-with-renv.html">Building Lessons With A Package Cache</a> article.</p>
+</div>
+</div>
+<p>At this step, the markdown has been written and the state of the cache is updated so if we re-run this function, then it will show that no changes have occured. After this step, the internal function <code>sandpaper:::build_site()</code> is run where the markdown file that we just created is converted to HTML with pandoc and stored in an R object. This R object is then manipulated and then written to an HTML file with the {varnish} website templates applied.</p>
+<p>We use this function in the pull request workflows to demonstrate the changes in markdown source files, which is useful when package versions change, causing the output to potentially change.</p>
+</section>
+</section>
+<section id="build-site" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="build-site"><span class="header-section-number">4.5</span> <code>build_site()</code></h2>
+<p>The following sections will discuss the HTML generation (<a href="#flow-html">the following section</a>), manipulation (<a href="#flow-tweaks">the section after that</a>), and applying the template (<a href="#flow-website">the final section</a>) separately because, while these processes are each run via the internal <code>sandpaper:::build_site()</code> function, they are functionally separate.</p>
+<section id="flow-html" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="flow-html"><span class="header-section-number">4.5.1</span> Generating HTML</h3>
+<p>Each markdown file is processed into HTML via <a href="https://pandoc.org">pandoc</a> and returned to R as text. This is done via the internal function <code>sandpaper:::render_html()</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+    autonumber
+    box rgb(255, 214, 216) The Workbench
+    participant {sandpaper}
+    end
+    box rgb(230, 234, 240) Document Engine
+    participant pandoc
+    end
+    box rgb(255, 231, 168) Generated Files
+    participant site/built/episode.md
+    end
+
+    {sandpaper} --&gt;&gt; pandoc: LOAD pandoc with lua filters
+    site/built/episode.md --&gt;&gt; pandoc: READ markdown
+    pandoc --&gt;&gt; {sandpaper}: RENDER HTML as text
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>From here, the HTML exists as the internal body content of a website without a header, footer, or any styling. It is nearly ready for insertion into a website template. The next section details the flow we use to tweak the HTML content.</p>
+</section>
+<section id="flow-tweaks" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="flow-tweaks"><span class="header-section-number">4.5.2</span> Processing HTML</h3>
+<p>The HTML needs to be tweaked because the output from pandoc, even with our lua filters, still needs some modification. We tweak the content by first converting the HTML into an Abstract Syntax Tree (AST). This allows us to programmatically manipulate tags in the HTML without resorting to using regular expressions.</p>
+<p>In this part, we update links, images, headings, structure that we could not fix using lua filters. We then use the information from the episode to complete the global menu variable with links to the second level headings in the episode.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+    autonumber
+    box rgb(255, 214, 216) The Workbench
+    participant {sandpaper}
+    end
+    box rgb(230, 241, 255) R Object
+    participant HTML(AST)
+    end
+    box rgb(230, 234, 240) Helper Package
+    participant {xml2}
+    end
+
+    {sandpaper} --&gt;&gt; {xml2}: READ HTML
+    {xml2} --&gt;&gt; HTML(AST): PARSE HTML
+    activate {sandpaper}
+    note right of HTML(AST): sandpaper:::fix_nodes()
+    {xml2} --&gt;&gt; HTML(AST): update structure
+    HTML(AST) --&gt;&gt; {sandpaper}: extract menu items
+    note right of {sandpaper}: generate learner and instructor versions
+    deactivate {sandpaper}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Working With XML
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Working with XML data is perhaps one of the strangest experiences for an R user because in R, functions will normally return a copy of the data, but when working with an XML document parsed by {xml2}, the data is modified <em>in place</em>.</p>
+<p>It allows us to do neat things, but there is a learning curve associated.</p>
+</div>
+</div>
+</section>
+<section id="flow-website" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="flow-website"><span class="header-section-number">4.5.3</span> Applying Website Template</h3>
+<p>Now that we have an HTML AST that has been corrected and associated metadata, we are ready to write this to HTML. This process is achieved by passing the AST and metadata to {pkgdown} where it performs a little more manipulation, applies the {varnish} template, and writes it to disk.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+    autonumber
+    box rgb(255, 214, 216) The Workbench
+    participant {sandpaper}
+    participant {varnish}
+    end
+    box rgb(230, 241, 255) R Object
+    participant HTML(AST)
+    end
+    box rgb(230, 234, 240) Helper Package
+    participant {pkgdown}
+    end
+    box rgb(255, 231, 168) Generated Files
+    participant site/docs/episode.html
+    end
+
+    activate {sandpaper}
+    {sandpaper} --&gt;&gt; {pkgdown}: Set global menu variables
+    HTML(AST) --&gt;&gt; {pkgdown}: Hand off HTML to pkgdown
+    deactivate {sandpaper}
+    activate {pkgdown}
+    {varnish} --&gt;&gt; {pkgdown}: Load template
+    {pkgdown} --&gt;&gt; site/docs/episode.html: WRITE website
+    deactivate {pkgdown}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    if (id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        return container.innerHTML
+      } else {
+        return note.innerHTML;
+      }
+    } else {
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      try { hash = new URL(url).hash; } catch {}
+      const id = hash.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note !== null) {
+        try {
+          const html = processXRef(id, note);
+          instance.setContent(html);
+        } finally {
+          instance.enable();
+          instance.show();
+        }
+      } else {
+        // See if we can fetch this
+        fetch(url.split('#')[0])
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.getElementById(id);
+          console.log(htmlDoc.body.innerHTML);
+          if (note !== null) {
+            const html = processXRef(id, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./testing.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./sandpaper/intro.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
