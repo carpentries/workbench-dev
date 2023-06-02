@@ -60,7 +60,10 @@ sequenceDiagram
     deactivate {sandpaper}
 ```
 
-In terms of folder structure, the workflow looks like this: 
+In terms of folder structure, the workflow runs the two-step workflow to first
+render markdown files into `site/built` and then uses those files to render the
+HTML, CSS, and JavaScript into `site/built`. These workflows are detailed in
+[The Workflows Chapter](flow.html).
 
 
 ```{mermaid}
@@ -71,21 +74,29 @@ flowchart TB
     classDef local fill:#FFC700,stroke:#333,stroke-width:1px
     classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
 
-    subgraph "local repository"
-    BUILT["site/built"]:::local
-    SITE["site/docs"]:::local
     SERVE("serve()"):::normal
     BLESS("build_lesson()"):::normal
+
+    subgraph "Core Workflow"
+    BUILT["site/built"]:::local
+    SITE["site/docs"]:::local
+    VLESS("validate_lesson()"):::normal
     BUILDMD(["build_markdown()"]):::normal
     BUILDSITE(["build_site()"]):::normal
     end
 
-    BUILT ~~~ SITE
+    %%BUILT ~~~ SITE
 
     SERVE --> BLESS
+    %% SERVE ~~~ VLESS
+    %% SERVE ~~~ BUILDMD
+    BLESS --> VLESS
+    VLESS -.- BUILDMD
     BLESS --> BUILDMD
-    BLESS --> BUILDSITE
     BUILDMD --> BUILT
+    BUILT -.- BUILDSITE
+    VLESS -.- BUILDSITE
+    BLESS --> BUILDSITE
     BUILDSITE --> SITE
 ```
 
@@ -93,8 +104,12 @@ flowchart TB
 
 ### Resource folder names
 
-Please note, the names of these internal folders may change, so please do not
-rely on these values being static.
+The names of the folders inside `site/` are considered internal resources and
+they can change at any time. The reason why the folder for the final website
+output is called `site/docs/` is because we use the
+[{pkgdown}](https://pkgdown.github.io) package to provision the website without
+needing to bundle the templates inside of {sandpaper}, but we never got around
+to explicitly changing the name of that folder.
 
 :::
 
@@ -106,9 +121,9 @@ default branch.
 
 ## Building Lessons on GitHub
 
-In the remote workflow, we still use the same workflow as above, except now we
-use `ci_deploy()` to link the branches and folders using worktrees, which you
-can think of as Git branches assigned to separate folders. 
+In the remote workflow, **we still use the same workflow as above**, except now
+we use `ci_deploy()` to link the branches and folders using worktrees, which
+you can think of as Git branches assigned to separate folders. 
 
 
 ```{mermaid}
@@ -117,39 +132,46 @@ flowchart TB
     classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
     classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
     classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+
+    GH[("@main")]:::remote
+    MDOUT[("@md-outputs")]:::notouch
+    PAGES[("@gh-pages")]:::notouch
+    DEPLOY(["ci_deploy()"]):::external
+    CIBUILDMD(["ci_build_markdown()"]):::external
+    CIBUILDSITE(["ci_build_site()"]):::external
 
     subgraph GitHub Actions Runner
     REPO["[repo]"]:::local
     BUILT["[repo]/site/built"]:::local
     SITE["[repo]/site/docs"]:::local
+    VLESS("validate_lesson()"):::normal
     BUILDMD(["build_markdown()"]):::normal
     BUILDSITE(["build_site()"]):::normal
     end
 
-    subgraph GitHub
-    GH[("@main")]:::remote
-    MDOUT[("@md-outputs")]:::remote
-    PAGES[("@gh-pages")]:::remote
-    DEPLOY(["ci_deploy()"]):::external
-    CIBUILDMD(["ci_build_markdown()"]):::external
-    CIBUILDSITE(["ci_build_site()"]):::external
-    end
 
     GH ---> REPO
     GH ~~~ DEPLOY
-    REPO ~~~ BUILDMD
-    BUILT ~~~ BUILDSITE
+    REPO -.- VLESS
 
+
+    DEPLOY ---> VLESS
+    DEPLOY ---> CIBUILDMD
+    DEPLOY ---> CIBUILDSITE
+    VLESS -.- BUILDMD
+    CIBUILDMD ---> MDOUT
+    MDOUT <-.-> BUILT
+    CIBUILDMD ---> BUILDMD
+    CIBUILDSITE ---> PAGES
+    PAGES <-.-> SITE
+    CIBUILDSITE ---> BUILDSITE
+    BUILT -.- BUILDSITE
+    VLESS -.- BUILDSITE
     BUILDMD --> BUILT
     BUILDSITE --> SITE
-
-    DEPLOY -.-> CIBUILDMD
-    DEPLOY -.-> CIBUILDSITE
-    BUILT -.->  MDOUT
-    SITE -.->  PAGES
-    CIBUILDMD -.-> BUILDMD
-    CIBUILDSITE -.-> BUILDSITE
 ```
 
 
