@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.114">
+<meta name="generator" content="quarto-1.4.119">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -49,6 +49,11 @@ ul.task-list li input[type="checkbox"] {
   "panel-placement": "start",
   "type": "textbox",
   "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -339,7 +344,7 @@ Summary Content
 </div>
 </div>
 </div>
-<p>In terms of folder structure, the workflow looks like this:</p>
+<p>In terms of folder structure, the workflow runs the two-step workflow to first render markdown files into <code>site/built</code> and then uses those files to render the HTML, CSS, and JavaScript into <code>site/built</code>. These workflows are detailed in <a href="flow.html">The Workflows Chapter</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -351,21 +356,29 @@ Summary Content
     classDef local fill:#FFC700,stroke:#333,stroke-width:1px
     classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
 
-    subgraph "local repository"
-    BUILT["site/built"]:::local
-    SITE["site/docs"]:::local
     SERVE("serve()"):::normal
     BLESS("build_lesson()"):::normal
+
+    subgraph "Core Workflow"
+    BUILT["site/built"]:::local
+    SITE["site/docs"]:::local
+    VLESS("validate_lesson()"):::normal
     BUILDMD(["build_markdown()"]):::normal
     BUILDSITE(["build_site()"]):::normal
     end
 
-    BUILT ~~~ SITE
+    %%BUILT ~~~ SITE
 
     SERVE --&gt; BLESS
+    %% SERVE ~~~ VLESS
+    %% SERVE ~~~ BUILDMD
+    BLESS --&gt; VLESS
+    VLESS -.- BUILDMD
     BLESS --&gt; BUILDMD
-    BLESS --&gt; BUILDSITE
     BUILDMD --&gt; BUILT
+    BUILT -.- BUILDSITE
+    VLESS -.- BUILDSITE
+    BLESS --&gt; BUILDSITE
     BUILDSITE --&gt; SITE
 </pre>
 </div>
@@ -382,14 +395,14 @@ Resource folder names
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Please note, the names of these internal folders may change, so please do not rely on these values being static.</p>
+<p>The names of the folders inside <code>site/</code> are considered internal resources and they can change at any time. The reason why the folder for the final website output is called <code>site/docs/</code> is because we use the <a href="https://pkgdown.github.io">{pkgdown}</a> package to provision the website without needing to bundle the templates inside of {sandpaper}, but we never got around to explicitly changing the name of that folder.</p>
 </div>
 </div>
 <p>The <code>site/docs</code> folder contains the full website that can be safely used offline. This is the core of the workflow and is used both locally and in a remote setting. The only difference with the remote setting is that we use a few Git tricks to provision the markdown cache without needing to store it in the default branch.</p>
 </section>
 <section id="building-lessons-on-github" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="building-lessons-on-github"><span class="header-section-number">1.2</span> Building Lessons on GitHub</h2>
-<p>In the remote workflow, we still use the same workflow as above, except now we use <code>ci_deploy()</code> to link the branches and folders using worktrees, which you can think of as Git branches assigned to separate folders.</p>
+<p>In the remote workflow, <strong>we still use the same workflow as above</strong>, except now we use <code>ci_deploy()</code> to link the branches and folders using worktrees, which you can think of as Git branches assigned to separate folders.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -399,39 +412,46 @@ Resource folder names
     classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
     classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
     classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+
+    GH[("@main")]:::remote
+    MDOUT[("@md-outputs")]:::notouch
+    PAGES[("@gh-pages")]:::notouch
+    DEPLOY(["ci_deploy()"]):::external
+    CIBUILDMD(["ci_build_markdown()"]):::external
+    CIBUILDSITE(["ci_build_site()"]):::external
 
     subgraph GitHub Actions Runner
     REPO["[repo]"]:::local
     BUILT["[repo]/site/built"]:::local
     SITE["[repo]/site/docs"]:::local
+    VLESS("validate_lesson()"):::normal
     BUILDMD(["build_markdown()"]):::normal
     BUILDSITE(["build_site()"]):::normal
     end
 
-    subgraph GitHub
-    GH[("@main")]:::remote
-    MDOUT[("@md-outputs")]:::remote
-    PAGES[("@gh-pages")]:::remote
-    DEPLOY(["ci_deploy()"]):::external
-    CIBUILDMD(["ci_build_markdown()"]):::external
-    CIBUILDSITE(["ci_build_site()"]):::external
-    end
 
     GH ---&gt; REPO
     GH ~~~ DEPLOY
-    REPO ~~~ BUILDMD
-    BUILT ~~~ BUILDSITE
+    REPO -.- VLESS
 
+
+    DEPLOY ---&gt; VLESS
+    DEPLOY ---&gt; CIBUILDMD
+    DEPLOY ---&gt; CIBUILDSITE
+    VLESS -.- BUILDMD
+    CIBUILDMD ---&gt; MDOUT
+    MDOUT &lt;-.-&gt; BUILT
+    CIBUILDMD ---&gt; BUILDMD
+    CIBUILDSITE ---&gt; PAGES
+    PAGES &lt;-.-&gt; SITE
+    CIBUILDSITE ---&gt; BUILDSITE
+    BUILT -.- BUILDSITE
+    VLESS -.- BUILDSITE
     BUILDMD --&gt; BUILT
     BUILDSITE --&gt; SITE
-
-    DEPLOY -.-&gt; CIBUILDMD
-    DEPLOY -.-&gt; CIBUILDSITE
-    BUILT -.-&gt;  MDOUT
-    SITE -.-&gt;  PAGES
-    CIBUILDMD -.-&gt; BUILDMD
-    CIBUILDSITE -.-&gt; BUILDSITE
 </pre>
 </div>
 </div>
