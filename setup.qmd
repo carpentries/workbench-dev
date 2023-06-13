@@ -41,7 +41,9 @@ install.packages(c("sandpaper", "pegboard", "varnish", "tinkr"),
 
 ### Working on Linux?
 
-If you are on Linux, you will run into a couple of fun aspects of 
+If you are on Linux, you will run into a couple of fun aspects that you may
+already be familiar with, especially if you have ever tried to install
+bioinformatic software:
 
 1. having to also install some extra C libraries (which are akin to R packages,
    but for C), such as the `xslt` library.
@@ -108,9 +110,9 @@ install.packages(c("sandpaper", "varnish", "pegboard", "tinkr"), dep = TRUE)
 :::
 
 
-The {sandpaper} package comes with the {usethis} package embedded (though this
-may change in the future). In addition, you will need the
-[{devtools}](https://devtools.r-lib.org) for development.
+The {sandpaper} package comes with the [{usethis}](https://usethis.r-lib.org)
+package embedded (though this may change in the future). In addition, you will
+need the [{devtools}](https://devtools.r-lib.org) for development.
 
 I would also _highly_ recommend the [{pandoc}](https://cderv.github.io/pandoc/)
 package for managing pandoc versions (NOTE: this requires you to have a 
@@ -122,7 +124,6 @@ install.packages("pandoc")
 ```
 
 Once you have devtools, be sure to run `devtools::dev_sitrep()` and `usethis::git_sitrep()` to make sure you have the tools to build The Workbench:
-
 
 ``` r
 devtools::dev_sitrep()
@@ -172,6 +173,5 @@ usethis::git_sitrep()
 5. **modify tests** for new functionality/bug fix
 6. **add functionality/bug fix** and move to 3 unless you are ready to push
 7. run check with `devtools::check()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>E</kbd>
-
 
 
