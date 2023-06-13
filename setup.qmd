@@ -50,14 +50,7 @@ If you are on Linux, you will run into a couple of fun aspects of
 You can find detailed instructions in [The Sandpaper Setup 
 Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2).
 
-To get binary packages for your system, follow the instructions at
-<https://packagemanager.posit.co/client/#/repos/2/overview> (make sure to set
-your distributionat the top right). Here's the option to set in R for Ubuntu
-20.04:
-
-```r
-options(repos = c(REPO_NAME = "https://packagemanager.posit.co/cran/__linux__/focal/latest"))
-```
+#### System Dependencies
 
 Here is the gist **for Ubuntu Users to get system dependencies set up.** Use
 [The Carpentries R-Universe](https://carpentries.r-universe.dev) API to get all
@@ -73,6 +66,43 @@ This list can be sent to `apt-get install` to install everything:
 sudo apt-get install -y \
   $(curl https://carpentries.r-universe.dev/stats/sysdeps 2> /dev/null | jq -r '.headers[0] | select(. != null)') 2> /dev/null \
   || echo "Not on Ubuntu"
+```
+
+#### Binary Packages
+
+To get binary packages for your system, I will admit that it's _slightly
+confusing_ because they bury the [instructions for registering your system to
+use binaries in the _admin_
+pages](https://packagemanager.posit.co/__docs__/admin/serving-binaries/#binaries-r-configuration-linux)
+and even then, it's kinda long. The gist is that you need to do two things:
+
+1. set your HTTPUserAgent header to state your R version and platform
+2. add the packagemanager CRAN-like repository to R's options:
+
+Here's a script that you can copy and paste into `~/.Rprofile` which will be
+run every time you start R
+
+```r
+local({
+  # Set the default HTTP user agent to get pre-built binary packages
+  RV <- getRversion()
+  OS <- paste(RV, R.version["platform"], R.version["arch"], R.version["os"])
+  codename <- sub("Codename.\t", "", system2("lsb_release", "-c", stdout = TRUE))
+  options(HTTPUserAgent = sprintf("R/%s R (%s)", RV, OS))
+
+  # register the repositories for The Carpentries and CRAN
+  options(repos = c(
+    carpentries = "https://carpentries.r-universe.dev/",
+    CRAN = paste0("https://packagemanager.posit.co/all/__linux__/", codename, "/latest")
+  ))
+})
+```
+
+When you have this set up, you can then install the workbench packages:
+
+```r
+# Install The Workbench and dependencies
+install.packages(c("sandpaper", "varnish", "pegboard", "tinkr"), dep = TRUE)
 ```
 
 :::
