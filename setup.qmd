@@ -37,6 +37,47 @@ install.packages(c("sandpaper", "pegboard", "varnish", "tinkr"),
   repos = c(getOption("repos"), "https://carpentries.r-universe.dev"))
 ```
 
+:::{.callout-tip}
+
+### Working on Linux?
+
+If you are on Linux, you will run into a couple of fun aspects of 
+
+1. having to also install some extra C libraries (which are akin to R packages,
+   but for C), such as the `xslt` library.
+2. having to build all packages from source
+
+You can find detailed instructions in [The Sandpaper Setup 
+Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2).
+
+To get binary packages for your system, follow the instructions at
+<https://packagemanager.posit.co/client/#/repos/2/overview> (make sure to set
+your distributionat the top right). Here's the option to set in R for Ubuntu
+20.04:
+
+```r
+options(repos = c(REPO_NAME = "https://packagemanager.posit.co/cran/__linux__/focal/latest"))
+```
+
+Here is the gist **for Ubuntu Users to get system dependencies set up.** Use
+[The Carpentries R-Universe](https://carpentries.r-universe.dev) API to get all
+of the system dependencies. Here's how to do that via CURL:
+
+```bash
+curl https://carpentries.r-universe.dev/stats/sysdeps 2> /dev/null | jq -r '.headers[0] | select(. != null)'
+```
+
+This list can be sent to `apt-get install` to install everything:
+
+```bash
+sudo apt-get install -y \
+  $(curl https://carpentries.r-universe.dev/stats/sysdeps 2> /dev/null | jq -r '.headers[0] | select(. != null)') 2> /dev/null \
+  || echo "Not on Ubuntu"
+```
+
+:::
+
+
 The {sandpaper} package comes with the {usethis} package embedded (though this
 may change in the future). In addition, you will need the
 [{devtools}](https://devtools.r-lib.org) for development.
