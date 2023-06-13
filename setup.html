@@ -384,50 +384,76 @@ Working on Linux?
 <li>having to build all packages from source</li>
 </ol>
 <p>You can find detailed instructions in <a href="https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2">The Sandpaper Setup Guide</a>.</p>
-<p>To get binary packages for your system, follow the instructions at <a href="https://packagemanager.posit.co/client/#/repos/2/overview" class="uri">https://packagemanager.posit.co/client/#/repos/2/overview</a> (make sure to set your distributionat the top right). Here’s the option to set in R for Ubuntu 20.04:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">REPO_NAME =</span> <span class="st">"https://packagemanager.posit.co/cran/__linux__/focal/latest"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="system-dependencies" class="level4" data-number="2.2.0.1">
+<h4 data-number="2.2.0.1" class="anchored" data-anchor-id="system-dependencies"><span class="header-section-number">2.2.0.1</span> System Dependencies</h4>
 <p>Here is the gist <strong>for Ubuntu Users to get system dependencies set up.</strong> Use <a href="https://carpentries.r-universe.dev">The Carpentries R-Universe</a> API to get all of the system dependencies. Here’s how to do that via CURL:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This list can be sent to <code>apt-get install</code> to install everything:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> <span class="dt">\</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">$(</span><span class="ex">curl</span> https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span><span class="va">)</span> <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="dt">\</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">||</span> <span class="bu">echo</span> <span class="st">"Not on Ubuntu"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> <span class="dt">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">$(</span><span class="ex">curl</span> https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span><span class="va">)</span> <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">||</span> <span class="bu">echo</span> <span class="st">"Not on Ubuntu"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="binary-packages" class="level4" data-number="2.2.0.2">
+<h4 data-number="2.2.0.2" class="anchored" data-anchor-id="binary-packages"><span class="header-section-number">2.2.0.2</span> Binary Packages</h4>
+<p>To get binary packages for your system, I will admit that it’s <em>slightly confusing</em> because they bury the <a href="https://packagemanager.posit.co/__docs__/admin/serving-binaries/#binaries-r-configuration-linux">instructions for registering your system to use binaries in the <em>admin</em> pages</a> and even then, it’s kinda long. The gist is that you need to do two things:</p>
+<ol type="1">
+<li>set your HTTPUserAgent header to state your R version and platform</li>
+<li>add the packagemanager CRAN-like repository to R’s options:</li>
+</ol>
+<p>Here’s a script that you can copy and paste into <code>~/.Rprofile</code> which will be run every time you start R</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local</span>({</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the default HTTP user agent to get pre-built binary packages</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  RV <span class="ot">&lt;-</span> <span class="fu">getRversion</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  OS <span class="ot">&lt;-</span> <span class="fu">paste</span>(RV, R.version[<span class="st">"platform"</span>], R.version[<span class="st">"arch"</span>], R.version[<span class="st">"os"</span>])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  codename <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"Codename.</span><span class="sc">\t</span><span class="st">"</span>, <span class="st">""</span>, <span class="fu">system2</span>(<span class="st">"lsb_release"</span>, <span class="st">"-c"</span>, <span class="at">stdout =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">options</span>(<span class="at">HTTPUserAgent =</span> <span class="fu">sprintf</span>(<span class="st">"R/%s R (%s)"</span>, RV, OS))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># register the repositories for The Carpentries and CRAN</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">carpentries =</span> <span class="st">"https://carpentries.r-universe.dev/"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">CRAN =</span> <span class="fu">paste0</span>(<span class="st">"https://packagemanager.posit.co/all/__linux__/"</span>, codename, <span class="st">"/latest"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When you have this set up, you can then install the workbench packages:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install The Workbench and dependencies</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"sandpaper"</span>, <span class="st">"varnish"</span>, <span class="st">"pegboard"</span>, <span class="st">"tinkr"</span>), <span class="at">dep =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </div>
 </div>
 <p>The {sandpaper} package comes with the {usethis} package embedded (though this may change in the future). In addition, you will need the <a href="https://devtools.r-lib.org">{devtools}</a> for development.</p>
 <p>I would also <em>highly</em> recommend the <a href="https://cderv.github.io/pandoc/">{pandoc}</a> package for managing pandoc versions (NOTE: this requires you to have a personal access token set up).</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pandoc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pandoc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once you have devtools, be sure to run <code>devtools::dev_sitrep()</code> and <code>usethis::git_sitrep()</code> to make sure you have the tools to build The Workbench:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">dev_sitrep</span>()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── R ───────────────────────────────────────────────────────────────────────────</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • version: 4.3.0</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • path: '/usr/lib/R/'</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── devtools ────────────────────────────────────────────────────────────────────</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • version: 2.4.5</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── dev package ─────────────────────────────────────────────────────────────────</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • package: &lt;unset&gt;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • path: &lt;unset&gt;</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ All checks passed</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_sitrep</span>()</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Git config (global)</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Name: 'Zhian N. Kamvar'</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Email: 'zkamvar@gmail.com'</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Global (user-level) gitignore file: &lt;unset&gt;</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Vaccinated: FALSE</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ See `?git_vaccinate` to learn more</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Defaulting to 'https' Git protocol</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Default Git protocol: 'https'</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Default initial branch name: 'main'</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GitHub</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Default GitHub host: 'https://github.com'</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Personal access token for 'https://github.com': '&lt;discovered&gt;'</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • GitHub user: 'zkamvar'</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Token scopes: 'gist, repo, user, workflow'</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Email(s): 'zkamvar@gmail.com (primary)', ...</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Git repo for current project</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ No active usethis project</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">dev_sitrep</span>()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── R ───────────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • version: 4.3.0</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • path: '/usr/lib/R/'</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── devtools ────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • version: 2.4.5</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── dev package ─────────────────────────────────────────────────────────────────</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • package: &lt;unset&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • path: &lt;unset&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✔ All checks passed</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_sitrep</span>()</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Git config (global)</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Name: 'Zhian N. Kamvar'</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Email: 'zkamvar@gmail.com'</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Global (user-level) gitignore file: &lt;unset&gt;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Vaccinated: FALSE</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ See `?git_vaccinate` to learn more</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Defaulting to 'https' Git protocol</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Default Git protocol: 'https'</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Default initial branch name: 'main'</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GitHub</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Default GitHub host: 'https://github.com'</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Personal access token for 'https://github.com': '&lt;discovered&gt;'</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • GitHub user: 'zkamvar'</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Token scopes: 'gist, repo, user, workflow'</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • Email(s): 'zkamvar@gmail.com (primary)', ...</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Git repo for current project</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ No active usethis project</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><sup>Created on 2023-05-30 with <a href="https://reprex.tidyverse.org">reprex v2.0.2</a></sup></p>
 </section>
 <section id="development-workflow" class="level2" data-number="2.3">
