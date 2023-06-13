@@ -52,7 +52,7 @@ bioinformatic software:
 You can find detailed instructions in [The Sandpaper Setup 
 Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2).
 
-#### System Dependencies
+### System Dependencies {-}
 
 Here is the gist **for Ubuntu Users to get system dependencies set up.** Use
 [The Carpentries R-Universe](https://carpentries.r-universe.dev) API to get all
@@ -70,7 +70,7 @@ sudo apt-get install -y \
   || echo "Not on Ubuntu"
 ```
 
-#### Binary Packages
+### Binary Packages {-}
 
 To get binary packages for your system, I will admit that it's _slightly
 confusing_ because they bury the [instructions for registering your system to
@@ -161,6 +161,11 @@ usethis::git_sitrep()
 
 
 ## Development Workflow
+
+
+This development workflow is known as Test Driven Development in which a test is
+written _before_ things work. This way, we can confirm that a bug is fixed once
+it passes the tests and we have confidence that it will not fail again.
 
 1. open RStudio and switch to the project for the package you are working on
 2. checkout a new branch for your feature/bug
