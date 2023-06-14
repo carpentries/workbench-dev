@@ -378,14 +378,14 @@ Working on Linux?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are on Linux, you will run into a couple of fun aspects of</p>
+<p>If you are on Linux, you will run into a couple of fun aspects that you may already be familiar with, especially if you have ever tried to install bioinformatic software:</p>
 <ol type="1">
 <li>having to also install some extra C libraries (which are akin to R packages, but for C), such as the <code>xslt</code> library.</li>
 <li>having to build all packages from source</li>
 </ol>
 <p>You can find detailed instructions in <a href="https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2">The Sandpaper Setup Guide</a>.</p>
-<section id="system-dependencies" class="level4" data-number="2.2.0.1">
-<h4 data-number="2.2.0.1" class="anchored" data-anchor-id="system-dependencies"><span class="header-section-number">2.2.0.1</span> System Dependencies</h4>
+<section id="system-dependencies" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="system-dependencies">System Dependencies</h3>
 <p>Here is the gist <strong>for Ubuntu Users to get system dependencies set up.</strong> Use <a href="https://carpentries.r-universe.dev">The Carpentries R-Universe</a> API to get all of the system dependencies. Here’s how to do that via CURL:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This list can be sent to <code>apt-get install</code> to install everything:</p>
@@ -393,8 +393,8 @@ Working on Linux?
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">$(</span><span class="ex">curl</span> https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span><span class="va">)</span> <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="dt">\</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">||</span> <span class="bu">echo</span> <span class="st">"Not on Ubuntu"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="binary-packages" class="level4" data-number="2.2.0.2">
-<h4 data-number="2.2.0.2" class="anchored" data-anchor-id="binary-packages"><span class="header-section-number">2.2.0.2</span> Binary Packages</h4>
+<section id="binary-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="binary-packages">Binary Packages</h3>
 <p>To get binary packages for your system, I will admit that it’s <em>slightly confusing</em> because they bury the <a href="https://packagemanager.posit.co/__docs__/admin/serving-binaries/#binaries-r-configuration-linux">instructions for registering your system to use binaries in the <em>admin</em> pages</a> and even then, it’s kinda long. The gist is that you need to do two things:</p>
 <ol type="1">
 <li>set your HTTPUserAgent header to state your R version and platform</li>
@@ -420,7 +420,7 @@ Working on Linux?
 </section>
 </div>
 </div>
-<p>The {sandpaper} package comes with the {usethis} package embedded (though this may change in the future). In addition, you will need the <a href="https://devtools.r-lib.org">{devtools}</a> for development.</p>
+<p>The {sandpaper} package comes with the <a href="https://usethis.r-lib.org">{usethis}</a> package embedded (though this may change in the future). In addition, you will need the <a href="https://devtools.r-lib.org">{devtools}</a> for development.</p>
 <p>I would also <em>highly</em> recommend the <a href="https://cderv.github.io/pandoc/">{pandoc}</a> package for managing pandoc versions (NOTE: this requires you to have a personal access token set up).</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pandoc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -458,6 +458,7 @@ Working on Linux?
 </section>
 <section id="development-workflow" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="development-workflow"><span class="header-section-number">2.3</span> Development Workflow</h2>
+<p>This development workflow is known as Test Driven Development in which a test is written <em>before</em> things work. This way, we can confirm that a bug is fixed once it passes the tests and we have confidence that it will not fail again.</p>
 <ol type="1">
 <li>open RStudio and switch to the project for the package you are working on</li>
 <li>checkout a new branch for your feature/bug</li>
