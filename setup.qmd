@@ -50,7 +50,8 @@ bioinformatic software:
 2. having to build all packages from source
 
 You can find detailed instructions in [The Sandpaper Setup 
-Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2).
+Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2), 
+but the relevant commands are below.
 
 ### System Dependencies {-}
 
