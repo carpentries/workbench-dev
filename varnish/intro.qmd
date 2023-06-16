@@ -2,4 +2,56 @@
 title: "The {varnish} package"
 ---
 
-nothing to see here yet
+## Introduction
+
+The {varnish} package is a weird little package in that it does not contain any
+actual R code. It's purpose is to host HTML templates along with the CSS and
+JavaScript needed to display the lesson.
+
+We take advantage of the fact that the only thing actually _required_ to install
+an R package is the presence of a `DESCRIPTION` file[^1]. These all live inside
+the `inst/` folder, which is a place that allows files to be installed along
+with the package.
+
+The {pkgdown} package uses this as a mechanism for package developers to
+override the default styling, creating customized documentation websites such
+as the rOpenSci documentation sites: <https://docs.ropensci.org/rotemplate/>.
+
+This allows people to update the lesson styling however they wish[^2] and while
+we _could_ include it in {sandpaper}, it's best kept separate so that people
+can update {varnish} without needing to update the entire tool suite.
+
+
+
+## Design and Implementation Background
+
+The design for the frontend was [created by Emily de la Mettrie in
+2021](https://carpentries.org/blog/2021/05/lesson-template-design-process/)
+after consultation with Zhian N. Kamvar and François Michonneau using examples
+from The Unix Shell and parts of [Exploring Data
+Frames](https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2.html)
+for content cues.
+
+The [final figma design
+project](https://www.figma.com/file/rPy9a8ynuitr8UJb3J3g3w/FINAL%2FR2--HANDOFF?type=design&node-id=51-14742&t=9w1bqktQLCi36ctH-0)[^3]
+was then handed off to a team at Bytes.co, who translated the designs to CSS and JavaScript, subcontracted an a11y testing company to interactively test the prototype for a11y issues.
+
+The [prototype we recieved from
+Bytes.co](https://github.com/carpentries/workbench-bytes.co-staging) was a
+Jekyll template serving HTML files. Zhian created [a staging repository called
+shellac](https://github.com/zkamvar/shellac) to transform the site from one
+that was served via static site generator to one that was standalone. The preview is preserved at <https://zkamvar.github.io/shellac/student_carpentries.html>.
+
+This site was then stripped of the  added into {varnish} in [carpentries/varnish#14](https://github.com/carpentries/varnish/pull/14) between 2022-01-10 and 2022-01-24, when the 1.0.0 release of {varnish} was created and the sandpaper docs
+website was updated to use the new version of the HTML, CSS, and JavaScript.
+
+
+[^1]: for example, a DESCRIPTION file is a low-rent way of specifying
+  depedencies for [a
+  manuscript](https://github.com/everhartlab/sclerotinia-review-2017)). 
+[^2]: There is a caveat, though. There are some components, such as the sidebar
+  and overview callouts that are built on the {sandpaper} side and then fed
+  into the template. 
+[^3]: The [final figma design project for The Workbench](https://www.figma.com/file/rPy9a8ynuitr8UJb3J3g3w/FINAL%2FR2--HANDOFF?type=design&node-id=51-14742&t=9w1bqktQLCi36ctH-0) can be found in this link. To preview what it looks like, click the "Present" button (iconized as a triangle play button) in the top right. 
+
+
