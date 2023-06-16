@@ -147,11 +147,18 @@
     "text": "nothing to see here yet"
   },
   {
-    "objectID": "varnish/intro.html",
-    "href": "varnish/intro.html",
+    "objectID": "varnish/intro.html#introduction",
+    "href": "varnish/intro.html#introduction",
     "title": "7  The {varnish} package",
-    "section": "",
-    "text": "nothing to see here yet"
+    "section": "7.1 Introduction",
+    "text": "7.1 Introduction\nThe {varnish} package is a weird little package in that it does not contain any actual R code. It’s purpose is to host HTML templates along with the CSS and JavaScript needed to display the lesson.\nWe take advantage of the fact that the only thing actually required to install an R package is the presence of a DESCRIPTION file1. These all live inside the inst/ folder, which is a place that allows files to be installed along with the package.\nThe {pkgdown} package uses this as a mechanism for package developers to override the default styling, creating customized documentation websites such as the rOpenSci documentation sites: https://docs.ropensci.org/rotemplate/.\nThis allows people to update the lesson styling however they wish2 and while we could include it in {sandpaper}, it’s best kept separate so that people can update {varnish} without needing to update the entire tool suite."
+  },
+  {
+    "objectID": "varnish/intro.html#design-and-implementation-background",
+    "href": "varnish/intro.html#design-and-implementation-background",
+    "title": "7  The {varnish} package",
+    "section": "7.2 Design and Implementation Background",
+    "text": "7.2 Design and Implementation Background\nThe design for the frontend was created by Emily de la Mettrie in 2021 after consultation with Zhian N. Kamvar and François Michonneau using examples from The Unix Shell and parts of Exploring Data Frames for content cues.\nThe final figma design project3 was then handed off to a team at Bytes.co, who translated the designs to CSS and JavaScript, subcontracted an a11y testing company to interactively test the prototype for a11y issues.\nThe prototype we recieved from Bytes.co was a Jekyll template serving HTML files. Zhian created a staging repository called shellac to transform the site from one that was served via static site generator to one that was standalone. The preview is preserved at https://zkamvar.github.io/shellac/student_carpentries.html.\nThis site was then stripped of the added into {varnish} in carpentries/varnish#14 between 2022-01-10 and 2022-01-24, when the 1.0.0 release of {varnish} was created and the sandpaper docs website was updated to use the new version of the HTML, CSS, and JavaScript."
   },
   {
     "objectID": "releases.html#background",
