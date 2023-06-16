@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.146">
+<meta name="generator" content="quarto-1.4.151">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -383,7 +383,7 @@ Working on Linux?
 <li>having to also install some extra C libraries (which are akin to R packages, but for C), such as the <code>xslt</code> library.</li>
 <li>having to build all packages from source</li>
 </ol>
-<p>You can find detailed instructions in <a href="https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2">The Sandpaper Setup Guide</a>.</p>
+<p>You can find detailed instructions in <a href="https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2">The Sandpaper Setup Guide</a>, but the relevant commands are below.</p>
 <section id="system-dependencies" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="system-dependencies">System Dependencies</h3>
 <p>Here is the gist <strong>for Ubuntu Users to get system dependencies set up.</strong> Use <a href="https://carpentries.r-universe.dev">The Carpentries R-Universe</a> API to get all of the system dependencies. Here’s how to do that via CURL:</p>
@@ -631,7 +631,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           const parser = new DOMParser();
           const htmlDoc = parser.parseFromString(html, "text/html");
           const note = htmlDoc.getElementById(id);
-          console.log(htmlDoc.body.innerHTML);
           if (note !== null) {
             const html = processXRef(id, note);
             instance.setContent(html);
