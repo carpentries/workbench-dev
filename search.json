@@ -81,7 +81,7 @@
     "href": "testing.html#unit-testing",
     "title": "3  Testing The Workbench",
     "section": "3.2 Unit Testing",
-    "text": "3.2 Unit Testing\nThe tests under test/testthat/ are run in alphabetical order using the {testthat} package (see https://r-pkgs.org/testing-basics.html) via devtools::test() or devtools::check().\n\n3.2.1 sandpaper\nBecause all of the tests need to work with a lesson, the first script to run is tests/testthat/setup.R, where a test lesson is created and stored in a temporary location for the duration of the test suite and a reset function is exposed for the tests.\nEach test file will reset the lesson and run the tests from top to bottom. In this way, the tests within a file are somewhat dependent on one another because they explicitly work on the lesson files. I have attempted to minimize this, but there are some times when the side-effects were necessary.\n\n\n3.2.2 pegboard\n\n\n3.2.3 varnish\n\n\n3.2.4 vise"
+    "text": "3.2 Unit Testing\nThe tests under test/testthat/ are run in alphabetical order using the {testthat} package (see https://r-pkgs.org/testing-basics.html) via devtools::test() or devtools::check().\n\n3.2.1 sandpaper\n\n\n3.2.2 pegboard\n\n\n3.2.3 varnish\n\n\n3.2.4 vise"
   },
   {
     "objectID": "testing.html#ci",
@@ -140,44 +140,72 @@
     "text": "nothing to see here yet"
   },
   {
+    "objectID": "sandpaper/testing.html#introduction",
+    "href": "sandpaper/testing.html#introduction",
+    "title": "6  Testing {sandpaper}",
+    "section": "6.1 Introduction",
+    "text": "6.1 Introduction\n{sandpaper} is the largest package and the main user and deployment interface for The Workbench. The tests are all designed to work within a lesson context, which means a couple of things to be aware of.\n\nSome tests will take a long time to run. IO procedures are often one of the most time-consuming steps in computing and {sandpaper} does a lot of it.\nMost tests will be dependent on the previous tests in a file. Because the tests work on a folder on disk, we need to provision different scenarios of lesson state. It is far simpler to do this by side-effect rather than copying, setting up, and tearing down the state of the lesson for each and every test."
+  },
+  {
+    "objectID": "sandpaper/testing.html#test-setup",
+    "href": "sandpaper/testing.html#test-setup",
+    "title": "6  Testing {sandpaper}",
+    "section": "6.2 Test Setup",
+    "text": "6.2 Test Setup\nThere is nothing that you as the contributor/developer need to do to set up for running these tests beyond what you have already done in your development setup. This section describes conceptually how {testthat} and {sandpaper} setup the testing environment after you run devtools::test().\nIn short, this is the process:\n\n{sandpaper} is loaded\nHelper test files are loaded\nThe setup script is loaded, which provisions the test lesson\nEach test file matchingtests/testthat/test-*.R is run, resetting the test lesson at the top of each file.\n\n\n6.2.1 Test Helpers\nSandpaper has three test helpers that handle some of the more tedious side-effects of testing.\n\nhelper-hash.R\n\nExpectation expect_hashed() that an episode file MD5 sum (expected) matches the MD5 sum (actual) we recorded in the site/built/md5sum.txt database.\n\nhelper-processing.R\n\nProvides an output string that demonstrates a screen output of a file being processed by {knitr}. This is used with expect_output().\n\nhelper-snap-transform.R\n\nA function that is passed to the transform parameter of expect_snapshot() and will mask the temporary directory path so that the snapshot does not continuously invalidate on every run.\n\n\n\n\n6.2.2 Setup Script\nThe first script to run is tests/testthat/setup.R, where a test lesson and a local git remote is created and stored in a temporary location for the duration of the test suite and a reset function is exposed for the tests."
+  },
+  {
+    "objectID": "sandpaper/testing.html#conditionally-skipped-tests",
+    "href": "sandpaper/testing.html#conditionally-skipped-tests",
+    "title": "6  Testing {sandpaper}",
+    "section": "6.3 Conditionally Skipped Tests",
+    "text": "6.3 Conditionally Skipped Tests\nEach link below will open a code search for the different types of skipped tests in {sandpaper}\n\nskip_on_os\n\nThese are often tests that are skipped on Windows, usually for the reason that {renv} and filepaths behave slightly differently on Windows in a continuous integration setting.\n\nskip_if\n\nTests that are skipped under various conditions. For example, if Git is not installed on a system, we should not test any of the CI functions because they rely on Git.\n\nskip(\"&lt;for reasons&gt;\")\n\nThis pattern is more rare. It’s really useful in a situation where you are refactoring and know that a lot of tests will fail. If you sprinkle in these skips, you can focus on testing the core functionality of the refactor and then address the side-effects. Regarding the skips that remain: during testing, sometimes we encounter a ghost in the machine and we cannot set up the right conditions to run the test properly or the test was created with an earlier model of the package that we haven’t been able to shake. In these cases, instead of deleting the test or commenting out code, we add the skip() function and write a message of why we skipped it so if we need to come back to it later, we can."
+  },
+  {
+    "objectID": "sandpaper/testing.html#continuous-integration",
+    "href": "sandpaper/testing.html#continuous-integration",
+    "title": "6  Testing {sandpaper}",
+    "section": "6.4 Continuous Integration",
+    "text": "6.4 Continuous Integration"
+  },
+  {
     "objectID": "pegboard/intro.html",
     "href": "pegboard/intro.html",
-    "title": "6  The {pegboard} package",
+    "title": "7  The {pegboard} package",
     "section": "",
     "text": "nothing to see here yet"
   },
   {
     "objectID": "varnish/intro.html#introduction",
     "href": "varnish/intro.html#introduction",
-    "title": "7  The {varnish} package",
-    "section": "7.1 Introduction",
-    "text": "7.1 Introduction\nThe {varnish} package is a weird little package in that it does not contain any actual R code. It’s purpose is to host HTML templates along with the CSS and JavaScript needed to display the lesson.\nWe take advantage of the fact that the only thing actually required to install an R package is the presence of a DESCRIPTION file1. These all live inside the inst/ folder, which is a place that allows files to be installed along with the package.\nThe {pkgdown} package uses this as a mechanism for package developers to override the default styling, creating customized documentation websites such as the rOpenSci documentation sites: https://docs.ropensci.org/rotemplate/.\nThis allows people to update the lesson styling however they wish2 and while we could include it in {sandpaper}, it’s best kept separate so that people can update {varnish} without needing to update the entire tool suite."
+    "title": "8  The {varnish} package",
+    "section": "8.1 Introduction",
+    "text": "8.1 Introduction\nThe {varnish} package is a weird little package in that it does not contain any actual R code. It’s purpose is to host HTML templates along with the CSS and JavaScript needed to display the lesson.\nWe take advantage of the fact that the only thing actually required to install an R package is the presence of a DESCRIPTION file1. These all live inside the inst/ folder, which is a place that allows files to be installed along with the package.\nThe {pkgdown} package uses this as a mechanism for package developers to override the default styling, creating customized documentation websites such as the rOpenSci documentation sites: https://docs.ropensci.org/rotemplate/.\nThis allows people to update the lesson styling however they wish2 and while we could include it in {sandpaper}, it’s best kept separate so that people can update {varnish} without needing to update the entire tool suite."
   },
   {
     "objectID": "varnish/intro.html#design-and-implementation-background",
     "href": "varnish/intro.html#design-and-implementation-background",
-    "title": "7  The {varnish} package",
-    "section": "7.2 Design and Implementation Background",
-    "text": "7.2 Design and Implementation Background\nThe design for the frontend was created by Emily de la Mettrie in 2021 after consultation with Zhian N. Kamvar and François Michonneau using examples from The Unix Shell and parts of Exploring Data Frames for content cues.\nThe final figma design project3 was then handed off to a team at Bytes.co, who translated the designs to CSS and JavaScript, subcontracted an a11y testing company to interactively test the prototype for a11y issues.\nThe prototype we recieved from Bytes.co was a Jekyll template serving HTML files. Zhian created a staging repository called shellac to transform the site from one that was served via static site generator to one that was standalone. The preview is preserved at https://zkamvar.github.io/shellac/student_carpentries.html.\nThis site was then stripped of the added into {varnish} in carpentries/varnish#14 between 2022-01-10 and 2022-01-24, when the 1.0.0 release of {varnish} was created and the sandpaper docs website was updated to use the new version of the HTML, CSS, and JavaScript."
+    "title": "8  The {varnish} package",
+    "section": "8.2 Design and Implementation Background",
+    "text": "8.2 Design and Implementation Background\nThe design for the frontend was created by Emily de la Mettrie in 2021 after consultation with Zhian N. Kamvar and François Michonneau using examples from The Unix Shell and parts of Exploring Data Frames for content cues.\nThe final figma design project3 was then handed off to a team at Bytes.co, who translated the designs to CSS and JavaScript, subcontracted an a11y testing company to interactively test the prototype for a11y issues.\nThe prototype we recieved from Bytes.co was a Jekyll template serving HTML files. Zhian created a staging repository called shellac to transform the site from one that was served via static site generator to one that was standalone. The preview is preserved at https://zkamvar.github.io/shellac/student_carpentries.html.\nThis site was then stripped of the added into {varnish} in carpentries/varnish#14 between 2022-01-10 and 2022-01-24, when the 1.0.0 release of {varnish} was created and the sandpaper docs website was updated to use the new version of the HTML, CSS, and JavaScript."
   },
   {
     "objectID": "releases.html#background",
     "href": "releases.html#background",
-    "title": "8  Release Process for Workbench Packages",
-    "section": "8.1 Background",
-    "text": "8.1 Background\nThe workbench contains three main packages:\n\n{sandpaper}: user interface and workflow engine\n{pegboard}: parsing and validation engine\n{varnish}: HTML templates, CSS, and JS elements\n\nEach of these packages are available on the Carpentries R-Universe and new versions are checked for hourly. This allows folks to get up-to-date versions of The Workbench packages built for their system without running out of GitHub API query attempts.\nIn order to maintain quality, packages are only sent to the R-Universe if they have been formally released on GitHub (as specified in the packages.json configuration file). This allows us to incrementally add new experimental features without changing the stable deployments."
+    "title": "9  Release Process for Workbench Packages",
+    "section": "9.1 Background",
+    "text": "9.1 Background\nThe workbench contains three main packages:\n\n{sandpaper}: user interface and workflow engine\n{pegboard}: parsing and validation engine\n{varnish}: HTML templates, CSS, and JS elements\n\nEach of these packages are available on the Carpentries R-Universe and new versions are checked for hourly. This allows folks to get up-to-date versions of The Workbench packages built for their system without running out of GitHub API query attempts.\nIn order to maintain quality, packages are only sent to the R-Universe if they have been formally released on GitHub (as specified in the packages.json configuration file). This allows us to incrementally add new experimental features without changing the stable deployments."
   },
   {
     "objectID": "releases.html#release-process",
     "href": "releases.html#release-process",
-    "title": "8  Release Process for Workbench Packages",
-    "section": "8.2 Release Process",
-    "text": "8.2 Release Process\nWhen a package is ready for release we use the following checklist:\n\nUpdate version number in DESCRIPTION\nAdd NEWS for the changes in this version\nEnsure all changes are committed and pushed\nadd new signed tag with the name “ X.Y.Z”\n# example: create a signed (-s) tag for sandpaper 3.3.3\ngit tag -s 3.3.3 -m 'sandpaper 3.3.3'\ncreate a release on github from the new tag\n\n\n\n\n\n\n\nNote\n\n\n\nZhian likes to create tags via the command line because he has set up his git configuration to use a gpg signature so the tags and the releases are both verified.\n\n\nThe last two items can be achieved in a single step with the github cli with the command gh release create X.Y.Z for the version number\ngh release create 3.3.3\n# ? Title (optional) sandpaper 3.3.3\n# ? Release notes  [Use arrows to move, type to filter]\n#   Write my own\n# &gt; Write using generated notes as template\n#   Leave blank\nSelecting “Write using generated notes as a template” opens an editor and populates it with the pull requests that have been accepted since the last release.\nOnce the relase is created on GitHub, then the package will be available on the R-Universe in about an hour or less."
+    "title": "9  Release Process for Workbench Packages",
+    "section": "9.2 Release Process",
+    "text": "9.2 Release Process\nWhen a package is ready for release we use the following checklist:\n\nUpdate version number in DESCRIPTION\nAdd NEWS for the changes in this version\nEnsure all changes are committed and pushed\nadd new signed tag with the name “ X.Y.Z”\n# example: create a signed (-s) tag for sandpaper 3.3.3\ngit tag -s 3.3.3 -m 'sandpaper 3.3.3'\ncreate a release on github from the new tag\n\n\n\n\n\n\n\nNote\n\n\n\nZhian likes to create tags via the command line because he has set up his git configuration to use a gpg signature so the tags and the releases are both verified.\n\n\nThe last two items can be achieved in a single step with the github cli with the command gh release create X.Y.Z for the version number\ngh release create 3.3.3\n# ? Title (optional) sandpaper 3.3.3\n# ? Release notes  [Use arrows to move, type to filter]\n#   Write my own\n# &gt; Write using generated notes as template\n#   Leave blank\nSelecting “Write using generated notes as a template” opens an editor and populates it with the pull requests that have been accepted since the last release.\nOnce the relase is created on GitHub, then the package will be available on the R-Universe in about an hour or less."
   },
   {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "9  Summary",
+    "title": "10  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever."
   },

@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - References</title>
+<title>Workbench Developer’s Guide - 6&nbsp; Testing {sandpaper}</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,45 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pegboard/intro.html" rel="next">
+<link href="../sandpaper/intro.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -98,7 +80,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/testing.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -113,7 +95,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Workbench Developer’s Guide</a> 
+      <a href="../">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -133,25 +115,25 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -166,7 +148,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flow.html" class="sidebar-item-text sidebar-link">
+  <a href="../flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
@@ -183,13 +165,13 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
@@ -206,7 +188,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -223,7 +205,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -240,7 +222,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./releases.html" class="sidebar-item-text sidebar-link">
+  <a href="../releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
@@ -256,13 +238,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+  <a href="../summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -272,14 +254,27 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">6.1</span> Introduction</a></li>
+  <li><a href="#test-setup" id="toc-test-setup" class="nav-link" data-scroll-target="#test-setup"><span class="header-section-number">6.2</span> Test Setup</a>
+  <ul class="collapse">
+  <li><a href="#helpers" id="toc-helpers" class="nav-link" data-scroll-target="#helpers"><span class="header-section-number">6.2.1</span> Test Helpers</a></li>
+  <li><a href="#setup-script" id="toc-setup-script" class="nav-link" data-scroll-target="#setup-script"><span class="header-section-number">6.2.2</span> Setup Script</a></li>
+  </ul></li>
+  <li><a href="#conditionally-skipped-tests" id="toc-conditionally-skipped-tests" class="nav-link" data-scroll-target="#conditionally-skipped-tests"><span class="header-section-number">6.3</span> Conditionally Skipped Tests</a></li>
+  <li><a href="#continuous-integration" id="toc-continuous-integration" class="nav-link" data-scroll-target="#continuous-integration"><span class="header-section-number">6.4</span> Continuous Integration</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></h1>
 </div>
 
 
@@ -294,14 +289,70 @@ div.csl-indent {
 
 </header>
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-rpkgs" class="csl-entry" role="listitem">
-Wickham, Hadley, and Jennifer Bryan. 2023. <span>“<span>R</span>
-Packages (2e).”</span> <a href="https://r-pkgs.org/" class="uri">https://r-pkgs.org/</a>.
-</div>
-</div>
+<section id="introduction" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
+<p>{sandpaper} is the largest package and the main user and deployment interface for The Workbench. The tests are all designed to work within a lesson context, which means a couple of things to be aware of.</p>
+<ol type="1">
+<li><strong>Some tests will take a long time to run.</strong> IO procedures are often one of the most time-consuming steps in computing and {sandpaper} does a lot of it.</li>
+<li><strong>Most tests will be dependent on the previous tests in a file.</strong> Because the tests work on a folder on disk, we need to provision different scenarios of lesson state. It is far simpler to do this by side-effect rather than copying, setting up, and tearing down the state of the lesson for each and every test.</li>
+</ol>
+</section>
+<section id="test-setup" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="test-setup"><span class="header-section-number">6.2</span> Test Setup</h2>
+<p>There is nothing that you as the contributor/developer need to do to set up for running these tests beyond what you have already done in <a href="setup.html">your development setup</a>. This section describes conceptually how {testthat} and {sandpaper} setup the testing environment after you run <code>devtools::test()</code>.</p>
+<p>In short, this is the process:</p>
+<ol type="1">
+<li>{sandpaper} is loaded</li>
+<li><a href="#helpers">Helper test files</a> are loaded</li>
+<li>The <a href="#setup-script">setup script</a> is loaded, which provisions the <a href="https://carpentries.github.io/sandpaper/reference/fixtures.html">test lesson</a></li>
+<li>Each test file matching<code>tests/testthat/test-*.R</code> is run, resetting the test lesson at the top of each file.</li>
+</ol>
+<section id="helpers" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="helpers"><span class="header-section-number">6.2.1</span> Test Helpers</h3>
+<p>Sandpaper has three test helpers that handle some of the more tedious side-effects of testing.</p>
+<dl>
+<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-hash.R"><code>helper-hash.R</code></a></dt>
+<dd>
+Expectation <code>expect_hashed()</code> that an episode file MD5 sum (expected) matches the MD5 sum (actual) we recorded in the <code>site/built/md5sum.txt</code> database.
+</dd>
+<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-processing.R"><code>helper-processing.R</code></a></dt>
+<dd>
+Provides an output string that demonstrates a screen output of a file being processed by {knitr}. This is used with <a href="https://testthat.r-lib.org/reference/expect_output.html"><code>expect_output()</code></a>.
+</dd>
+<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-snap-transform.R"><code>helper-snap-transform.R</code></a></dt>
+<dd>
+A function that is passed to the transform parameter of <a href="https://testthat.r-lib.org/reference/expect_snapshot.html"><code>expect_snapshot()</code></a> and will mask the temporary directory path so that the snapshot does not continuously invalidate on every run.
+</dd>
+</dl>
+</section>
+<section id="setup-script" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="setup-script"><span class="header-section-number">6.2.2</span> Setup Script</h3>
+<p>The first script to run is <a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/setup.R"><code>tests/testthat/setup.R</code></a>, where <a href="https://carpentries.github.io/sandpaper/reference/fixtures.html">a test lesson</a> and a local git remote is created and stored in a temporary location for the duration of the test suite and a reset function is exposed for the tests.</p>
+</section>
+</section>
+<section id="conditionally-skipped-tests" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="conditionally-skipped-tests"><span class="header-section-number">6.3</span> Conditionally Skipped Tests</h2>
+<p>Each link below will open a code search for the different types of skipped tests in {sandpaper}</p>
+<dl>
+<dt><a href="https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip_on_os&amp;type=code"><code>skip_on_os</code></a></dt>
+<dd>
+These are often tests that are skipped on Windows, usually for the reason that {renv} and filepaths behave slightly differently on Windows in a continuous integration setting.
+</dd>
+<dt><a href="https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip_if&amp;type=code"><code>skip_if</code></a></dt>
+<dd>
+Tests that are skipped under various conditions. For example, if Git is not installed on a system, we should not test any of the CI functions because they rely on Git.
+</dd>
+<dt><a href="https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip%28&amp;type=code"><code>skip("&lt;for reasons&gt;")</code></a></dt>
+<dd>
+This pattern is more rare. It’s really useful in a situation where you are refactoring and know that a lot of tests will fail. If you sprinkle in these skips, you can focus on testing the core functionality of the refactor and then address the side-effects. Regarding the skips that remain: during testing, sometimes we encounter a ghost in the machine and we cannot set up the right conditions to run the test properly or the test was created with an earlier model of the package that we haven’t been able to shake. In these cases, instead of deleting the test or commenting out code, we add the <code>skip()</code> function and write a message of <em>why</em> we skipped it so if we need to come back to it later, we can.
+</dd>
+</dl>
+</section>
+<section id="continuous-integration" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="continuous-integration"><span class="header-section-number">6.4</span> Continuous Integration</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -602,11 +653,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./summary.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span>
+      <a href="../sandpaper/intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../pegboard/intro.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

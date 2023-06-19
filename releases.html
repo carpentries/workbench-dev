@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.151">
+<meta name="generator" content="quarto-1.4.156">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 8&nbsp; Release Process for Workbench Packages</title>
+<title>Workbench Developer’s Guide - 9&nbsp; Release Process for Workbench Packages</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -114,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -203,6 +203,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -217,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -234,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -251,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./releases.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
       </ul>
@@ -267,7 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -286,8 +292,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">8.1</span> Background</a></li>
-  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">8.2</span> Release Process</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">9.1</span> Background</a></li>
+  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">9.2</span> Release Process</a></li>
   </ul>
 </nav>
     </div>
@@ -296,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></h1>
 </div>
 
 
@@ -311,8 +317,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="background" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="background"><span class="header-section-number">8.1</span> Background</h2>
+<section id="background" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="background"><span class="header-section-number">9.1</span> Background</h2>
 <p>The workbench contains three main packages:</p>
 <ul>
 <li><a href="https://carpentries.github.io/sandpaper/">{sandpaper}</a>: user interface and workflow engine</li>
@@ -322,8 +328,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Each of these packages are available on the <a href="https://carpentries.r-universe.dev/">Carpentries R-Universe</a> and new versions are checked for hourly. This allows folks to get up-to-date versions of The Workbench packages built for their system without running out of GitHub API query attempts.</p>
 <p>In order to maintain quality, packages are only sent to the R-Universe if they have been formally released on GitHub (<a href="https://github.com/carpentries/universe/blob/0c330a1e8f0337de483144fece37c2710af6f4df/packages.json#L16-L33">as specified in the packages.json configuration file</a>). This allows us to incrementally add new experimental features without changing the stable deployments.</p>
 </section>
-<section id="release-process" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="release-process"><span class="header-section-number">8.2</span> Release Process</h2>
+<section id="release-process" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="release-process"><span class="header-section-number">9.2</span> Release Process</h2>
 <p>When a package is ready for release we use the following checklist:</p>
 <ul class="task-list">
 <li><p><input type="checkbox">Update version number in DESCRIPTION</p></li>
@@ -660,12 +666,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./varnish/intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./summary.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

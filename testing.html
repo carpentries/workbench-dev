@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.151">
+<meta name="generator" content="quarto-1.4.156">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -169,6 +169,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -183,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -200,7 +206,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -217,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./releases.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
       </ul>
@@ -233,7 +239,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -317,8 +323,6 @@ This section is still under construction!
 <p>The tests under <code>test/testthat/</code> are run in alphabetical order using the {testthat} package (see https://r-pkgs.org/testing-basics.html) via <code>devtools::test()</code> or <code>devtools::check()</code>.</p>
 <section id="sandpaper" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="sandpaper"><span class="header-section-number">3.2.1</span> sandpaper</h3>
-<p>Because all of the tests need to work with a lesson, the first script to run is <a href="https://github.com/carpentries/sandpaper/blob/6989c39f4482b51c22c8ceb38146d08ed8ca4069/tests/testthat/setup.R"><code>tests/testthat/setup.R</code></a>, where <a href="https://carpentries.github.io/sandpaper/reference/fixtures.html">a test lesson</a> is created and stored in a temporary location for the duration of the test suite and a reset function is exposed for the tests.</p>
-<p>Each test file will reset the lesson and run the tests from top to bottom. In this way, the tests within a file are somewhat dependent on one another because they explicitly work on the lesson files. I have attempted to minimize this, but there are some times when the side-effects were necessary.</p>
 </section>
 <section id="pegboard" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="pegboard"><span class="header-section-number">3.2.2</span> pegboard</h3>
