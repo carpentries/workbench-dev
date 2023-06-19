@@ -62,4 +62,31 @@ of the test suite and a reset function is exposed for the tests.
 
 ## Conditionally Skipped Tests
 
+Each link below will open a code search for the different types of skipped tests
+in {sandpaper}
+
+[`skip_on_os`](https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip_on_os&type=code)
+: These are often tests that are skipped on Windows, usually for the reason that
+  {renv} and filepaths behave slightly differently on Windows in a continuous
+  integration setting.
+
+[`skip_if`](https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip_if&type=code)
+: Tests that are skipped under various conditions. For example, if Git is not
+  installed on a system, we should not test any of the CI functions because they
+  rely on Git.
+
+[`skip("<for reasons>")`](https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip%28&type=code)
+: This pattern is more rare. It's really useful in a situation where you are
+  refactoring and know that a lot of tests will fail. If you sprinkle in these
+  skips, you can focus on testing the core functionality of the refactor and
+  then address the side-effects. Regarding the skips that remain: during
+  testing, sometimes we encounter a ghost in the machine and we cannot set up
+  the right conditions to run the test properly or the test was created with an
+  earlier model of the package that we haven't been able to shake. In these
+  cases, instead of deleting the test or commenting out code, we add the `skip()`
+  function and write a message of _why_ we skipped it so if we need to come back
+  to it later, we can.
+
+
 ## Continuous Integration
+
