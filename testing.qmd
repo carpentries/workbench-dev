@@ -43,14 +43,14 @@ The tests under `test/testthat/` are run in alphabetical order using the
 {testthat} package (see https://r-pkgs.org/testing-basics.html) via
 `devtools::test()` or `devtools::check()`.
 
-### sandpaper
+### Conditionally Skipped Tests
 
-
-### pegboard
-
-### varnish
-
-### vise
+The tests often need special conditions in order to run and sometimes those
+conditions are not possible. One of the most common conditions to skip is if
+the testing happens on CRAN. They are very hawkish about how long test suites
+can run and it's often difficult to detect the state of a CRAN machine, so it's
+better to skip long-running tests or those with complex environmental
+dependencies on CRAN (which does not yet apply to {sandpaper}).
 
 ## Continous Integration {#ci}
 
