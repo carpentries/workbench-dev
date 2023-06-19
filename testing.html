@@ -261,10 +261,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
   <li><a href="#unit-testing" id="toc-unit-testing" class="nav-link" data-scroll-target="#unit-testing"><span class="header-section-number">3.2</span> Unit Testing</a>
   <ul class="collapse">
-  <li><a href="#sandpaper" id="toc-sandpaper" class="nav-link" data-scroll-target="#sandpaper"><span class="header-section-number">3.2.1</span> sandpaper</a></li>
-  <li><a href="#pegboard" id="toc-pegboard" class="nav-link" data-scroll-target="#pegboard"><span class="header-section-number">3.2.2</span> pegboard</a></li>
-  <li><a href="#varnish" id="toc-varnish" class="nav-link" data-scroll-target="#varnish"><span class="header-section-number">3.2.3</span> varnish</a></li>
-  <li><a href="#vise" id="toc-vise" class="nav-link" data-scroll-target="#vise"><span class="header-section-number">3.2.4</span> vise</a></li>
+  <li><a href="#conditionally-skipped-tests" id="toc-conditionally-skipped-tests" class="nav-link" data-scroll-target="#conditionally-skipped-tests"><span class="header-section-number">3.2.1</span> Conditionally Skipped Tests</a></li>
   </ul></li>
   <li><a href="#ci" id="toc-ci" class="nav-link" data-scroll-target="#ci"><span class="header-section-number">3.3</span> Continous Integration</a></li>
   <li><a href="#lesson-integration-testing" id="toc-lesson-integration-testing" class="nav-link" data-scroll-target="#lesson-integration-testing"><span class="header-section-number">3.4</span> Lesson Integration Testing</a></li>
@@ -321,17 +318,9 @@ This section is still under construction!
 <section id="unit-testing" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="unit-testing"><span class="header-section-number">3.2</span> Unit Testing</h2>
 <p>The tests under <code>test/testthat/</code> are run in alphabetical order using the {testthat} package (see https://r-pkgs.org/testing-basics.html) via <code>devtools::test()</code> or <code>devtools::check()</code>.</p>
-<section id="sandpaper" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="sandpaper"><span class="header-section-number">3.2.1</span> sandpaper</h3>
-</section>
-<section id="pegboard" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="pegboard"><span class="header-section-number">3.2.2</span> pegboard</h3>
-</section>
-<section id="varnish" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="varnish"><span class="header-section-number">3.2.3</span> varnish</h3>
-</section>
-<section id="vise" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="vise"><span class="header-section-number">3.2.4</span> vise</h3>
+<section id="conditionally-skipped-tests" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="conditionally-skipped-tests"><span class="header-section-number">3.2.1</span> Conditionally Skipped Tests</h3>
+<p>The tests often need special conditions in order to run and sometimes those conditions are not possible. One of the most common conditions to skip is if the testing happens on CRAN. They are very hawkish about how long test suites can run and it’s often difficult to detect the state of a CRAN machine, so it’s better to skip long-running tests or those with complex environmental dependencies on CRAN (which does not yet apply to {sandpaper}).</p>
 </section>
 </section>
 <section id="ci" class="level2" data-number="3.3">
