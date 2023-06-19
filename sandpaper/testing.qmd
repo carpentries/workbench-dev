@@ -1,0 +1,65 @@
+---
+title: "Testing {sandpaper}"
+---
+
+## Introduction
+
+{sandpaper} is the largest package and the main user and deployment interface
+for The Workbench. The tests are all designed to work within a lesson context,
+which means a couple of things to be aware of.
+
+1. **Some tests will take a long time to run.** IO procedures are often one of
+   the most time-consuming steps in computing and {sandpaper} does a lot of it.
+2. **Most tests will be dependent on the previous tests in a file.** 
+   Because the tests work on a folder on disk, we need to provision different
+   scenarios of lesson state. It is far simpler to do this by side-effect rather
+   than copying, setting up, and tearing down the state of the lesson for each
+   and every test.
+
+## Test Setup
+
+There is nothing that you as the contributor/developer need to do to set up for
+running these tests beyond what you have already done in [your development
+setup](setup.html). This section describes conceptually how {testthat} and
+{sandpaper} setup the testing environment after you run `devtools::test()`.
+
+In short, this is the process:
+
+1. {sandpaper} is loaded
+2. [Helper test files](#helpers) are loaded
+3. The [setup script](#setup-script) is loaded, which provisions the [test 
+   lesson](https://carpentries.github.io/sandpaper/reference/fixtures.html)
+4. Each test file matching`tests/testthat/test-*.R` is run, resetting the test
+   lesson at the top of each file.
+
+### Test Helpers {#helpers}
+
+Sandpaper has three test helpers that handle some of the more tedious
+side-effects of testing.
+
+[`helper-hash.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-hash.R)
+: Expectation `expect_hashed()` that an episode file MD5 sum (expected) matches
+  the MD5 sum (actual) we recorded in the `site/built/md5sum.txt` database.
+
+[`helper-processing.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-processing.R)
+: Provides an output string that demonstrates a screen output of a file being
+  processed by {knitr}. This is used with [`expect_output()`](https://testthat.r-lib.org/reference/expect_output.html).
+
+[`helper-snap-transform.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-snap-transform.R)
+: A function that is passed to the transform parameter of
+  [`expect_snapshot()`](https://testthat.r-lib.org/reference/expect_snapshot.html)
+  and will mask the temporary directory path so that the snapshot does not
+  continuously invalidate on every run.
+
+### Setup Script {#setup-script}
+
+The first script to run is
+[`tests/testthat/setup.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/setup.R),
+where [a test
+lesson](https://carpentries.github.io/sandpaper/reference/fixtures.html) and a
+local git remote is created and stored in a temporary location for the duration
+of the test suite and a reset function is exposed for the tests. 
+
+## Conditionally Skipped Tests
+
+## Continuous Integration

@@ -23,6 +23,7 @@ book:
     - part: "{sandpaper} User Interface"
       chapters:
       - sandpaper/intro.qmd
+      - sandpaper/testing.qmd
     - part: "{pegboard} Validation and Parsing"
       chapters:
       - pegboard/intro.qmd

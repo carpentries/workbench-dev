@@ -45,17 +45,6 @@ The tests under `test/testthat/` are run in alphabetical order using the
 
 ### sandpaper
 
-Because all of the tests need to work with a lesson, the first script to run is
-[`tests/testthat/setup.R`](https://github.com/carpentries/sandpaper/blob/6989c39f4482b51c22c8ceb38146d08ed8ca4069/tests/testthat/setup.R),
-where [a test
-lesson](https://carpentries.github.io/sandpaper/reference/fixtures.html) is
-created and stored in a temporary location for the duration of the test suite
-and a reset function is exposed for the tests. 
-
-Each test file will reset the lesson and run the tests from top to bottom. In
-this way, the tests within a file are somewhat dependent on one another because
-they explicitly work on the lesson files. I have attempted to minimize this, but
-there are some times when the side-effects were necessary.
 
 ### pegboard
 
