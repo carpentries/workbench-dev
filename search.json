@@ -53,7 +53,7 @@
     "href": "setup.html#software-tools",
     "title": "2  System Setup",
     "section": "2.1 Software Tools",
-    "text": "2.1 Software Tools\nDevelopment of Workbench components requires the same toolchain for working on lessons:\n\nR\npandoc\nGit\n\nIt is recommended to have the latest versions of R and pandoc available. You need at least git 2.28 for security purposes.\n\n\nR version\n---\n\n\nR version 4.3.0 (2023-04-21) -- \"Already Tomorrow\"\nCopyright (C) 2023 The R Foundation for Statistical Computing\nPlatform: x86_64-pc-linux-gnu (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under the terms of the\nGNU General Public License versions 2 or 3.\nFor more information about these matters see\nhttps://www.gnu.org/licenses/.\n\n\n\npandoc version\n---\n\n\npandoc 2.19.2\nCompiled with pandoc-types 1.22.2.1, texmath 0.12.5.2, skylighting 0.13,\nciteproc 0.8.0.1, ipynb 0.2, hslua 2.2.1\nScripting engine: Lua 5.4\nUser data directory: /home/runner/.local/share/pandoc\nCopyright (C) 2006-2022 John MacFarlane. Web:  https://pandoc.org\nThis is free software; see the source for copying conditions. There is no\nwarranty, not even for merchantability or fitness for a particular purpose.\n\n\n\ngit version\n---\n\n\ngit version 2.40.1"
+    "text": "2.1 Software Tools\nDevelopment of Workbench components requires the same toolchain for working on lessons:\n\nR\npandoc\nGit\n\nIt is recommended to have the latest versions of R and pandoc available. You need at least git 2.28 for security purposes.\n\n\nR version\n---\n\n\nR version 4.3.0 (2023-04-21) -- \"Already Tomorrow\"\nCopyright (C) 2023 The R Foundation for Statistical Computing\nPlatform: x86_64-pc-linux-gnu (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under the terms of the\nGNU General Public License versions 2 or 3.\nFor more information about these matters see\nhttps://www.gnu.org/licenses/.\n\n\n\npandoc version\n---\n\n\npandoc 2.19.2\nCompiled with pandoc-types 1.22.2.1, texmath 0.12.5.2, skylighting 0.13,\nciteproc 0.8.0.1, ipynb 0.2, hslua 2.2.1\nScripting engine: Lua 5.4\nUser data directory: /home/runner/.local/share/pandoc\nCopyright (C) 2006-2022 John MacFarlane. Web:  https://pandoc.org\nThis is free software; see the source for copying conditions. There is no\nwarranty, not even for merchantability or fitness for a particular purpose.\n\n\n\ngit version\n---\n\n\ngit version 2.41.0"
   },
   {
     "objectID": "setup.html#r-packages",
@@ -137,7 +137,7 @@
     "href": "sandpaper/intro.html",
     "title": "5  The {sandpaper} package",
     "section": "",
-    "text": "nothing to see here yet"
+    "text": "sandpaper (n.)\nHeavy paper coated on one side with sand or other abrasive material and used for smoothing surfaces.\n\nThe {sandpaper} package is the user interface for The Carpentries workbench and orchestrates the building and deployment of lessons, thus it helps lesson developers, authors, and maintainers to smooth out their contributions. Because of it’s user-facing and modular nature, it is the most complex package in The Workbench. It has both {pegboard} and {varnish} as dependencies and employs the following programming techniques:\n\nMetaprogramming\nFunction Aliasing\nFunction Factories\nSubprocessing\nLua (language, via pandoc)\nLogicless Templating (via mustache)\nXPath\nSystem calls (to git)"
   },
   {
     "objectID": "sandpaper/testing.html#introduction",
