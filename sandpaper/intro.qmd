@@ -2,4 +2,26 @@
 title: "The {sandpaper} package"
 ---
 
-nothing to see here yet
+
+> sandpaper (n.)
+> 
+> Heavy paper coated on one side with sand or other abrasive material and used for smoothing surfaces.
+
+
+The {sandpaper} package is the user interface for The Carpentries workbench and
+orchestrates the building and deployment of lessons, thus it helps lesson
+developers, authors, and maintainers to smooth out their contributions. Because
+of it's user-facing and modular nature, it is the most complex package in The
+Workbench. It has both {pegboard} and {varnish} as dependencies and employs the
+following programming techniques:
+
+ - Metaprogramming
+ - Function Aliasing
+ - Function Factories
+ - Subprocessing
+ - Lua (language, via pandoc)
+ - Logicless Templating (via mustache)
+ - XPath
+ - System calls (to git)
+
+
