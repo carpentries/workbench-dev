@@ -67,9 +67,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -257,18 +254,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
-  <li><a href="#not-a-static-site-generator" id="toc-not-a-static-site-generator" class="nav-link" data-scroll-target="#not-a-static-site-generator"><span class="header-section-number">5.2</span> Not a static site generator</a></li>
-  <li><a href="#you-had-one-several-jobs" id="toc-you-had-one-several-jobs" class="nav-link" data-scroll-target="#you-had-one-several-jobs"><span class="header-section-number">5.3</span> You had <del>one</del> several jobs</a>
-  <ul class="collapse">
-  <li><a href="#building-websites" id="toc-building-websites" class="nav-link" data-scroll-target="#building-websites"><span class="header-section-number">5.3.1</span> Building Websites</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -290,99 +276,23 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introduction" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
 <blockquote class="blockquote">
 <p>sandpaper (n.)</p>
 <p>Heavy paper coated on one side with sand or other abrasive material and used for smoothing surfaces.</p>
 </blockquote>
-<p>The {sandpaper} package is the user interface for The Carpentries workbench and orchestrates the building and deployment of lessons. It helps lesson developers, authors, and maintainers to smooth out their contributions. Because of it’s user-facing and modular nature, it is the most complex package in The Workbench.</p>
-<p>People who want to use {sandpaper}<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> will generally use it for one of these five things:</p>
-<ol type="1">
-<li>Creating lessons</li>
-<li>Contributing to lessons</li>
-<li>Maintaining lessons</li>
-<li>Rendering a portable lesson site</li>
-<li>Rendering a lesson site with continous integration (GitHub Actions)</li>
-</ol>
-<p>Importantly, <strong>all of these points must be achievable by someone with little to no experience with R or any other programming language.</strong></p>
-</section>
-<section id="not-a-static-site-generator" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="not-a-static-site-generator"><span class="header-section-number">5.2</span> Not a static site generator</h2>
-<p>One important distinction I would like to make is that {sandpaper} is not a static site generator. Yes, it may act like a static site generator because it creates static sites that are portable from markdown sources. However, it differs in that it is not intended to be as flexible as many other static site generators. This may seem like a negative point, but in the context of Carpentries Lessons, it is an asset.</p>
-<p>Many static site generators are extremely flexible at the cost of requiring the user to think deeply about the model of the website structure, deployment, and maintenance. For a single website, this is fine, but for distributed lessons like those in The Carpentries, it is much more difficult to use a static site generator because lesson maintainers should only have to focus on the content, not the mechanics or style. The {sandpaper} package builds <em>lesson websites</em> and nothing more. It is possible to use it for a narrative analysis, but at the end of the day, it will still be a lesson website.</p>
-</section>
-<section id="you-had-one-several-jobs" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="you-had-one-several-jobs"><span class="header-section-number">5.3</span> You had <del>one</del> several jobs</h2>
-<p>In terms of it’s relation to the other Workbench packages, {sandpaper} depends on {pegboard} to validate lessons, extract questions and timings for the schedule, and to extract the code handout. It <em>relies</em> on {varnish} to provide the HTML, CSS, and JS templates that create the websites via {pkgdown}. Its other dependencies are varied in purpose. It relies on other R packages and pandoc to do much of the work.</p>
-<section id="building-websites" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="building-websites"><span class="header-section-number">5.3.1</span> Building Websites</h3>
-<p>At it’s core, {sandpaper} provides a workflow to process R Markdown to Markdown (if the lesson is purely markdown-based, then it Markdown is simply copied), generate HTML, and package that HTML content into a website framework with the following ideals:</p>
-<ol type="1">
-<li>When processing R Markdown, the user’s environment should not be modified</li>
-<li>Generated content should be auditable, but not part of the main git history</li>
-<li>Processes for generating markdown, HTML, and the website should be modular such that if a better tool comes along, it can serve as a drop-in replacement</li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
-    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
-    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
-    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
-
-  subgraph Build Markdown
-  CR["{callr}"]:::external
-  KT["{knitr}"]:::external
-  RV["{renv}"]:::external
-  LIB[\"renv/library"/]:::external
-  MD[/"markdown"\]:::local
-  end
-  
-  subgraph Render HTML
-  RMD["{rmarkdown}"]:::external
-  pandoc(["pandoc"]):::default
-  HTML[("html (content)")]:::local
-  end
-
-  subgraph Build Site
-  PD["{pkgdown}"]:::external
-  VS["{varnish}"]:::normal
-  SITE[/"html (site)"\]:::remote
-  end
-
-  RMD -.-&gt;|provisions| pandoc
-  PD -.-&gt;|uses| VS
-  VS --&gt;|templates| SITE
-  MD --&gt;|input for| pandoc
-  pandoc --&gt;|outputs| HTML
-  CR -.-&gt;|loads| KT
-  CR -.-&gt;|loads| RV
-  RV -.-&gt;|provisions| LIB
-  LIB -.-&gt; KT
-  KT --&gt;|builds| MD
-  PD --&gt;|builds| SITE
-  HTML --&gt;|input for| PD
+<p>The {sandpaper} package is the user interface for The Carpentries workbench and orchestrates the building and deployment of lessons, thus it helps lesson developers, authors, and maintainers to smooth out their contributions. Because of it’s user-facing and modular nature, it is the most complex package in The Workbench. It has both {pegboard} and {varnish} as dependencies and employs the following programming techniques:</p>
+<ul>
+<li>Metaprogramming</li>
+<li>Function Aliasing</li>
+<li>Function Factories</li>
+<li>Subprocessing</li>
+<li>Lua (language, via pandoc)</li>
+<li>Logicless Templating (via mustache)</li>
+<li>XPath</li>
+<li>System calls (to git)</li>
+</ul>
 
 
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-
-</section>
-</section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>As has been the case ever since the README was first written in August 2020 before any code was created. Fun fact, much of the README remains in tact and accurate: <a href="https://github.com/carpentries/sandpaper/tree/173eb70931ab71fd2d01d8897db9e3e958c2e041#usage">README 2020-08-04</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</aside>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
