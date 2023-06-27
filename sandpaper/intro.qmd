@@ -2,26 +2,117 @@
 title: "The {sandpaper} package"
 ---
 
+## Introduction
 
 > sandpaper (n.)
 > 
 > Heavy paper coated on one side with sand or other abrasive material and used for smoothing surfaces.
 
-
 The {sandpaper} package is the user interface for The Carpentries workbench and
-orchestrates the building and deployment of lessons, thus it helps lesson
+orchestrates the building and deployment of lessons. It helps lesson
 developers, authors, and maintainers to smooth out their contributions. Because
 of it's user-facing and modular nature, it is the most complex package in The
-Workbench. It has both {pegboard} and {varnish} as dependencies and employs the
-following programming techniques:
+Workbench.
 
- - Metaprogramming
- - Function Aliasing
- - Function Factories
- - Subprocessing
- - Lua (language, via pandoc)
- - Logicless Templating (via mustache)
- - XPath
- - System calls (to git)
+People who want to use {sandpaper}[^history] will generally use it for one of
+these five things:
+
+1. Creating lessons
+2. Contributing to lessons
+3. Maintaining lessons
+4. Rendering a portable lesson site
+5. Rendering a lesson site with continous integration (GitHub Actions)
+
+Importantly, **all of these points must be achievable by someone with little to
+no experience with R or any other programming language.**
+
+## Not a static site generator
+
+One important distinction I would like to make is that {sandpaper} is not a
+static site generator. Yes, it may act like a static site generator because it
+creates static sites that are portable from markdown sources. However, it
+differs in that it is not intended to be as flexible as many other static site
+generators. This may seem like a negative point, but in the context of
+Carpentries Lessons, it is an asset.
+
+Many static site generators are extremely flexible at the cost of requiring the
+user to think deeply about the model of the website structure, deployment, and
+maintenance. For a single website, this is fine, but for distributed lessons
+like those in The Carpentries, it is much more difficult to use a static site
+generator because lesson maintainers should only have to focus on the content,
+not the mechanics or style. The {sandpaper} package builds _lesson websites_
+and nothing more. It is possible to use it for a narrative analysis, but at the
+end of the day, it will still be a lesson website. 
+
+## You had ~~one~~ several jobs
+
+In terms of it's relation to the other Workbench packages, {sandpaper} depends
+on {pegboard} to validate lessons, extract questions and timings for the
+schedule, and to extract the code handout. It _relies_ on {varnish} to provide
+the HTML, CSS, and JS templates that create the websites via {pkgdown}. Its
+other dependencies are varied in purpose. It relies on other R packages and
+pandoc to do much of the work. 
+
+### Building Websites
+
+At it's core, {sandpaper} provides a workflow to process R Markdown to Markdown (if
+the lesson is purely markdown-based, then it Markdown is simply copied),
+generate HTML, and package that HTML content into a website framework with the
+following ideals:
+
+1. When processing R Markdown, the user's environment should not be modified
+2. Generated content should be auditable, but not part of the main git history
+3. Processes for generating markdown, HTML, and the website should be modular
+   such that if a better tool comes along, it can serve as a drop-in
+   replacement
 
 
+```{mermaid}
+flowchart TB
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
+
+  subgraph Build Markdown
+  CR["{callr}"]:::external
+  KT["{knitr}"]:::external
+  RV["{renv}"]:::external
+  LIB[\"renv/library"/]:::external
+  MD[/"markdown"\]:::local
+  end
+  
+  subgraph Render HTML
+  RMD["{rmarkdown}"]:::external
+  pandoc(["pandoc"]):::default
+  HTML[("html (content)")]:::local
+  end
+
+  subgraph Build Site
+  PD["{pkgdown}"]:::external
+  VS["{varnish}"]:::normal
+  SITE[/"html (site)"\]:::remote
+  end
+
+  RMD -.->|provisions| pandoc
+  PD -.->|uses| VS
+  VS -->|templates| SITE
+  MD -->|input for| pandoc
+  pandoc -->|outputs| HTML
+  CR -.->|loads| KT
+  CR -.->|loads| RV
+  RV -.->|provisions| LIB
+  LIB -.-> KT
+  KT -->|builds| MD
+  PD -->|builds| SITE
+  HTML -->|input for| PD
+
+
+```
+
+
+[^history]: As has been the case ever since the README was first written in
+  August 2020 before any code was created. Fun fact, much of the README remains
+  in tact and accurate:
+  [README 2020-08-04](https://github.com/carpentries/sandpaper/tree/173eb70931ab71fd2d01d8897db9e3e958c2e041#usage)
