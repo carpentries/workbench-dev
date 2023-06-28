@@ -276,12 +276,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#general-strategies" id="toc-general-strategies" class="nav-link active" data-scroll-target="#general-strategies"><span class="header-section-number">A.1</span> General Strategies</a>
   <ul>
-  <li><a href="#get-a-reproducible-example" id="toc-get-a-reproducible-example" class="nav-link" data-scroll-target="#get-a-reproducible-example"><span class="header-section-number">A.1.1</span> Get a Reproducible Example</a>
-  <ul class="collapse">
-  <li><a href="#system-dependent-issues" id="toc-system-dependent-issues" class="nav-link" data-scroll-target="#system-dependent-issues"><span class="header-section-number">A.1.1.1</span> System-Dependent Issues</a></li>
-  </ul></li>
-  <li><a href="#addressing-issues" id="toc-addressing-issues" class="nav-link" data-scroll-target="#addressing-issues"><span class="header-section-number">A.1.2</span> Addressing Issues</a></li>
-  <li><a href="#creating-new-features" id="toc-creating-new-features" class="nav-link" data-scroll-target="#creating-new-features"><span class="header-section-number">A.1.3</span> Creating New Features</a></li>
+  <li><a href="#get-a-reproducible-example" id="toc-get-a-reproducible-example" class="nav-link" data-scroll-target="#get-a-reproducible-example"><span class="header-section-number">A.1.1</span> Get a Reproducible Example</a></li>
+  <li><a href="#sec-git-etiquitte" id="toc-sec-git-etiquitte" class="nav-link" data-scroll-target="#sec-git-etiquitte"><span class="header-section-number">A.1.2</span> Git/GitHub Etiquitte</a></li>
+  <li><a href="#addressing-issues" id="toc-addressing-issues" class="nav-link" data-scroll-target="#addressing-issues"><span class="header-section-number">A.1.3</span> Addressing Issues</a></li>
+  <li><a href="#creating-new-features" id="toc-creating-new-features" class="nav-link" data-scroll-target="#creating-new-features"><span class="header-section-number">A.1.4</span> Creating New Features</a></li>
   </ul></li>
   <li><a href="#sec-within" id="toc-sec-within" class="nav-link" data-scroll-target="#sec-within"><span class="header-section-number">A.2</span> Within The Workbench R Packages</a>
   <ul>
@@ -327,13 +325,36 @@ ul.task-list li input[type="checkbox"] {
 <section id="get-a-reproducible-example" class="level3" data-number="A.1.1">
 <h3 data-number="A.1.1" class="anchored" data-anchor-id="get-a-reproducible-example"><span class="header-section-number">A.1.1</span> Get a Reproducible Example</h3>
 <p>The most powerful tool in the developer’s toolbox for determining the source of an issue is the <a href="https://reprex.tidyverse.org/">reproducible example</a>. It is no surprise that Jenny Bryan (of <a href="https://github.com/MonkmanMH/EIKIFJB#readme">“Everything I Know Is From Jenny Bryan”</a> fame) is the maintainer of the {reprex} package and has an incredibly useful <a href="https://reprex.tidyverse.org/articles/learn-reprex.html">webinar on how to create reproducible examples with {reprex}</a>.</p>
-<section id="system-dependent-issues" class="level4 callout-warn" data-number="A.1.1.1">
-<h4 data-number="A.1.1.1" class="anchored" data-anchor-id="system-dependent-issues"><span class="header-section-number">A.1.1.1</span> System-Dependent Issues</h4>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+System-Dependent Issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>There are times when you cannot create a reproducible example that will produce the results you want to see. This is often the case when there is a system-dependent issue. In these cases, you should share the reprex with someone who has the system in question and have them run it.</p>
+</div>
+</div>
 </section>
+<section id="sec-git-etiquitte" class="level3" data-number="A.1.2">
+<h3 data-number="A.1.2" class="anchored" data-anchor-id="sec-git-etiquitte"><span class="header-section-number">A.1.2</span> Git/GitHub Etiquitte</h3>
+<p>In The Workbench practice, commits are never pushed to the main branch of the packages. <strong>All issues and features are fixed/made by pull requests</strong> because they give a better accounting of what was changed and why. Using this, it is good to strive for these practises<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<ol start="0" type="1">
+<li>If an issue for the feature/bug does not exist, create it with documentation about where the error exists (or where the feature should be). Use the “copy permalink” when you click on a line number in the source view of GitHubto create a preview of the code as it existed before the feature/fix.</li>
+<li><strong>create a new branch</strong> from <code>main</code> that <em>describes the purpose</em> and <em>includes the issue number</em>. For example: <code>avoid-gert-config-449</code> removed a bit of code that was using the {gert} package to check for a git user, which was unnecessary.</li>
+<li>push the branch to GitHub<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and <strong>create a new <em>draft</em> pull request</strong></li>
+<li><strong>Add a test</strong> that will reproduce the bug (if possible) before any code</li>
+<li><strong>COMMIT OFTEN</strong>. There are MANY times when I have been working on a feature deeply and have forgotten to commit, only to lose track of what changes I made and why<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Remember that git is your lab notebook.</li>
+<li><strong>Iterate</strong> writing code and committing until the tests for that particular function passes.</li>
+<li>Write a new item in NEWS and bump the version in DESCRIPTION.</li>
+<li>Push to GitHub and mark as ready for review; tag <code>@carpentries/maintainers-workbench</code></li>
+</ol>
 </section>
-<section id="addressing-issues" class="level3" data-number="A.1.2">
-<h3 data-number="A.1.2" class="anchored" data-anchor-id="addressing-issues"><span class="header-section-number">A.1.2</span> Addressing Issues</h3>
+<section id="addressing-issues" class="level3" data-number="A.1.3">
+<h3 data-number="A.1.3" class="anchored" data-anchor-id="addressing-issues"><span class="header-section-number">A.1.3</span> Addressing Issues</h3>
 <p>If you do nothing else, please <strong>watch this Keynote talk from Jenny Bryan</strong>: <a href="https://rstd.io/debugging">Object of type ‘closure’ is not subsettable</a>. This will give you the right mindset for broadly approaching issues in R package development, which can be summarised as:</p>
 <ol type="1">
 <li>Turn it off and on again (Restart R in a clean session)</li>
@@ -341,9 +362,39 @@ ul.task-list li input[type="checkbox"] {
 <li>Dig into the error (via <code>traceback()</code> and/or a debugger)</li>
 <li>Future-proof your fixes and make things within reach</li>
 </ol>
+<p>With these tools, if you cannot reproduce the error, you can guide the user to give you the information you need to reproduce the error and then you can follow the <a href="#sec-git-etiquitte">git guidelines</a> to iterate on the fix.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Think of the big picture
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As you are fixing an issue, consider the larger picture of the issue. Sometimes you will run into an issue that will technically fix it, but still leave the possibility for future issues to open up. <strong>The most important thing is to document what future work needs to be done to ensure a robust solution while it is still fresh in your mind.</strong> This can be in an issue or in the comments of the code itself.</p>
+<p>Sometimes an issue is urgent enough that a quick fix is what is needed, and in those cases, it’s best to open up a followup issue that addresses what would be needed for a more robust fix. Sometimes the solution is splitting a large function into smaller functions, but other times it may be a refactor of the internal data structure.</p>
+</div>
+</div>
 </section>
-<section id="creating-new-features" class="level3" data-number="A.1.3">
-<h3 data-number="A.1.3" class="anchored" data-anchor-id="creating-new-features"><span class="header-section-number">A.1.3</span> Creating New Features</h3>
+<section id="creating-new-features" class="level3" data-number="A.1.4">
+<h3 data-number="A.1.4" class="anchored" data-anchor-id="creating-new-features"><span class="header-section-number">A.1.4</span> Creating New Features</h3>
+<p>If you want to create a new feature, the most important thing to do is to clearly define the audience, scope, dependencies, inputs and the outputs of the feature that you want to create. It’s best to strive for new features that bolster existing features (e.g.&nbsp;<code>sandpaper::serve()</code> provides an continously updating version of <code>sandpaper::build_lesson()</code>) or those that are modular and optional (e.g.&nbsp;the <code>fail_on_error</code> config option for lessons using R Markdown force an error in code blocks to stop the lesson from rendering unless those code blocks have the <code>error = TRUE</code> option).</p>
+<p>One of the most important things to consider when adding new features is the maintenance and deployment workflow. Maintainers and contributors should <em>not</em> need to worry about function arguments, GitHub Actions, or new Markdown syntax in order to implement a new feature that will be deployed automatically to all of the lessons. <strong>A new feature should not break their workflow or the deployment workflow.</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Simple Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As an example, when we were <a href="https://github.com/carpentries/sandpaper/issues/22">discussion folder organistaion</a>, The original config template had a <a href="https://github.com/carpentries/sandpaper/commit/10551dfb09cb2552fcaa66eea2fa74ea5c100364#diff-fc6f18d0825f8309389a92d09efbe28ec11fce8e4b0e1f382d72edf5fedd5a8a">“schedule” section instead of “episodes”</a>. When I replaced “schedule” with “episodes”, <a href="https://github.com/carpentries/sandpaper/commit/10551dfb09cb2552fcaa66eea2fa74ea5c100364#diff-5d50756d97851a5359304a6cc94ddeff9caf56981e61663081401b0b4f6579e6R17">I added functionality to allow for old-style lessons to move forward</a> so that any existing test lessons did not break. To this day, you can still create a lesson <a href="https://github.com/carpentries/sandpaper/blame/cde890790d509c5c92c539d0adf69a6672354094/R/utils-paths-source.R#L72-L76">using schedule instead of episodes as the keyword</a>.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="sec-within" class="level2" data-number="A.2">
@@ -397,6 +448,15 @@ ul.task-list li input[type="checkbox"] {
 
 
 </section>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>I say <em>strive</em> for these practises because I do not always follow them myself, but they are there for very good reasons. For example: testing before you write code helps you design your code to do the thing you want it to do AND it helps avoid confirmation bias in the tests.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In RStudio, when you use the interface to create a new branch, it will generally also push the branch to GitHub for you. If it does not do this, you will need to push the branch with <code>git push -u</code>. I do this often enough that I’ve created a git alias (which can go in your <code>~/.gitconfig</code> file):<br>
+<code>pushb = !"git push --set-upstream $(git remote | head -n 1) $(git symbolic-ref HEAD --short)"</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>You do not have to push after each commit. Sometimes it is strategic to collect a little stack of local commits in case you were experimenting and need to revert back to one that gave you a working state.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
