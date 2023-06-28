@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 5&nbsp; The {sandpaper} package</title>
+<title>Workbench Developer’s Guide - Appendix A — Standard Operating Procedures</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../sandpaper/testing.html" rel="next">
-<link href="../flow.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./flight-rules.html" rel="next">
+<link href="./references.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -67,9 +67,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -83,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/intro.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sop.html">Appendices</a></li><li class="breadcrumb-item"><a href="./sop.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -98,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Workbench Developer’s Guide</a> 
+      <a href="./">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -118,25 +115,25 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../setup.html" class="sidebar-item-text sidebar-link">
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../testing.html" class="sidebar-item-text sidebar-link">
+  <a href="./testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -151,7 +148,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../flow.html" class="sidebar-item-text sidebar-link">
+  <a href="./flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
@@ -168,13 +165,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
@@ -191,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -208,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -225,7 +222,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../releases.html" class="sidebar-item-text sidebar-link">
+  <a href="./releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
@@ -241,13 +238,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../summary.html" class="sidebar-item-text sidebar-link">
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../references.html" class="sidebar-item-text sidebar-link">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -262,13 +259,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sop.html" class="sidebar-item-text sidebar-link">
+  <a href="./sop.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../flight-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="./flight-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span></a>
   </div>
 </li>
@@ -284,21 +281,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
-  <li><a href="#not-a-static-site-generator" id="toc-not-a-static-site-generator" class="nav-link" data-scroll-target="#not-a-static-site-generator"><span class="header-section-number">5.2</span> Not a static site generator</a></li>
-  <li><a href="#you-had-one-several-jobs" id="toc-you-had-one-several-jobs" class="nav-link" data-scroll-target="#you-had-one-several-jobs"><span class="header-section-number">5.3</span> You had <del>one</del> several jobs</a>
-  <ul class="collapse">
-  <li><a href="#building-websites" id="toc-building-websites" class="nav-link" data-scroll-target="#building-websites"><span class="header-section-number">5.3.1</span> Building Websites</a></li>
+  <li><a href="#get-a-reproducible-example" id="toc-get-a-reproducible-example" class="nav-link active" data-scroll-target="#get-a-reproducible-example"><span class="header-section-number">A.1</span> Get a Reproducible Example</a></li>
+  <li><a href="#sec-git-etiquitte" id="toc-sec-git-etiquitte" class="nav-link" data-scroll-target="#sec-git-etiquitte"><span class="header-section-number">A.2</span> Git/GitHub Etiquitte</a>
+  <ul>
+  <li><a href="#pull-request-reviews" id="toc-pull-request-reviews" class="nav-link" data-scroll-target="#pull-request-reviews"><span class="header-section-number">A.2.1</span> Pull Request Reviews</a></li>
   </ul></li>
+  <li><a href="#addressing-issues" id="toc-addressing-issues" class="nav-link" data-scroll-target="#addressing-issues"><span class="header-section-number">A.3</span> Addressing Issues</a></li>
+  <li><a href="#creating-new-features" id="toc-creating-new-features" class="nav-link" data-scroll-target="#creating-new-features"><span class="header-section-number">A.4</span> Creating New Features</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/intro.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sop.html">Appendices</a></li><li class="breadcrumb-item"><a href="./sop.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></h1>
+<h1 class="title">Appendix A — Standard Operating Procedures</h1>
 </div>
 
 
@@ -313,97 +311,94 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introduction" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
-<blockquote class="blockquote">
-<p>sandpaper (n.)</p>
-<p>Heavy paper coated on one side with sand or other abrasive material and used for smoothing surfaces.</p>
-</blockquote>
-<p>The {sandpaper} package is the user interface for The Carpentries workbench and orchestrates the building and deployment of lessons. It helps lesson developers, authors, and maintainers to smooth out their contributions. Because of it’s user-facing and modular nature, it is the most complex package in The Workbench.</p>
-<p>People who want to use {sandpaper}<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> will generally use it for one of these five things:</p>
-<ol type="1">
-<li>Creating lessons</li>
-<li>Contributing to lessons</li>
-<li>Maintaining lessons</li>
-<li>Rendering a portable lesson site</li>
-<li>Rendering a lesson site with continous integration (GitHub Actions)</li>
+<p>For any issue or feature addition there are a few general strategies to follow while working with any of the packages in The Workbench. These strategies will make it easier to ensure the quality of work with the bonus of being able to more easily collaborate with other maintainers and contributors to this project.</p>
+<section id="get-a-reproducible-example" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="get-a-reproducible-example"><span class="header-section-number">A.1</span> Get a Reproducible Example</h2>
+<p>The most powerful tool in the developer’s toolbox for demonstrating an an issue or a new feature is the <a href="https://reprex.tidyverse.org/">reproducible example</a>. It is no surprise that Jenny Bryan (of <a href="https://github.com/MonkmanMH/EIKIFJB#readme">“Everything I Know Is From Jenny Bryan”</a> fame) is the maintainer of the {reprex} package and has an incredibly useful <a href="https://reprex.tidyverse.org/articles/learn-reprex.html">webinar on how to create reproducible examples with {reprex}</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+System-Dependent Issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are times when you cannot create a reproducible example that will produce the results you want to see. This is often the case when there is a system-dependent issue. In these cases, you should share the reprex with someone who has the system in question and have them run it.</p>
+</div>
+</div>
+</section>
+<section id="sec-git-etiquitte" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="sec-git-etiquitte"><span class="header-section-number">A.2</span> Git/GitHub Etiquitte</h2>
+<p>In The Workbench practice, commits are never pushed to the main branch of the packages. <strong>All issues and features are fixed/made by pull requests</strong> because they give a better accounting of what was changed and why. Using this, it is good to strive for these practises<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<ol start="0" type="1">
+<li>If an issue for the feature/bug does not exist, create it with documentation about where the error exists (or where the feature should be). Use the “copy permalink” when you click on a line number in the source view of GitHubto create a preview of the code as it existed before the feature/fix.</li>
+<li><strong>create a new branch</strong> from <code>main</code> that <em>describes the purpose</em> and <em>includes the issue number</em>. For example: <code>avoid-gert-config-449</code> removed a bit of code that was using the {gert} package to check for a git user, which was unnecessary.</li>
+<li>push the branch to GitHub<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and <strong>create a new <em>draft</em> pull request</strong></li>
+<li><strong>Add a test</strong> that will reproduce the bug (if possible) before any code</li>
+<li><strong>COMMIT OFTEN</strong>. There are MANY times when I have been working on a feature deeply and have forgotten to commit, only to lose track of what changes I made and why<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Remember that git is your lab notebook.</li>
+<li><strong>Iterate</strong> writing code and committing until the tests for that particular function passes.</li>
+<li>Write a new item in NEWS and bump the version in DESCRIPTION.</li>
+<li>Push to GitHub and mark as ready for review; tag <code>@carpentries/maintainers-workbench</code></li>
 </ol>
-<p>Importantly, <strong>all of these points must be achievable by someone with little to no experience with R or any other programming language.</strong></p>
+<section id="pull-request-reviews" class="level3" data-number="A.2.1">
+<h3 data-number="A.2.1" class="anchored" data-anchor-id="pull-request-reviews"><span class="header-section-number">A.2.1</span> Pull Request Reviews</h3>
+<p>While The Workbench was being rapidly developed by Zhian Kamvar, all pull requests were merged by Zhian, even if he created them. After the launch of The Workbench across all official lessons, The Workbench Maintainer Group will now review all pull requests. In order to ensure pull request reviews are equitably given, please read Alex Hill’s blog post entitled <a href="https://www.alexandra-hill.com/2018/06/25/the-art-of-giving-and-receiving-code-reviews/">“The Art of Giving and Receiving Code Reviews”</a>.</p>
 </section>
-<section id="not-a-static-site-generator" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="not-a-static-site-generator"><span class="header-section-number">5.2</span> Not a static site generator</h2>
-<p>One important distinction I would like to make is that {sandpaper} is not a static site generator. Yes, it may act like a static site generator because it creates static sites that are portable from markdown sources. However, it differs in that it is not intended to be as flexible as many other static site generators. This may seem like a negative point, but in the context of Carpentries Lessons, it is an asset.</p>
-<p>Many static site generators are extremely flexible at the cost of requiring the user to think deeply about the model of the website structure, deployment, and maintenance. For a single website, this is fine, but for distributed lessons like those in The Carpentries, it is much more difficult to use a static site generator because lesson maintainers should only have to focus on the content, not the mechanics or style. The {sandpaper} package builds <em>lesson websites</em> and nothing more. It is possible to use it for a narrative analysis, but at the end of the day, it will still be a lesson website.</p>
 </section>
-<section id="you-had-one-several-jobs" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="you-had-one-several-jobs"><span class="header-section-number">5.3</span> You had <del>one</del> several jobs</h2>
-<p>In terms of it’s relation to the other Workbench packages, {sandpaper} depends on {pegboard} to validate lessons, extract questions and timings for the schedule, and to extract the code handout. It <em>relies</em> on {varnish} to provide the HTML, CSS, and JS templates that create the websites via {pkgdown}. Its other dependencies are varied in purpose. It relies on other R packages and pandoc to do much of the work.</p>
-<section id="building-websites" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="building-websites"><span class="header-section-number">5.3.1</span> Building Websites</h3>
-<p>At it’s core, {sandpaper} provides a workflow to process R Markdown to Markdown (if the lesson is purely markdown-based, then it Markdown is simply copied), generate HTML, and package that HTML content into a website framework with the following ideals:</p>
+<section id="addressing-issues" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="addressing-issues"><span class="header-section-number">A.3</span> Addressing Issues</h2>
+<p>One big challenge with issues is that you cannot know <em>where</em> the issue is coming from. If you do nothing else, please <strong>watch this Keynote talk from Jenny Bryan</strong>: <a href="https://rstd.io/debugging">Object of type ‘closure’ is not subsettable</a>. This will give you the right mindset for broadly approaching issues in R package development, which can be summarised as:</p>
 <ol type="1">
-<li>When processing R Markdown, the user’s environment should not be modified</li>
-<li>Generated content should be auditable, but not part of the main git history</li>
-<li>Processes for generating markdown, HTML, and the website should be modular such that if a better tool comes along, it can serve as a drop-in replacement</li>
+<li>Turn it off and on again (Restart R in a clean session)</li>
+<li>Make a reprex</li>
+<li>Dig into the error (via <code>traceback()</code> and/or a debugger)</li>
+<li>Future-proof your fixes and make things within reach</li>
 </ol>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
-    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
-    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
-    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
-
-  subgraph Build Markdown
-  CR["{callr}"]:::external
-  KT["{knitr}"]:::external
-  RV["{renv}"]:::external
-  LIB[\"renv/library"/]:::external
-  MD[/"markdown"\]:::local
-  end
-  
-  subgraph Render HTML
-  RMD["{rmarkdown}"]:::external
-  pandoc(["pandoc"]):::default
-  HTML[("html (content)")]:::local
-  end
-
-  subgraph Build Site
-  PD["{pkgdown}"]:::external
-  VS["{varnish}"]:::normal
-  SITE[/"html (site)"\]:::remote
-  end
-
-  RMD -.-&gt;|provisions| pandoc
-  PD -.-&gt;|uses| VS
-  VS --&gt;|templates| SITE
-  MD --&gt;|input for| pandoc
-  pandoc --&gt;|outputs| HTML
-  CR -.-&gt;|loads| KT
-  CR -.-&gt;|loads| RV
-  RV -.-&gt;|provisions| LIB
-  LIB -.-&gt; KT
-  KT --&gt;|builds| MD
-  PD --&gt;|builds| SITE
-  HTML --&gt;|input for| PD
-
-
-</pre>
+<p>With these tools, if you cannot reproduce the error, you can guide the user to give you the information you need to reproduce the error and then you can follow the <a href="#sec-git-etiquitte">git guidelines</a> to iterate on the fix.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Think of the big picture
 </div>
 </div>
+<div class="callout-body-container callout-body">
+<p>As you are fixing an issue, consider the larger picture of the issue. Sometimes you will run into an issue that will technically fix it, but still leave the possibility for future issues to open up. <strong>The most important thing is to document what future work needs to be done to ensure a robust solution while it is still fresh in your mind.</strong> This can be in an issue or in the comments of the code itself.</p>
+<p>Sometimes an issue is urgent enough that a quick fix is what is needed, and in those cases, it’s best to open up a followup issue that addresses what would be needed for a more robust fix. Sometimes the solution is splitting a large function into smaller functions, but other times it may be a refactor of the internal data structure.</p>
 </div>
 </div>
-
-
 </section>
+<section id="creating-new-features" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="creating-new-features"><span class="header-section-number">A.4</span> Creating New Features</h2>
+<p>If you want to create a new feature, the most important thing to do is to clearly define the audience, scope, dependencies, inputs and the outputs of the feature that you want to create. It’s best to strive for new features that bolster existing features (e.g.&nbsp;<code>sandpaper::serve()</code> provides an continously updating version of <code>sandpaper::build_lesson()</code>) or those that are modular and optional (e.g.&nbsp;the <code>fail_on_error</code> config option for lessons using R Markdown force an error in code blocks to stop the lesson from rendering unless those code blocks have the <code>error = TRUE</code> option).</p>
+<p>One of the most important things to consider when adding new features is the maintenance and deployment workflow. Maintainers and contributors should <em>not</em> need to worry about function arguments, GitHub Actions, or new Markdown syntax in order to implement a new feature that will be deployed automatically to all of the lessons. <strong>A new feature should not break their workflow or the deployment workflow.</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Simple Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As an example, when we were <a href="https://github.com/carpentries/sandpaper/issues/22">discussion folder organistaion</a>, The original config template had a <a href="https://github.com/carpentries/sandpaper/commit/10551dfb09cb2552fcaa66eea2fa74ea5c100364#diff-fc6f18d0825f8309389a92d09efbe28ec11fce8e4b0e1f382d72edf5fedd5a8a">“schedule” section instead of “episodes”</a>. When I replaced “schedule” with “episodes”, <a href="https://github.com/carpentries/sandpaper/commit/10551dfb09cb2552fcaa66eea2fa74ea5c100364#diff-5d50756d97851a5359304a6cc94ddeff9caf56981e61663081401b0b4f6579e6R17">I added functionality to allow for old-style lessons to move forward</a> so that any existing test lessons did not break. To this day, you can still create a lesson <a href="https://github.com/carpentries/sandpaper/blame/cde890790d509c5c92c539d0adf69a6672354094/R/utils-paths-source.R#L72-L76">using schedule instead of episodes as the keyword</a>.</p>
+</div>
+</div>
+
+
 </section>
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>As has been the case ever since the README was first written in August 2020 before any code was created. Fun fact, much of the README remains in tact and accurate: <a href="https://github.com/carpentries/sandpaper/tree/173eb70931ab71fd2d01d8897db9e3e958c2e041#usage">README 2020-08-04</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>I say <em>strive</em> for these practises because I do not always follow them myself, but they are there for very good reasons. For example: testing before you write code helps you design your code to do the thing you want it to do AND it helps avoid confirmation bias in the tests.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In RStudio, when you use the interface to create a new branch, it will generally also push the branch to GitHub for you. If it does not do this, you will need to push the branch with <code>git push -u</code>. I do this often enough that I’ve created a git alias (which can go in your <code>~/.gitconfig</code> file):<br>
+<code>pushb = !"git push --set-upstream $(git remote | head -n 1) $(git symbolic-ref HEAD --short)"</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>You do not have to push after each commit. Sometimes it is strategic to collect a little stack of local commits in case you were experimenting and need to revert back to one that gave you a working state.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
 
@@ -706,13 +701,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../flow.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span>
+      <a href="./references.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">References</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../sandpaper/testing.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./flight-rules.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
