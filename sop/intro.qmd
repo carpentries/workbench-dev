@@ -32,7 +32,7 @@ example](https://reprex.tidyverse.org/). It is no surprise that Jenny Bryan (of
 the {reprex} package and has an incredibly useful [webinar on how to create
 reproducible examples with {reprex}][learn-reprex].
 
-::: {.callout-warn}
+::: {.callout-warning}
 
 #### System-Dependent Issues
 
@@ -46,6 +46,48 @@ who has the system in question and have them run it.
 [eikifjb]: https://github.com/MonkmanMH/EIKIFJB#readme
 [learn-reprex]: https://reprex.tidyverse.org/articles/learn-reprex.html
 
+### Git/GitHub Etiquitte {#sec-git-etiquitte}
+
+In The Workbench practice, commits are never pushed to the main branch of the
+packages. **All issues and features are fixed/made by pull requests** because
+they give a better accounting of what was changed and why. Using this, it is
+good to strive for these practises[^striving]:
+
+0. If an issue for the feature/bug does not exist, create it with documentation
+   about where the error exists (or where the feature should be). Use the
+   "copy permalink" when you click on a line number in the source view of
+   GitHubto create a preview of the code as it existed before the feature/fix.
+1. **create a new branch** from `main` that _describes the purpose_ and
+   _includes the issue number_. For example: `avoid-gert-config-449` removed a
+   bit of code that was using the {gert} package to check for a git user, which
+   was unnecessary.
+2. push the branch to GitHub[^rstudio-branch] and **create a new _draft_ pull
+   request**
+3. **Add a test** that will reproduce the bug (if possible) before any code
+4. **COMMIT OFTEN**. There are MANY times when I have been working on a feature
+   deeply and have forgotten to commit, only to lose track of what changes I
+   made and why[^local-commits]. Remember that git is your lab notebook.
+5. **Iterate** writing code and committing until the tests for that particular
+   function passes.
+6. Write a new item in NEWS and bump the version in DESCRIPTION.
+7. Push to GitHub and mark as ready for review; tag 
+   `@carpentries/maintainers-workbench`
+
+[^striving]: I say _strive_ for these practises because I do not always follow
+  them myself, but they are there for very good reasons. For example: testing
+  before you write code helps you design your code to do the thing you want it
+  to do AND it helps avoid confirmation bias in the tests.
+[^local-commits]: You do not have to push after each commit. Sometimes it is
+  strategic to collect a little stack of local commits in case you were
+  experimenting and need to revert back to one that gave you a working state.
+[^rstudio-branch]: In RStudio, when you use the interface to create a new
+  branch, it will generally also push the branch to GitHub for you. If it does
+  not do this, you will need to push the branch with `git push -u`. I do this
+  often enough that I've created a git alias (which can go in your
+  `~/.gitconfig` file): \
+  `pushb = !"git push --set-upstream $(git remote | head -n 1) $(git symbolic-ref HEAD --short)"`
+
+
 ### Addressing Issues
 
 If you do nothing else, please **watch this Keynote talk from Jenny Bryan**:
@@ -58,8 +100,64 @@ development, which can be summarised as:
 3. Dig into the error (via `traceback()` and/or a debugger)
 4. Future-proof your fixes and make things within reach
 
+With these tools, if you cannot reproduce the error, you can guide the user to
+give you the information you need to reproduce the error and then you can follow
+the [git guidelines](#sec-git-etiquitte) to iterate on the fix.
+
+:::{.callout-warning}
+
+#### Think of the big picture
+
+As you are fixing an issue, consider the larger picture of the issue. Sometimes
+you will run into an issue that will technically fix it, but still leave the
+possibility for future issues to open up. **The most important thing is to 
+document what future work needs to be done to ensure a robust solution while
+it is still fresh in your mind.** This can be in an issue or in the comments of
+the code itself.
+
+Sometimes an issue is urgent enough that a quick fix is what is needed, and in
+those cases, it's best to open up a followup issue that addresses what would be
+needed for a more robust fix. Sometimes the solution is splitting a large
+function into smaller functions, but other times it may be a refactor of the
+internal data structure.
+
+:::
 
 ### Creating New Features
+
+If you want to create a new feature, the most important thing to do is to
+clearly define the audience, scope, dependencies, inputs and the outputs of the
+feature that you want to create. It's best to strive for new features that
+bolster existing features (e.g. `sandpaper::serve()` provides an continously
+updating version of `sandpaper::build_lesson()`) or those that are modular and
+optional (e.g. the `fail_on_error` config option for lessons using R Markdown
+force an error in code blocks to stop the lesson from rendering unless those
+code blocks have the `error = TRUE` option).
+
+One of the most important things to consider when adding new features is the
+maintenance and deployment workflow. Maintainers and contributors should _not_
+need to worry about function arguments, GitHub Actions, or new Markdown syntax
+in order to implement a new feature that will be deployed automatically to all
+of the lessons. **A new feature should not break their workflow or the
+deployment workflow.**
+
+
+::: {.callout-note}
+
+#### Simple Example
+
+As an example, when we were [discussion folder
+organistaion](https://github.com/carpentries/sandpaper/issues/22), The original
+config template had a ["schedule" section instead of
+"episodes"](https://github.com/carpentries/sandpaper/commit/10551dfb09cb2552fcaa66eea2fa74ea5c100364#diff-fc6f18d0825f8309389a92d09efbe28ec11fce8e4b0e1f382d72edf5fedd5a8a).
+When I replaced "schedule" with "episodes", [I added functionality to allow for
+old-style lessons to move
+forward](https://github.com/carpentries/sandpaper/commit/10551dfb09cb2552fcaa66eea2fa74ea5c100364#diff-5d50756d97851a5359304a6cc94ddeff9caf56981e61663081401b0b4f6579e6R17) so that any existing test lessons did not break. 
+To this day, you can still
+create a lesson [using schedule instead of episodes as the keyword](https://github.com/carpentries/sandpaper/blame/cde890790d509c5c92c539d0adf69a6672354094/R/utils-paths-source.R#L72-L76).
+
+:::
+
 
 ## Within The Workbench R Packages {#sec-within}
 
