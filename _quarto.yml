@@ -18,7 +18,7 @@ book:
     - setup.qmd
     - testing.qmd
     - part: "Building Lessons"
-      chapters: 
+      chapters:
       - flow.qmd
     - part: "{sandpaper} User Interface"
       chapters:
@@ -40,7 +40,8 @@ book:
     - summary.qmd
     - references.qmd
   appendices:
-    - sop/intro.qmd
+    - sop.qmd
+    - flight-rules.qmd
 
 bibliography: references.bib
 

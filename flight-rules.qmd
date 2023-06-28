@@ -1,0 +1,60 @@
+---
+title: "Examples and Flight Rules"
+subtitle: "aka: what to do when something's not working"
+toc-depth: 4
+---
+
+This part of the developers manual is a living document and serves as a window
+into the mind of a Workbench Maintainer as they address issues and new feature
+requests.
+
+The following sections of this appendix will not distinguish between bugs and
+features, because often the process for fixing bugs is not sufficiently
+different than that of adding a new feature (though there are exceptions, which
+I will highlight below). Rather, a more logical division is to distinguish
+between if the issue is within The Workbench Packages, In an Upstream
+dependency, with GitHub Actions, and finally, issues that are more structural
+in nature and require more extensive user experience (UX) testing.
+
+## Within The Workbench R Packages {#sec-within}
+
+### Single Package {#sec-single}
+
+In this section, we outline issues that are addressed within a single package.
+Note that this does not indicate that these issues are straightforward to 
+address. 
+
+#### Single-Function Issues
+
+##### Markdown file for 404 page created with read-only permissions {.unnumbered}
+
+  - [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
+    - `sessionInfo()` output provides information about versions of R and packages.
+        - this already shows one potential problem: this is running on a version of Linux that Zhian does not know anything about.
+        - Zhian asked for output of `traceback()` -> this shows all the function calls that happened when the error was raised. Based on that, was able to suggest a small example the reporter could run to reproduce the error. 
+        - Also did not recognise the code snippet where the issue seemed to be (`file(file, ifelse(append, 'a', 'w'))`) - so this seems to be a problem with a non-Workbench package.
+        - initially went looking in the `fs` package, but GitHub search showed that this code doesn't appear there either.
+        - next guess is the `cat` function, which is used to add link references to the end of files.
+        - that seemed to be where that code snippet was coming from, but the problem really originated a few lines above the call to cat: when the template for the 404 page (which is saved where the package was installed) is copied - file_copy copies a file and _all of its permissions_ - so the copy is read-only for non-admin users too.
+        - Zhian opened a PR to test for the error, then apply a fix to prevent it from being thrown again.
+        - Asked the reporter to install the patch on their system and report back on whether it worked.
+        - They reported back that it did - and pointed out a typo! - so Zhian has merged the PR
+        - After merging PR, create a new release (see process here: https://carpentries.github.io/workbench/contributor/releases.html and in the video)
+
+#### Multi-Function Issues
+
+
+#### Test Failures With No User Impact
+
+
+### Aross Packages {#sec-across}
+
+
+## Upstream R Packages {#sec-upstream}
+
+
+## GitHub Actions {#sec-actions}
+
+
+## Structural Features {#sec-structural}
+
