@@ -39,6 +39,8 @@ book:
     - part: "GitHub Actions"
     - summary.qmd
     - references.qmd
+  appendices:
+    - sop/intro.qmd
 
 bibliography: references.bib
 

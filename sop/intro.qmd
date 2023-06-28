@@ -1,0 +1,105 @@
+---
+title: "Standard Operating Procedures (Flight Rules)"
+toc-depth: 4
+---
+
+This part of the developers manual is a living document and serves as a window
+into the mind of a Workbench Maintainer as they address issues and new feature
+requests.
+
+The following sections of this appendix will not distinguish between bugs and
+features, because often the process for fixing bugs is not sufficiently
+different than that of adding a new feature (though there are exceptions, which
+I will highlight below). Rather, a more logical division is to distinguish
+between if the issue is within The Workbench Packages, In an Upstream
+dependency, with GitHub Actions, and finally, issues that are more structural
+in nature and require more extensive user experience (UX) testing.
+
+
+## General Strategies
+
+It's important to remember that when you face an issue, you cannot expect to
+automatically know where it is coming from. There are times when you suspect
+the issue may be originating from The Workbench, only to find that it is
+upstream or vice-versa. 
+
+### Get a Reproducible Example
+
+The most powerful tool in the developer's toolbox for
+determining the source of an issue is the [reproducible
+example](https://reprex.tidyverse.org/). It is no surprise that Jenny Bryan (of
+["Everything I Know Is From Jenny Bryan"][eikifjb] fame) is the maintainer of
+the {reprex} package and has an incredibly useful [webinar on how to create
+reproducible examples with {reprex}][learn-reprex].
+
+::: {.callout-warn}
+
+#### System-Dependent Issues
+
+There are times when you cannot create a reproducible example that will
+produce the results you want to see. This is often the case when there is a
+system-dependent issue. In these cases, you should share the reprex with someone
+who has the system in question and have them run it.
+
+:::
+
+[eikifjb]: https://github.com/MonkmanMH/EIKIFJB#readme
+[learn-reprex]: https://reprex.tidyverse.org/articles/learn-reprex.html
+
+### Addressing Issues
+
+If you do nothing else, please **watch this Keynote talk from Jenny Bryan**:
+[Object of type 'closure' is not subsettable](https://rstd.io/debugging). This
+will give you the right mindset for broadly approaching issues in R package
+development, which can be summarised as:
+
+1. Turn it off and on again (Restart R in a clean session)
+2. Make a reprex
+3. Dig into the error (via `traceback()` and/or a debugger)
+4. Future-proof your fixes and make things within reach
+
+
+### Creating New Features
+
+## Within The Workbench R Packages {#sec-within}
+
+### Single Package {#sec-single}
+
+In this section, we outline issues that are addressed within a single package.
+Note that this does not indicate that these issues are straightforward to 
+address. 
+
+#### Single-Function Issues
+
+##### Markdown file for 404 page created with read-only permissions {.unnumbered}
+
+  - [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
+    - `sessionInfo()` output provides information about versions of R and packages.
+        - this already shows one potential problem: this is running on a version of Linux that Zhian does not know anything about.
+        - Zhian asked for output of `traceback()` -> this shows all the function calls that happened when the error was raised. Based on that, was able to suggest a small example the reporter could run to reproduce the error. 
+        - Also did not recognise the code snippet where the issue seemed to be (`file(file, ifelse(append, 'a', 'w'))`) - so this seems to be a problem with a non-Workbench package.
+        - initially went looking in the `fs` package, but GitHub search showed that this code doesn't appear there either.
+        - next guess is the `cat` function, which is used to add link references to the end of files.
+        - that seemed to be where that code snippet was coming from, but the problem really originated a few lines above the call to cat: when the template for the 404 page (which is saved where the package was installed) is copied - file_copy copies a file and _all of its permissions_ - so the copy is read-only for non-admin users too.
+        - Zhian opened a PR to test for the error, then apply a fix to prevent it from being thrown again.
+        - Asked the reporter to install the patch on their system and report back on whether it worked.
+        - They reported back that it did - and pointed out a typo! - so Zhian has merged the PR
+        - After merging PR, create a new release (see process here: https://carpentries.github.io/workbench/contributor/releases.html and in the video)
+
+#### Multi-Function Issues
+
+
+#### Test Failures With No User Impact
+
+
+### Aross Packages {#sec-across}
+
+
+## Upstream R Packages {#sec-upstream}
+
+
+## GitHub Actions {#sec-actions}
+
+
+## Structural Features {#sec-structural}
+
