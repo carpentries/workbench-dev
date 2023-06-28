@@ -18,13 +18,23 @@ in nature and require more extensive user experience (UX) testing.
 
 ## Within The Workbench R Packages {#sec-within}
 
+Bugs or features in this category are entirely within our control and are
+theoretically the easiest/most quick implementations. Items in this category
+can be split into either single package items which can be fixed with a single
+pull request or cross-package items, which require coordination of pull requests
+to achieve.
+
 ### Single Package {#sec-single}
 
 In this section, we outline issues that are addressed within a single package.
 Note that this does not indicate that these issues are straightforward to 
-address. 
+address.
 
 #### Single-Function Issues
+
+If you are here, you have determined that the bug or feature that you are
+working on will affect a single function or data pathway. These issues are often
+the most straightforward to address.
 
 ##### Markdown file for 404 page created with read-only permissions {.unnumbered}
 
