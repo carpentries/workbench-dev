@@ -1,6 +1,17 @@
 # Preface {.unnumbered}
 
 
+:::{.callout-warning}
+
+### Under Construction :construction:
+
+The content for this site is still being written! Please check back if what you
+are looking for does not exist or, open an issue at
+<https://github.com/carpentries/workbench-dev/issues/> to request it!
+
+:::
+
+
 The Carpentries Workbench is a open-source and portable lesson infrastructure
 built with the [R programming language](https://r-project.org). Despite it
 being built in R, contributors do not need to know any R in order to use it to
