@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -68,6 +102,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
+<link rel="stylesheet" href="guide.scss">
 </head>
 
 <body class="nav-sidebar floating">
@@ -327,27 +362,59 @@ ul.task-list li input[type="checkbox"] {
 <p>In this section, we outline issues that are addressed within a single package. Note that this does not indicate that these issues are straightforward to address.</p>
 <section id="single-function-issues" class="level4" data-number="B.1.1.1">
 <h4 data-number="B.1.1.1" class="anchored" data-anchor-id="single-function-issues"><span class="header-section-number">B.1.1.1</span> Single-Function Issues</h4>
-<p>If you are here, you have determined that the bug or feature that you are working on will affect a single function or data pathway. These issues are often the most straightforward to address.</p>
+<p>If you are here, you have determined that the bug or feature that you are working on will affect a single function or data pathway. These issues are often the most straightforward to address. Below, I’ve documented narratives for these issues.</p>
 <section id="markdown-file-for-404-page-created-with-read-only-permissions" class="level5 unnumbered">
 <h5 class="unnumbered anchored" data-anchor-id="markdown-file-for-404-page-created-with-read-only-permissions">Markdown file for 404 page created with read-only permissions</h5>
+<section id="s479-situation" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s479-situation">s479 Situation</h6>
 <ul>
-<li><a href="https://github.com/carpentries/sandpaper/issues/479">carpentries/sandpaper#479</a>
-<ul>
-<li><code>sessionInfo()</code> output provides information about versions of R and packages.
-<ul>
-<li>this already shows one potential problem: this is running on a version of Linux that Zhian does not know anything about.</li>
-<li>Zhian asked for output of <code>traceback()</code> -&gt; this shows all the function calls that happened when the error was raised. Based on that, was able to suggest a small example the reporter could run to reproduce the error.</li>
-<li>Also did not recognise the code snippet where the issue seemed to be (<code>file(file, ifelse(append, 'a', 'w'))</code>) - so this seems to be a problem with a non-Workbench package.</li>
-<li>initially went looking in the <code>fs</code> package, but GitHub search showed that this code doesn’t appear there either.</li>
-<li>next guess is the <code>cat</code> function, which is used to add link references to the end of files.</li>
-<li>that seemed to be where that code snippet was coming from, but the problem really originated a few lines above the call to cat: when the template for the 404 page (which is saved where the package was installed) is copied - file_copy copies a file and <em>all of its permissions</em> - so the copy is read-only for non-admin users too.</li>
-<li>Zhian opened a PR to test for the error, then apply a fix to prevent it from being thrown again.</li>
-<li>Asked the reporter to install the patch on their system and report back on whether it worked.</li>
-<li>They reported back that it did - and pointed out a typo! - so Zhian has merged the PR</li>
-<li>After merging PR, create a new release (see process here: https://carpentries.github.io/workbench/contributor/releases.html and in the video)</li>
-</ul></li>
-</ul></li>
+<li>Issue: <a href="https://github.com/carpentries/sandpaper/issues/479">carpentries/sandpaper#479</a></li>
+<li>Resolver: zkamvar</li>
+<li>Type: Local</li>
+<li>OS: Rocky Linux 8.8</li>
+<li>Package: sandpaper</li>
 </ul>
+<p>The user is attempting to build a lesson, but they are unable to because an error appears during the “Create 404 page” step:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>── Creating <span class="dv">404</span> page ───────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">file</span>(file, <span class="fu">ifelse</span>(append, <span class="st">"a"</span>, <span class="st">"w"</span>)) <span class="sc">:</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  cannot open the connection</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>In addition<span class="sc">:</span> Warning messages<span class="sc">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>[snip]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span><span class="sc">:</span> In <span class="fu">file</span>(file, <span class="fu">ifelse</span>(append, <span class="st">"a"</span>, <span class="st">"w"</span>)) <span class="sc">:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  cannot open file <span class="st">'/tmp/RtmpmaiZ5B/file73cdc48b90540.md'</span><span class="sc">:</span> Permission denied</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="s479-diagnosis" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s479-diagnosis">s479 Diagnosis</h6>
+<p>This permissions issue was a problem with copying a read-only file without adjusting the subsequent permissions. It stemmed from <a href="https://github.com/carpentries/sandpaper/blob/cde890790d509c5c92c539d0adf69a6672354094/R/build_404.R#L12-L13"><code>build_404()</code></a> calling <a href="https://github.com/carpentries/sandpaper/blob/055824fbf643bd7e363b56228deffc98632aaeba/R/render_html.R#L48-L56"><code>render_html()</code></a> with the presence of a <code>links.md</code> document at the top of the lesson. Packages in the user’s R library are installed by the systems administrator and the user does not have permissions to write or append any file in that folder. When <code>build_404()</code> runs, it passes a template markdown file to <code>render_html()</code>. If there is an option called <code>sandpaper.links</code> set to a filepath, then this function will copy the input file to a temporary file and append the links to that temporary file before rendering it to HTML. Because the input file was read-only, copying the file to the temporary directory retained its permissions and we were unable to append the links.</p>
+</section>
+<section id="s479-solution" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s479-solution">s479 Solution</h6>
+<p>Pull Request: <a href="https://github.com/carpentries/sandpaper/pull/482">carpentries/sandpaper#482</a></p>
+<p>The solution was to add a single line adding user write permissions before the links file was appended: <code>fs::file_chmod(tmpin, "u+w")</code>.</p>
+</section>
+<section id="s479-alternative-solution" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s479-alternative-solution">s479 Alternative Solution</h6>
+<p>This additionally could have been avoided by temporarily unsetting the <code>sandpaper.links</code> option for the <code>build_404()</code> function before it calls <code>render_html()</code>. This would prevent it entering the loop where it appends the links, making the process <em>slightly</em> faster. The only downside is that we would need to do that for all of the other templated pages (though I believe that might be the only one).</p>
+</section>
+<section id="s479-narrative" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s479-narrative">s479 Narrative</h6>
+<ul>
+<li><p>Issue: <a href="https://github.com/carpentries/sandpaper/issues/479">carpentries/sandpaper#479</a></p></li>
+<li><p>First impression: this is running on a version of Linux that Zhian does not know anything about. My thoughts are that it will be a difficult fix.</p></li>
+<li><p>I suspect the bug might be due to the {fs} package and ask for the user if they could test out the following code snippet:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">file_temp</span>(<span class="at">ext =</span> <span class="st">".md"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"test</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">file =</span> tmp, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>I looked again did not recognise the code snippet where the issue seemed to be (<code>file(file, ifelse(append, 'a', 'w'))</code>) - so this seems to be a problem with a non-Workbench package.</p></li>
+<li><p>initially went looking for this code in the <code>fs</code> package, but GitHub search showed that this code doesn’t appear there either.</p></li>
+<li><p>next guess is the <code>cat</code> function, which is used to add link references to the end of files. I searched the R code base and <a href="https://github.com/wch/r-source/blob/cd31f24ae0046784465e0fc938d53a2cd8a7d3a4/src/library/base/R/cat.R#L28">found the snippet in the <code>cat()</code>function</a></p></li>
+<li><p>that seemed to be where that code snippet was coming from, but the problem really originated a few lines above the call to cat: when the template for the 404 page (which is saved where the package was installed) is copied—<code>file_copy()</code> copies a file and <em>all of its permissions</em>—so the copy is read-only for non-admin users.</p></li>
+<li><p>I opened a PR to test for the error, then applied a fix to prevent it from being thrown again.</p></li>
+<li><p>Asked the reporter to install the patch on their system and report back on whether it worked.</p></li>
+<li><p>They reported back that it did—and pointed out a typo!</p></li>
+<li><p>After merging PR, create a new release (see process in <a href="releases.html">The Release Workflow</a>)</p></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="multi-function-issues" class="level4" data-number="B.1.1.2">
