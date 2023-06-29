@@ -34,22 +34,96 @@ address.
 
 If you are here, you have determined that the bug or feature that you are
 working on will affect a single function or data pathway. These issues are often
-the most straightforward to address.
+the most straightforward to address. Below, I've documented narratives for these
+issues. 
 
 ##### Markdown file for 404 page created with read-only permissions {.unnumbered}
 
-  - [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
-    - `sessionInfo()` output provides information about versions of R and packages.
-        - this already shows one potential problem: this is running on a version of Linux that Zhian does not know anything about.
-        - Zhian asked for output of `traceback()` -> this shows all the function calls that happened when the error was raised. Based on that, was able to suggest a small example the reporter could run to reproduce the error. 
-        - Also did not recognise the code snippet where the issue seemed to be (`file(file, ifelse(append, 'a', 'w'))`) - so this seems to be a problem with a non-Workbench package.
-        - initially went looking in the `fs` package, but GitHub search showed that this code doesn't appear there either.
-        - next guess is the `cat` function, which is used to add link references to the end of files.
-        - that seemed to be where that code snippet was coming from, but the problem really originated a few lines above the call to cat: when the template for the 404 page (which is saved where the package was installed) is copied - file_copy copies a file and _all of its permissions_ - so the copy is read-only for non-admin users too.
-        - Zhian opened a PR to test for the error, then apply a fix to prevent it from being thrown again.
-        - Asked the reporter to install the patch on their system and report back on whether it worked.
-        - They reported back that it did - and pointed out a typo! - so Zhian has merged the PR
-        - After merging PR, create a new release (see process here: https://carpentries.github.io/workbench/contributor/releases.html and in the video)
+
+###### Situation {.unnumbered}
+
+ - Issue: [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
+ - Resolver: zkamvar
+ - Type: Local
+ - OS: Rocky Linux 8.8
+ - Package: sandpaper
+
+The user is attempting to build a lesson, but they are unable to because an
+error appears during the "Create 404 page" step:
+
+```r
+── Creating 404 page ───────────────────────────────────────────────────────────────────────────────────────────────────
+Error in file(file, ifelse(append, "a", "w")) : 
+  cannot open the connection
+In addition: Warning messages:
+[snip]
+7: In file(file, ifelse(append, "a", "w")) :
+  cannot open file '/tmp/RtmpmaiZ5B/file73cdc48b90540.md': Permission denied
+```
+
+###### Diagnosis {.unnumbered}
+
+
+This permissions issue was a problem with copying a read-only file without
+adjusting the subsequent permissions. It stemmed from
+[`build_404()`](https://github.com/carpentries/sandpaper/blob/cde890790d509c5c92c539d0adf69a6672354094/R/build_404.R#L12-L13)
+calling
+[`render_html()`](https://github.com/carpentries/sandpaper/blob/055824fbf643bd7e363b56228deffc98632aaeba/R/render_html.R#L48-L56)
+with the presence of a `links.md` document at the top of the lesson. Packages in
+the user's R library are installed by the systems administrator and the user
+does not have permissions to write or append any file in that folder. When 
+`build_404()` runs, it passes a template markdown file to `render_html()`. If
+there is an option called `sandpaper.links` set to a filepath, then this
+function will copy the input file to a temporary file and append the links to
+that temporary file before rendering it to HTML. Because the input file was
+read-only, copying the file to the temporary directory retained its permissions
+and we were unable to append the links.
+
+###### Solution {.unnumbered}
+
+Pull Request: [carpentries/sandpaper#482](https://github.com/carpentries/sandpaper/pull/482)
+
+The solution was to add a single line adding user write permissions before the
+links file was appended: `fs::file_chmod(tmpin, "u+w")`.
+
+###### Alternative Solution {.unnumbered}
+
+This additionally could have been avoided by temporarily unsetting the
+`sandpaper.links` option for the `build_404()` function before it calls
+`render_html()`. This would prevent it entering the loop where it appends the
+links, making the process _slightly_ faster. The only downside is that we would
+need to do that for all of the other templated pages (though I believe that
+might be the only one). 
+
+###### Narrative {.unnumbered}
+
+ - Issue: [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
+  - First impression: this is running on a version of Linux that Zhian does not
+    know anything about. My thoughts are that it will be a difficult fix.
+  - I suspect the bug might be due to the {fs} package and ask for the user if
+    they could test out the following code snippet:
+    
+    ```r
+    tmp <- fs::file_temp(ext = ".md")
+    cat("test\n", file = tmp, append = TRUE)
+    readLines(tmp)
+    ```
+  - I looked again did not recognise the code snippet where the issue seemed to be (`file(file, ifelse(append, 'a', 'w'))`) - so this seems to be a problem with a non-Workbench package.
+  - initially went looking for this code in the `fs` package, but GitHub search showed that this code doesn't appear there either.
+  - next guess is the `cat` function, which is used to add link references to
+    the end of files. I searched the R code base and [found the snippet in the
+    `cat()`function](https://github.com/wch/r-source/blob/cd31f24ae0046784465e0fc938d53a2cd8a7d3a4/src/library/base/R/cat.R#L28)
+  - that seemed to be where that code snippet was coming from, but the problem
+    really originated a few lines above the call to cat: when the template for
+    the 404 page (which is saved where the package was installed) is
+    copied---`file_copy()` copies a file and _all of its permissions_---so the
+    copy is read-only for non-admin users.
+  - I opened a PR to test for the error, then applied a fix to prevent it from
+    being thrown again.
+  - Asked the reporter to install the patch on their system and report back on
+    whether it worked.
+  - They reported back that it did---and pointed out a typo!
+  - After merging PR, create a new release (see process in [The Release Workflow](releases.html))
 
 #### Multi-Function Issues
 

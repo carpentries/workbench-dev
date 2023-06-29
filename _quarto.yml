@@ -48,6 +48,7 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    css: guide.scss
   pdf:
     documentclass: scrreprt
 
