@@ -40,7 +40,7 @@ issues.
 ##### Markdown file for 404 page created with read-only permissions {.unnumbered}
 
 
-###### Situation {.unnumbered}
+###### s479 Situation {.unnumbered}
 
  - Issue: [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
  - Resolver: zkamvar
@@ -61,7 +61,7 @@ In addition: Warning messages:
   cannot open file '/tmp/RtmpmaiZ5B/file73cdc48b90540.md': Permission denied
 ```
 
-###### Diagnosis {.unnumbered}
+###### s479 Diagnosis {.unnumbered}
 
 
 This permissions issue was a problem with copying a read-only file without
@@ -79,14 +79,14 @@ that temporary file before rendering it to HTML. Because the input file was
 read-only, copying the file to the temporary directory retained its permissions
 and we were unable to append the links.
 
-###### Solution {.unnumbered}
+###### s479 Solution {.unnumbered}
 
 Pull Request: [carpentries/sandpaper#482](https://github.com/carpentries/sandpaper/pull/482)
 
 The solution was to add a single line adding user write permissions before the
 links file was appended: `fs::file_chmod(tmpin, "u+w")`.
 
-###### Alternative Solution {.unnumbered}
+###### s479 Alternative Solution {.unnumbered}
 
 This additionally could have been avoided by temporarily unsetting the
 `sandpaper.links` option for the `build_404()` function before it calls
@@ -95,7 +95,7 @@ links, making the process _slightly_ faster. The only downside is that we would
 need to do that for all of the other templated pages (though I believe that
 might be the only one). 
 
-###### Narrative {.unnumbered}
+###### s479 Narrative {.unnumbered}
 
  - Issue: [carpentries/sandpaper#479](https://github.com/carpentries/sandpaper/issues/479)
   - First impression: this is running on a version of Linux that Zhian does not
