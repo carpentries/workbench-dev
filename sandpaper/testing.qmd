@@ -90,3 +90,31 @@ in {sandpaper}
 
 ## Continuous Integration
 
+
+### Package Cache
+
+Running tests on Continuous Integration is tricky in part because we need to set
+up a {renv} package cache to work on Mac, Windows, and Linux systems. In
+practise, we have to set up a specific `RENV_PATHS_ROOT` folder for each system.
+
+
+#### Windows
+
+For Windows, the setup is even more complex because there are weird caveats in
+how pandoc and {renv} work on the CI version of Windows.
+
+### Dependencies
+
+At the moment, we test the current versions of dependencies when we are running
+tests in the `test-coverage.yaml` file. For the `R-CMD-check.yaml` file,
+however, we test the development version of {renv}. The reason _why_ we do this
+is because in March 2023, {renv} 0.17.0 was released and subsequently broke
+bioconductor-based R Markdown lessons and new R Markdown lessons that needed to
+be bootstrapped (see [sandpaper#406](https://github.com/carpentries/sandpaper/issues/406)). 
+
+This can lead to a situation where the tests will pass on the test coverage
+check, but fail for `R CMD check`, which is diagnostic because it tells us that
+there is an upstream issue in {renv} that we can address before it becomes a
+problem after a CRAN release.
+
+
