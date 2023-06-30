@@ -289,7 +289,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#setup-script" id="toc-setup-script" class="nav-link" data-scroll-target="#setup-script"><span class="header-section-number">6.2.2</span> Setup Script</a></li>
   </ul></li>
   <li><a href="#conditionally-skipped-tests" id="toc-conditionally-skipped-tests" class="nav-link" data-scroll-target="#conditionally-skipped-tests"><span class="header-section-number">6.3</span> Conditionally Skipped Tests</a></li>
-  <li><a href="#continuous-integration" id="toc-continuous-integration" class="nav-link" data-scroll-target="#continuous-integration"><span class="header-section-number">6.4</span> Continuous Integration</a></li>
+  <li><a href="#continuous-integration" id="toc-continuous-integration" class="nav-link" data-scroll-target="#continuous-integration"><span class="header-section-number">6.4</span> Continuous Integration</a>
+  <ul class="collapse">
+  <li><a href="#package-cache" id="toc-package-cache" class="nav-link" data-scroll-target="#package-cache"><span class="header-section-number">6.4.1</span> Package Cache</a></li>
+  <li><a href="#dependencies" id="toc-dependencies" class="nav-link" data-scroll-target="#dependencies"><span class="header-section-number">6.4.2</span> Dependencies</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -374,8 +378,21 @@ This pattern is more rare. It’s really useful in a situation where you are ref
 </section>
 <section id="continuous-integration" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="continuous-integration"><span class="header-section-number">6.4</span> Continuous Integration</h2>
+<section id="package-cache" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="package-cache"><span class="header-section-number">6.4.1</span> Package Cache</h3>
+<p>Running tests on Continuous Integration is tricky in part because we need to set up a {renv} package cache to work on Mac, Windows, and Linux systems. In practise, we have to set up a specific <code>RENV_PATHS_ROOT</code> folder for each system.</p>
+<section id="windows" class="level4" data-number="6.4.1.1">
+<h4 data-number="6.4.1.1" class="anchored" data-anchor-id="windows"><span class="header-section-number">6.4.1.1</span> Windows</h4>
+<p>For Windows, the setup is even more complex because there are weird caveats in how pandoc and {renv} work on the CI version of Windows.</p>
+</section>
+</section>
+<section id="dependencies" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="dependencies"><span class="header-section-number">6.4.2</span> Dependencies</h3>
+<p>At the moment, we test the current versions of dependencies when we are running tests in the <code>test-coverage.yaml</code> file. For the <code>R-CMD-check.yaml</code> file, however, we test the development version of {renv}. The reason <em>why</em> we do this is because in March 2023, {renv} 0.17.0 was released and subsequently broke bioconductor-based R Markdown lessons and new R Markdown lessons that needed to be bootstrapped (see <a href="https://github.com/carpentries/sandpaper/issues/406">sandpaper#406</a>).</p>
+<p>This can lead to a situation where the tests will pass on the test coverage check, but fail for <code>R CMD check</code>, which is diagnostic because it tells us that there is an upstream issue in {renv} that we can address before it becomes a problem after a CRAN release.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
