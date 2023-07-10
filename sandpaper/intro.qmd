@@ -14,8 +14,8 @@ developers, authors, and maintainers to smooth out their contributions. Because
 of it's user-facing and modular nature, it is the most complex package in The
 Workbench.
 
-People who want to use {sandpaper}[^history] will generally use it for one of
-these five things:
+People who want to use {sandpaper} will generally use it for one of
+these five things[^history]:
 
 1. Creating lessons
 2. Contributing to lessons
@@ -28,8 +28,8 @@ no experience with R or any other programming language.**
 
 ## Not a static site generator
 
-One important distinction I would like to make is that {sandpaper} is not a
-static site generator. Yes, it may act like a static site generator because it
+One important distinction I would like to make is that _{sandpaper} is not a
+static site generator_. Yes, it may act like a static site generator because it
 creates static sites that are portable from markdown sources. However, it
 differs in that it is not intended to be as flexible as many other static site
 generators. This may seem like a negative point, but in the context of

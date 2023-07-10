@@ -37,7 +37,7 @@ Tests can be run locally and via continuous integration. This page introduces
 some of the testing strategies used in The Workbench and the caveats that come
 with these strategies.
 
-## Unit Testing
+## Unit Testing {#sec-unit-tests}
 
 The tests under `test/testthat/` are run in alphabetical order using the
 {testthat} package (see https://r-pkgs.org/testing-basics.html) via
@@ -52,7 +52,7 @@ can run and it's often difficult to detect the state of a CRAN machine, so it's
 better to skip long-running tests or those with complex environmental
 dependencies on CRAN (which does not yet apply to {sandpaper}).
 
-## Continous Integration {#ci}
+## Continous Integration {#sec-ci}
 
 All the unit tests are run in continuous integration for every push and pull
 request that occurs. They also run every week. This provisions the current
@@ -71,6 +71,105 @@ it works not only on GitHub, but also on local user machines:
 Because of occasional provisioning failures on macOS and Windows, we require
 only that Ubuntu Linux latest version passes check for merging pull requests.
 
-## Lesson Integration Testing
+## Lesson Integration Testing {#sec-integration}
 
+Unit tests are great for testing all functionality using known and stable
+inputs, it is important to test using known inputs that are in a constant state
+of flux: live lessons. This is where [The Workbench Integration
+Test](https://github.com/carpentries/workbench-integration-test) comes in. **It
+will run a weekly test on a defined set of lessons using the current development
+versions of varnish and sandpaper.** These tests are useful for three purposes:
+
+1. ongoing integrity for the workbench lessons lessons that use different
+   features of The Workbench such as R code execution
+2. real-world effects of new sandpaper and varnish versions (including those in
+   pull requests)
+3. inspecting changes in HTML and markdown output
+
+These lessons that we use are
+
+[Instructor Training](https://github.com/carpentries/instructor-training)
+: Lesson with the most content, contributors, activity, and used features. This
+  particular lesson is a bit of a stress test for the infrastructure.
+
+[R for SocialScientists](https://github.com/datacarpentry/r-socialsci)
+: This is one of the first R-based lessons to be transitioned and it uses the
+  tidyverse as a dependency.
+
+[Workbench Documentation](https://github.com/carpentries/sandpaper-docs)
+: The workbench documentation. If this doesn't work, nothing will.
+
+[Raster and Vector Geospatial Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial)
+: This lesson uses R packages that rely on a geospatial software stack, which
+  can be complex. Failures here likely mean that there are problems with
+  provisioning external C libraries.
+
+[BioConductor RNAseq](https://github.com/carpentries-incubator/bioc-rnaseq)
+: Lesson using BioConductor R packages by people at BioConductor. If this does
+  not work, then there likely is a provisioning problem between BioConductor and
+  {renv}.
+
+### Testing sandpaper and varnish pull requests
+
+To test a pull request version, you can head over the [the main
+workflow](https://github.com/carpentries/workbench-integration-test/actions/workflows/main.yml)
+and use the button that says "Run Workflow". When you want to test a varnish or
+sandpaper pull request, you can use the `[REPO]#[PR]` syntax (e.g.
+`carpentries/sandpaper#429` to run sandpaper pull request 429) in the entry
+fields for varnish and sandpaper version. If you don't have a pull request to
+work from, you can use the `[REPO]@[REF]` syntax (e.g.
+`carpentries/sandpaper@test-this-thing` to run sandpaper test-this-thing
+branch).
+
+
+### Inspecting changes 
+
+The output for [all the tests are stored in
+branches](https://github.com/carpentries/workbench-integration-test/branches/active)
+that are named respective for their test repositories. For example,
+`datacarpentry/r-socialsci/markdown` and `datacarpentry/r-socialsci/site`
+contain the markdown and HTML outputs for the R for Social Scientists lesson. By
+inspecting the diffs from the commits, you can see how the output has changed
+from run to run, which is useful if you are confirming that a feature will be
+automatically deployed.
+
+## Ad-hoc Testing {#sec-ad-hoc}
+
+There are times when you cannot automate your way through testing and you just
+have to suck it up and get your (virtual) hands dirty. You find yourself in this
+kind of situation if you are testing out GitHub workflows, GitHub actions, or if
+you are implementing a new feature and you need to see that it works reliably
+and safely. It's this point in time when you use ad-hoc testing on a brand new
+lesson repository that you give yourself permission to mess around in and will
+delete when finished.
+
+### GitHub Workflows
+
+A GitHub Workflow is a YAML document that lives inside the `.github/workflows`
+folder of a repository. This sets up the environment needed to build a lesson.
+When you debug these, ask yourself if you really want to update the GitHub
+Actions instead. Because these are copied to each lesson, they need to be
+updated in each lesson (which is accomplished through the automated pull request
+workflow). If you've determined that the workflow needs to be modified, you can
+modify them inside your test lesson until you get the desired results. Once that
+is done, copy them over to `sandpaper/inst/workflows` and add a NEWS item that's
+under the heading `## CONTINUOUS INTEGRATION` describing your change. 
+
+### GitHub Actions
+
+A GitHub Action is a single step in a GitHub Workflow. 
+
+The GitHub actions that are in [carpentries/actions](https://github.com/carpentries/actions) 
+are written in BASH, node JavaScript, and R and cobbled together with YAML. When
+developing a new feature, work on a branch and then, in your shiny new test
+lesson, replace the `@main` in the GitHub Workflows to your branch name. This
+way, you can know immediately if the fix or feature worked without having to
+interrupt someone's flow.
+
+### New config items or settings
+
+If you implement a new config item (e.g. a `lang:` tag), a temporary lesson is a
+great way to test it. To do so, you can use the `sandpaper: ` or `varnish: `
+keys in your lesson config to specify the version of sandpaper or varnish you
+want to test. 
 
