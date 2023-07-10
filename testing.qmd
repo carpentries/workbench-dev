@@ -157,7 +157,8 @@ under the heading `## CONTINUOUS INTEGRATION` describing your change.
 
 ### GitHub Actions
 
-A GitHub Action is a single step in a GitHub Workflow. 
+A GitHub Action is a single step in a GitHub Workflow and can be written in
+nearly any language.
 
 The GitHub actions that are in [carpentries/actions](https://github.com/carpentries/actions) 
 are written in BASH, node JavaScript, and R and cobbled together with YAML. When
