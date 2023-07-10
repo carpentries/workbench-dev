@@ -2,4 +2,26 @@
 title: "The {pegboard} package"
 ---
 
-nothing to see here yet
+## Introduction
+
+The {pegboard} package was the very first package written for The Carpentries
+Workbench. It's initial purpose was to parse the lessons based on [the styles
+lesson infrastructure](https://github.com/carpentries/styles) to figure out how
+lesson authors and maintainers were using the challenges and solutions. You can
+see this analysis in [a vignette I started in May 2020](https://htmlpreview.github.io/?https://github.com/carpentries/pegboard/blob/cc899888b6b0bff0affe64a91e7976e170f9e45c/articles/swc-survey.html)
+[^deps].
+
+It's purpose now is two-fold:
+
+1. parse and validate the lessons for structural markdown elements
+2. translate Carpentries-style materials from the styles lesson infrastructure
+   (Jekyll-based) to The Workbench (Pandoc-based)
+
+
+
+
+[^deps]: This vignette no longer exists. It stopped working in November 2021,
+  because of updates to the dependencies and the lessons. The vingette took a
+  few minutes to build because it needed to download the lessons, and it was no
+  longer appropriate as {pegboard} was shaping up to be the lesson validator and
+  translator.
