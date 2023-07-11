@@ -17,7 +17,28 @@ It's purpose now is two-fold:
 2. translate Carpentries-style materials from the styles lesson infrastructure
    (Jekyll-based) to The Workbench (Pandoc-based)
 
+### Dependencies
 
+The dependency footprint of {pegboard} is intended to be small. The package is
+intended for validation and translation. It is meant to be stable. 
+
+Pegboard was built on top of the [{tinkr}] package, intially developed by
+[Maëlle Salmon (rOpenSci)](https://masalmon.eu/) and now maintained by Zhian
+Kamvar. This package uses the CommonMark C library to parse Markdown into XML
+and then uses a custom XSLT stylesheet to translate Markdown back to XML. One of
+the key advantages that CommonMark's XML gives us is the ability to extract line
+numbers and positions for markdown elements, which allows us to accurately
+report any Markdown issues to the user.
+
+The objects used in pegboard are created with the [{R6}] package, which
+implements _encapsulated object orientated programming_ for R. This style of
+programming is _very_ similar to that of Python or Java. One of the reasons why
+we use {R6} is because objects created in this system are _modified in place_ by
+their methods. This is important because the package to manipulate XML data,
+[{xml2}], is built directly on top of the libxml2 C library, which also modifies
+objects in place, but it's not inherently obvious when you work with them, so
+having a formal system like {R6} to encapsulate them makes more sense than a
+functional programming framework.
 
 
 [^deps]: This vignette no longer exists. It stopped working in November 2021,
@@ -25,3 +46,6 @@ It's purpose now is two-fold:
   few minutes to build because it needed to download the lessons, and it was no
   longer appropriate as {pegboard} was shaping up to be the lesson validator and
   translator.
+[{tinkr}]: https://docs.ropensci.org/tinkr/
+[{R6}]: https://r6.r-lib.org/
+[{xml2}]: https://xml2.r-lib.org/
