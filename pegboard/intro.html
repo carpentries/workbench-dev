@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.176">
+<meta name="generator" content="quarto-1.4.205">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -278,7 +278,13 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -300,9 +306,23 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>nothing to see here yet</p>
+<section id="introduction" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<p>The {pegboard} package was the very first package written for The Carpentries Workbench. It’s initial purpose was to parse the lessons based on <a href="https://github.com/carpentries/styles">the styles lesson infrastructure</a> to figure out how lesson authors and maintainers were using the challenges and solutions. You can see this analysis in <a href="https://htmlpreview.github.io/?https://github.com/carpentries/pegboard/blob/cc899888b6b0bff0affe64a91e7976e170f9e45c/articles/swc-survey.html">a vignette I started in May 2020</a> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>It’s purpose now is two-fold:</p>
+<ol type="1">
+<li>parse and validate the lessons for structural markdown elements</li>
+<li>translate Carpentries-style materials from the styles lesson infrastructure (Jekyll-based) to The Workbench (Pandoc-based)</li>
+</ol>
 
 
+</section>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>This vignette no longer exists. It stopped working in November 2021, because of updates to the dependencies and the lessons. The vingette took a few minutes to build because it needed to download the lessons, and it was no longer appropriate as {pegboard} was shaping up to be the lesson validator and translator.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

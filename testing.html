@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.176">
+<meta name="generator" content="quarto-1.4.205">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -283,12 +283,22 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
-  <li><a href="#unit-testing" id="toc-unit-testing" class="nav-link" data-scroll-target="#unit-testing"><span class="header-section-number">3.2</span> Unit Testing</a>
+  <li><a href="#sec-unit-tests" id="toc-sec-unit-tests" class="nav-link" data-scroll-target="#sec-unit-tests"><span class="header-section-number">3.2</span> Unit Testing</a>
   <ul class="collapse">
   <li><a href="#conditionally-skipped-tests" id="toc-conditionally-skipped-tests" class="nav-link" data-scroll-target="#conditionally-skipped-tests"><span class="header-section-number">3.2.1</span> Conditionally Skipped Tests</a></li>
   </ul></li>
-  <li><a href="#ci" id="toc-ci" class="nav-link" data-scroll-target="#ci"><span class="header-section-number">3.3</span> Continous Integration</a></li>
-  <li><a href="#lesson-integration-testing" id="toc-lesson-integration-testing" class="nav-link" data-scroll-target="#lesson-integration-testing"><span class="header-section-number">3.4</span> Lesson Integration Testing</a></li>
+  <li><a href="#sec-ci" id="toc-sec-ci" class="nav-link" data-scroll-target="#sec-ci"><span class="header-section-number">3.3</span> Continous Integration</a></li>
+  <li><a href="#sec-integration" id="toc-sec-integration" class="nav-link" data-scroll-target="#sec-integration"><span class="header-section-number">3.4</span> Lesson Integration Testing</a>
+  <ul class="collapse">
+  <li><a href="#testing-sandpaper-and-varnish-pull-requests" id="toc-testing-sandpaper-and-varnish-pull-requests" class="nav-link" data-scroll-target="#testing-sandpaper-and-varnish-pull-requests"><span class="header-section-number">3.4.1</span> Testing sandpaper and varnish pull requests</a></li>
+  <li><a href="#inspecting-changes" id="toc-inspecting-changes" class="nav-link" data-scroll-target="#inspecting-changes"><span class="header-section-number">3.4.2</span> Inspecting changes</a></li>
+  </ul></li>
+  <li><a href="#sec-ad-hoc" id="toc-sec-ad-hoc" class="nav-link" data-scroll-target="#sec-ad-hoc"><span class="header-section-number">3.5</span> Ad-hoc Testing</a>
+  <ul class="collapse">
+  <li><a href="#github-workflows" id="toc-github-workflows" class="nav-link" data-scroll-target="#github-workflows"><span class="header-section-number">3.5.1</span> GitHub Workflows</a></li>
+  <li><a href="#github-actions" id="toc-github-actions" class="nav-link" data-scroll-target="#github-actions"><span class="header-section-number">3.5.2</span> GitHub Actions</a></li>
+  <li><a href="#new-config-items-or-settings" id="toc-new-config-items-or-settings" class="nav-link" data-scroll-target="#new-config-items-or-settings"><span class="header-section-number">3.5.3</span> New config items or settings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -339,16 +349,16 @@ This section is still under construction!
 <p>Whenever a new feature or bug fix is added to The Workbench, it is imperative that a test is associated and verified before it gets sent into production.</p>
 <p>Tests can be run locally and via continuous integration. This page introduces some of the testing strategies used in The Workbench and the caveats that come with these strategies.</p>
 </section>
-<section id="unit-testing" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="unit-testing"><span class="header-section-number">3.2</span> Unit Testing</h2>
+<section id="sec-unit-tests" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-unit-tests"><span class="header-section-number">3.2</span> Unit Testing</h2>
 <p>The tests under <code>test/testthat/</code> are run in alphabetical order using the {testthat} package (see https://r-pkgs.org/testing-basics.html) via <code>devtools::test()</code> or <code>devtools::check()</code>.</p>
 <section id="conditionally-skipped-tests" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="conditionally-skipped-tests"><span class="header-section-number">3.2.1</span> Conditionally Skipped Tests</h3>
 <p>The tests often need special conditions in order to run and sometimes those conditions are not possible. One of the most common conditions to skip is if the testing happens on CRAN. They are very hawkish about how long test suites can run and it’s often difficult to detect the state of a CRAN machine, so it’s better to skip long-running tests or those with complex environmental dependencies on CRAN (which does not yet apply to {sandpaper}).</p>
 </section>
 </section>
-<section id="ci" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="ci"><span class="header-section-number">3.3</span> Continous Integration</h2>
+<section id="sec-ci" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-ci"><span class="header-section-number">3.3</span> Continous Integration</h2>
 <p>All the unit tests are run in continuous integration for every push and pull request that occurs. They also run every week. This provisions the current releases of the R package dependencies along with development versions of critical dependencies such as {renv}.</p>
 <p>In continous integration, we run on with the following conditions to make sure it works not only on GitHub, but also on local user machines:</p>
 <ul>
@@ -361,10 +371,64 @@ This section is still under construction!
 </ul>
 <p>Because of occasional provisioning failures on macOS and Windows, we require only that Ubuntu Linux latest version passes check for merging pull requests.</p>
 </section>
-<section id="lesson-integration-testing" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="lesson-integration-testing"><span class="header-section-number">3.4</span> Lesson Integration Testing</h2>
+<section id="sec-integration" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-integration"><span class="header-section-number">3.4</span> Lesson Integration Testing</h2>
+<p>Unit tests are great for testing all functionality using known and stable inputs, it is important to test using known inputs that are in a constant state of flux: live lessons. This is where <a href="https://github.com/carpentries/workbench-integration-test">The Workbench Integration Test</a> comes in. <strong>It will run a weekly test on a defined set of lessons using the current development versions of varnish and sandpaper.</strong> These tests are useful for three purposes:</p>
+<ol type="1">
+<li>ongoing integrity for the workbench lessons lessons that use different features of The Workbench such as R code execution</li>
+<li>real-world effects of new sandpaper and varnish versions (including those in pull requests)</li>
+<li>inspecting changes in HTML and markdown output</li>
+</ol>
+<p>These lessons that we use are</p>
+<dl>
+<dt><a href="https://github.com/carpentries/instructor-training">Instructor Training</a></dt>
+<dd>
+Lesson with the most content, contributors, activity, and used features. This particular lesson is a bit of a stress test for the infrastructure.
+</dd>
+<dt><a href="https://github.com/datacarpentry/r-socialsci">R for SocialScientists</a></dt>
+<dd>
+This is one of the first R-based lessons to be transitioned and it uses the tidyverse as a dependency.
+</dd>
+<dt><a href="https://github.com/carpentries/sandpaper-docs">Workbench Documentation</a></dt>
+<dd>
+The workbench documentation. If this doesn’t work, nothing will.
+</dd>
+<dt><a href="https://github.com/datacarpentry/r-raster-vector-geospatial">Raster and Vector Geospatial Data with R</a></dt>
+<dd>
+This lesson uses R packages that rely on a geospatial software stack, which can be complex. Failures here likely mean that there are problems with provisioning external C libraries.
+</dd>
+<dt><a href="https://github.com/carpentries-incubator/bioc-rnaseq">BioConductor RNAseq</a></dt>
+<dd>
+Lesson using BioConductor R packages by people at BioConductor. If this does not work, then there likely is a provisioning problem between BioConductor and {renv}.
+</dd>
+</dl>
+<section id="testing-sandpaper-and-varnish-pull-requests" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="testing-sandpaper-and-varnish-pull-requests"><span class="header-section-number">3.4.1</span> Testing sandpaper and varnish pull requests</h3>
+<p>To test a pull request version, you can head over the <a href="https://github.com/carpentries/workbench-integration-test/actions/workflows/main.yml">the main workflow</a> and use the button that says “Run Workflow”. When you want to test a varnish or sandpaper pull request, you can use the <code>[REPO]#[PR]</code> syntax (e.g. <code>carpentries/sandpaper#429</code> to run sandpaper pull request 429) in the entry fields for varnish and sandpaper version. If you don’t have a pull request to work from, you can use the <code>[REPO]@[REF]</code> syntax (e.g. <code>carpentries/sandpaper@test-this-thing</code> to run sandpaper test-this-thing branch).</p>
+</section>
+<section id="inspecting-changes" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="inspecting-changes"><span class="header-section-number">3.4.2</span> Inspecting changes</h3>
+<p>The output for <a href="https://github.com/carpentries/workbench-integration-test/branches/active">all the tests are stored in branches</a> that are named respective for their test repositories. For example, <code>datacarpentry/r-socialsci/markdown</code> and <code>datacarpentry/r-socialsci/site</code> contain the markdown and HTML outputs for the R for Social Scientists lesson. By inspecting the diffs from the commits, you can see how the output has changed from run to run, which is useful if you are confirming that a feature will be automatically deployed.</p>
+</section>
+</section>
+<section id="sec-ad-hoc" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-ad-hoc"><span class="header-section-number">3.5</span> Ad-hoc Testing</h2>
+<p>There are times when you cannot automate your way through testing and you just have to suck it up and get your (virtual) hands dirty. You find yourself in this kind of situation if you are testing out GitHub workflows, GitHub actions, or if you are implementing a new feature and you need to see that it works reliably and safely. It’s this point in time when you use ad-hoc testing on a brand new lesson repository that you give yourself permission to mess around in and will delete when finished.</p>
+<section id="github-workflows" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="github-workflows"><span class="header-section-number">3.5.1</span> GitHub Workflows</h3>
+<p>A GitHub Workflow is a YAML document that lives inside the <code>.github/workflows</code> folder of a repository. This sets up the environment needed to build a lesson. When you debug these, ask yourself if you really want to update the GitHub Actions instead. Because these are copied to each lesson, they need to be updated in each lesson (which is accomplished through the automated pull request workflow). If you’ve determined that the workflow needs to be modified, you can modify them inside your test lesson until you get the desired results. Once that is done, copy them over to <code>sandpaper/inst/workflows</code> and add a NEWS item that’s under the heading <code>## CONTINUOUS INTEGRATION</code> describing your change.</p>
+</section>
+<section id="github-actions" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="github-actions"><span class="header-section-number">3.5.2</span> GitHub Actions</h3>
+<p>A GitHub Action is a single step in a GitHub Workflow and can be written in nearly any language.</p>
+<p>The GitHub actions that are in <a href="https://github.com/carpentries/actions">carpentries/actions</a> are written in BASH, node JavaScript, and R and cobbled together with YAML. When developing a new feature, work on a branch and then, in your shiny new test lesson, replace the <code>@main</code> in the GitHub Workflows to your branch name. This way, you can know immediately if the fix or feature worked without having to interrupt someone’s flow.</p>
+</section>
+<section id="new-config-items-or-settings" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="new-config-items-or-settings"><span class="header-section-number">3.5.3</span> New config items or settings</h3>
+<p>If you implement a new config item (e.g.&nbsp;a <code>lang:</code> tag), a temporary lesson is a great way to test it. To do so, you can use the <code>sandpaper:</code> or <code>varnish:</code> keys in your lesson config to specify the version of sandpaper or varnish you want to test.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
