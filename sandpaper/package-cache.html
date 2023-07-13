@@ -307,7 +307,9 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link active" data-scroll-target="#a-bit-of-history"><span class="header-section-number">7.1</span> A Bit of History</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
+  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">7.2</span> A Bit of History</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">7.3</span> </a></li>
   </ul>
 </nav>
     </div>
@@ -331,8 +333,57 @@ div.csl-indent {
 
 </header>
 
-<section id="a-bit-of-history" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">7.1</span> A Bit of History</h2>
+<section id="introduction" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<p>All lessons that use The Workbench can build using either Markdown or R Markdown file formats. The R package cache allows for R Markdown file formats to be built reproducibly and consistently. The cache is expected to be mindful of these formats in the following ways (as taken from <a href="https://carpentries.github.io/sandpaper/articles/building-with-renv.html">Building Lessons With A Package Cache</a>):</p>
+<ul>
+<li><em>reliable setup</em>: the version of the lesson built on the carpentries website will be the same as what you build on your computer because the packages will be identical</li>
+<li><em>environmentally friendly</em>: The lesson dependencies are NOT stored in your default R library and they will not alter your R environment.</li>
+<li><em>transparent</em>: any additions or deletions to the cache will be recorded in the lockfile, which is tracked by git.</li>
+</ul>
+<p>The package cache is <em>only</em> used when building lessons with R Markdown elements and performs the folowing tasks <a href="https://callr.r-lib.org/#synchronous-one-off-r-processes">in a separate R session</a> to avoid polluting the user’s environment:</p>
+<ol type="1">
+<li><p><em>Before markdown is built</em>: We <strong>check for consent</strong> to use the package cache with <code>sandpaper:::renv_check_consent()</code> and then provision any packages needed for the lesson with <code>sandpaper::manage_deps()</code></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dependency Tree for <code>renv_check_consent()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <code>renv_check_consent()</code> checks if the user has run <code>sandpaper::use_package_cache()</code>, which allows {renv} to create and maintain a global package cache on their system.</p>
+<p><img src="renv-check-consent.png" class="img-fluid" alt="dependency diagram of renv_check_consent showing the paths to other functions in sandpaper, fs, cli, callr, glue, and renv"></p>
+</div>
+</div>
+</div></li>
+<li><p><em>During each markdown rendering</em>: If we have consent, we <strong>load the {renv} profile</strong> to reproducibly render the markdown document</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Flow Diagram for <code>build_episode_md()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This flow represents the build process for <em>each R Markdown file</em>. This function is called from within a separate R process. The only conditional here determines if the {renv} environment needs to be loaded.</p>
+<p><img src="build-episode-md.png" class="img-fluid" alt="code flow diagram showing a single if statement that controls the loading of renv"></p>
+</div>
+</div>
+</div></li>
+</ol>
+<p>This chapter will go into the history of using a package cache in Carpentries lessons, dig into the design principles, and understand challenges for moving forward.</p>
+</section>
+<section id="a-bit-of-history" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">7.2</span> A Bit of History</h2>
 <p>As of this writing, The Workbench is able to reproducibly build and deploy lessons across machines and infrastructures thanks to the package cache provided by {renv}, but it is important to understand how we got here and what the motivations were, because the tools we have now simply did not exist in 2016. This section dives a bit into the history of writing R markdown content in Carpentries lessons and what lessons… were learned.</p>
 <p>Software Carpentry Lessons have been able to handle content written in R Markdown <a href="https://github.com/swcarpentry/DEPRECATED-bc/pull/626">since July 2014</a>. This process was disrupted in June 2016 with the release of the new styles template, but luckily, <a href="https://github.com/carpentries/lesson-example/pull/30">François Michonneau swooped in to the rescue</a> by providing a templating setup that would not only render the Markdown, but keep the output separate. The very next month, François submitted <a href="https://github.com/carpentries/styles/pull/83">carpentries/styles#83</a>, which added the capability to automatically detect and install packages needed to build an R-based lesson.</p>
 <p>Of course, back in 2016, in order to deploy an R-based lesson, you still had to build it locally, which sounds simple until you consider the aspect of reproducibility <span class="citation" data-cites="marwick2016computational wilson2017good">(<a href="../references.html#ref-marwick2016computational" role="doc-biblioref">Marwick 2016</a>; <a href="../references.html#ref-wilson2017good" role="doc-biblioref">Wilson et al. 2017</a>)</span>. If you build the same document on two different machines, there is no guarantee that you will get the same results. Thus, in May 2018, Raniere Silva added the ability to <a href="https://github.com/carpentries/styles/pull/275">build R-based lessones on Continuous Integration</a>. Finally, in 2020, Maxim Belkin added <a href="https://github.com/carpentries/styles/pull/488">GitHub Workflows to the styles repository</a> so that we no longer had to rely on TravisCI.</p>
@@ -343,6 +394,9 @@ div.csl-indent {
 <li>All the normal struggles with Jekyll.</li>
 </ol>
 <p>Reproducibility is <em>hard</em>. Software ecosystems are always shifting like the sand dunes in the Sahara. By late 2020, we had come a long way in terms of automating the build process for R-based lessons, but there were still many hills to climb. It was in this context that we developed the use of {renv} and the R package cache to automate package provisioning, caching, and auditable updating so that R-based lessons could reliably be deployed with no surprises.</p>
+</section>
+<section id="section" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="section"><span class="header-section-number">7.3</span> </h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
