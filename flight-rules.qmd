@@ -136,6 +136,91 @@ might be the only one).
 
 ## Upstream R Packages {#sec-upstream}
 
+### renv {#sec-renv}
+
+#### Background
+
+The {renv} package is a key player for allowing {sandpaper} to provision and
+maintain the R packages required to build R-based lessons. The motivation and
+strategy for how it works can be found in the [Building Lessons With A Package
+Cache](https://carpentries.github.io/sandpaper/articles/building-with-renv.html)
+article in the {sandpaper} docuementation.
+
+It's worth diving into [carpentries/sandpaper#21](https://github.com/carpentries/sandpaper/issues/21)
+to see the discussion and thoughts around the origin of the design for using
+this feature. It was implemented during a three week period between 2021-08-24
+and 2021-09-16, as detailed in the pull request [carpentries/sandpaper#158](https://github.com/carpentries/sandpaper/pull/158).
+
+#### In practices
+
+We have to consider {renv} in practice from the standpoint of both local
+computers and on GitHub, which can behave very differently and require different
+tools to address their tasks.
+
+There are three tools and packages that use {renv}:
+
+1. {sandpaper} is designed to provide a way to manage dependencies in a lesson
+2. [{vise}](https://carpentries.github.io/vise) was originally intended as a
+   project to split out {sandpaper} code that used {renv} to simplify the
+   testing. At the moment, it provides utilities for automatically provisioning
+   C libraries on Ubunutu Linux and running the equivalent of
+   `sandpaper::update_cache()` in a GitHub Actions context. 
+3. [carpentries/actions](https://github.com/carpentries/actions) these contain
+   R code within YAML files 😱 that will call {renv} and {vise}. 
+
+#### Debugging Tips
+
+##### Setting up a reproducible environment
+
+Browse the [{renv} issues opened by \@zkamvar](https://github.com/rstudio/renv/issues?q=is%3Aissue+author%3Azkamvar+is%3Aclosed+sort%3Acreated-asc). In nearly all of these issues, I provide a reproducible example. They generally follow the pattern of:
+
+1. create a temporary file
+2. make it a directory and move there
+3. add any files that are needed _before_ the renv project is set up (if
+   specific to problem)
+4. set up a {renv} project with `renv::init()`
+5. demonstrate problem
+
+
+```r
+tmp <- tempfile()
+dir.create(tmp)
+setwd(tmp)
+writeLines("library(R6)", "test.R")
+renv::init(profile = "test")
+# demonstrate problem here
+```
+
+##### Choosing a minimal example
+
+Presenting a failing CI run with a Workbench lesson _is_ reproducible, but it's
+not minimal. Presenting the same with a smaller lesson is still not minimal.
+Often times, the issue involves detecting and installing a new package. In this
+case, you want to choose a package that has few to no dependencies and _is not
+listed as a dependency for knitr_. One example that I use often is the 
+[{cowsay}](https://cran.r-project.org/package=cowsay) package. It has a total of
+three dependencies and is not depended on by anything. If I need a quick
+package with zero dependencies, I will reach for [{R6}](https://r6.r-lib.org)
+or [{aweek}](https://cran.r-project.org/package=aweek). Both of these packages
+are under 100 Kilobytes, are pure R code, do not have any dependencies, and do
+not require compillation.
+
+##### When you just can't reproduce it locally
+
+There have been times when {renv} seems to fail _only_ on GitHub Actions. This
+was the case for {renv} version 0.17.0, as I reported in
+[rstudio/renv#1161](https://github.com/rstudio/renv/issues/1161).
+
+The important thing in these situations is to stay calm and try to narrow down
+as much as possible the exact conditions that will create the problem. Once you
+have those, you can open an issue on the {renv} issue tracker. If you are at
+this point, it's important to not expect this to be resolved quickly, because it
+is likely out of your control. The best you can do is to try the debugging
+techniques that Kevin provides and report back on the issue thread.
+
+Once the issue is resolved: **Thank Kevin for his help.** This is a very
+important point. Maintainers often only hear from their users if somehting is
+going wrong, so it's important to let them know that they are appreciated.
 
 ## GitHub Actions {#sec-actions}
 
