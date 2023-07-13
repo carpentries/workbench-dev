@@ -50,6 +50,7 @@ jobs:
             any::varnish
             any::withr
             any::sessioninfo
+            any::flow
 
       - name: Deploy 🚀
         uses: quarto-dev/quarto-actions/publish@v2

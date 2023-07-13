@@ -1,0 +1,59 @@
+---
+title: "The R package cache"
+---
+
+## A Bit of History
+
+As of this writing, The Workbench is able to reproducibly build and deploy
+lessons across machines and infrastructures thanks to the package cache provided
+by {renv}, but it is important to understand how we got here and what the
+motivations were, because the tools we have now simply did not exist in 2016.
+This section dives a bit into the history of writing R markdown content in
+Carpentries lessons and what lessons... were learned. 
+
+Software Carpentry Lessons have been able to handle content written in R
+Markdown [since July 2014](https://github.com/swcarpentry/DEPRECATED-bc/pull/626).
+This process was disrupted in June 2016 with the release of the new styles
+template, but luckily, [François Michonneau swooped in to the
+rescue](https://github.com/carpentries/lesson-example/pull/30) by providing a
+templating setup that would not only render the Markdown, but keep the output
+separate. The very next month, François submitted
+[carpentries/styles#83](https://github.com/carpentries/styles/pull/83), which
+added the capability to automatically detect and install packages needed to
+build an R-based lesson.
+
+Of course, back in 2016, in order to deploy an R-based lesson, you still had to
+build it locally, which sounds simple until you consider the aspect of
+reproducibility [@marwick2016computational; @wilson2017good]. If you build the
+same document on two different machines, there is no guarantee that you will
+get the same results. Thus, in May 2018, Raniere Silva added the ability to
+[build R-based lessones on Continuous
+Integration](https://github.com/carpentries/styles/pull/275). Finally, in 2020,
+Maxim Belkin added [GitHub Workflows to the styles
+repository](https://github.com/carpentries/styles/pull/488) so that we no longer
+had to rely on TravisCI.
+
+These changes allowed a single, definitive source for lessons to be built, but
+alas, they still were not _reproducible_ because the packages used to build the
+lesson were always being run with the most recent versions. This lead to
+problems with outputs changing or worse, the entire build failing (see
+[swcarpentry/r-novice-gapminder#746](https://github.com/swcarpentry/r-novice-gapminder/issues/746).
+Moreover, lesson maintainers of thes R lessons encountered the following
+problems: 
+
+1. Every time they built their lessons locally, their default R package library
+   would update. This was especially a problem for maintainers who were working
+   on their dissertations and really could not afford to lose work due to
+   their packages changing.
+2. Maintainers were unsure of what would happen to the lesson with any given
+   pull request and would have to manually run the results or trust the
+   contributor.
+3. All the normal struggles with Jekyll.
+
+Reproducibility is _hard_. Software ecosystems are always shifting like the sand
+dunes in the Sahara. By late 2020, we had come a long way in terms of automating
+the build process for R-based lessons, but there were still many hills to climb.
+It was in this context that we developed the use of {renv} and the R package 
+cache to automate package provisioning, caching, and auditable updating so that
+R-based lessons could reliably be deployed with no surprises.
+
