@@ -2,3 +2,5 @@
 *_files/*
 _book/*
 _site/*
+*/*_cache/*
+*_cache/*

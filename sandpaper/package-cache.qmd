@@ -2,6 +2,88 @@
 title: "The R package cache"
 ---
 
+## Introduction
+
+All lessons that use The Workbench can build using either Markdown or R Markdown
+file formats. The R package cache allows for R Markdown file formats to be built
+reproducibly and consistently. The cache is expected to be mindful of these
+formats in the following ways (as taken from [Building Lessons With A Package
+Cache](https://carpentries.github.io/sandpaper/articles/building-with-renv.html)):
+
+- *reliable setup*: the version of the lesson built on the carpentries website
+  will be the same as what you build on your computer because the packages will
+  be identical
+- *environmentally friendly*: The lesson dependencies are NOT stored in your
+  default R library and they will not alter your R environment.
+- *transparent*: any additions or deletions to the cache will be recorded in
+  the lockfile, which is tracked by git.
+
+The package cache is _only_ used when building lessons with R Markdown elements
+and performs the folowing tasks [in a separate R
+session](https://callr.r-lib.org/#synchronous-one-off-r-processes) to avoid
+polluting the user's environment:
+
+ 1. _Before markdown is built_: We **check for consent** to use the package
+    cache with `sandpaper:::renv_check_consent()` and then provision any
+    packages needed for the lesson with `sandpaper::manage_deps()`
+
+    ::: {.callout-note collapse="true"}
+
+    ### Dependency Tree for `renv_check_consent()`
+
+    The `renv_check_consent()` checks if the user has run
+    `sandpaper::use_package_cache()`, which allows {renv} to create and maintain
+    a global package cache on their system.
+    
+    ```{r}
+    #| label: renv-check-consent-deps
+    #| echo: false
+    #| eval: !expr Sys.getenv("CI", "false") != "true"
+    #| cache: true
+    toc <- Sys.time()
+    flow::flow_view_deps(sandpaper:::renv_check_consent, out =
+      "renv-check-consent.png")
+    tic <- Sys.time()
+    cat(paste("time elapsed:", format(tic - toc)))
+    ```
+
+    ![](renv-check-consent.png){alt="dependency diagram of renv_check_consent
+    showing the paths to other functions in sandpaper, fs, cli, callr, glue, and
+    renv"}
+    :::
+ 2. _During each markdown rendering_: If we have consent, we **load the {renv}
+    profile** to reproducibly render the markdown document
+
+    ::: {.callout-note collapse="true"}
+
+    ### Flow Diagram for `build_episode_md()`
+    
+    This flow represents the build process for _each R Markdown file_. This
+    function is called from within a separate R process. The only conditional
+    here determines if the {renv} environment needs to be loaded. 
+
+    ```{r}
+    #| label: build-episode-md-flow
+    #| echo: false
+    #| eval: !expr Sys.getenv("CI", "false") != "true"
+    #| message: false
+    #| cache: true
+    toc <- Sys.time()
+    invisible(capture.output(flow::flow_view(sandpaper:::callr_build_episode_md, out =
+      "build-episode-md.png")))
+    tic <- Sys.time()
+    cat(paste("time elapsed:", format(tic - toc)))
+    ```
+
+    ![](build-episode-md.png){alt="code flow diagram showing a single if
+    statement that controls the loading of renv"}
+    :::
+
+This chapter will go into the history of using a package cache in Carpentries
+lessons, dig into the design principles, and understand challenges for moving
+forward.
+
+
 ## A Bit of History
 
 As of this writing, The Workbench is able to reproducibly build and deploy
@@ -57,3 +139,4 @@ It was in this context that we developed the use of {renv} and the R package
 cache to automate package provisioning, caching, and auditable updating so that
 R-based lessons could reliably be deployed with no surprises.
 
+## 
