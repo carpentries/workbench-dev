@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.205">
+<meta name="generator" content="quarto-1.4.224">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -325,7 +325,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#sec-across" id="toc-sec-across" class="nav-link" data-scroll-target="#sec-across"><span class="header-section-number">B.1.2</span> Aross Packages</a></li>
   </ul></li>
-  <li><a href="#sec-upstream" id="toc-sec-upstream" class="nav-link" data-scroll-target="#sec-upstream"><span class="header-section-number">B.2</span> Upstream R Packages</a></li>
+  <li><a href="#sec-upstream" id="toc-sec-upstream" class="nav-link" data-scroll-target="#sec-upstream"><span class="header-section-number">B.2</span> Upstream R Packages</a>
+  <ul>
+  <li><a href="#sec-renv" id="toc-sec-renv" class="nav-link" data-scroll-target="#sec-renv"><span class="header-section-number">B.2.1</span> renv</a>
+  <ul class="collapse">
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">B.2.1.1</span> Background</a></li>
+  <li><a href="#in-practices" id="toc-in-practices" class="nav-link" data-scroll-target="#in-practices"><span class="header-section-number">B.2.1.2</span> In practices</a></li>
+  <li><a href="#debugging-tips" id="toc-debugging-tips" class="nav-link" data-scroll-target="#debugging-tips"><span class="header-section-number">B.2.1.3</span> Debugging Tips</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#sec-actions" id="toc-sec-actions" class="nav-link" data-scroll-target="#sec-actions"><span class="header-section-number">B.3</span> GitHub Actions</a></li>
   <li><a href="#sec-structural" id="toc-sec-structural" class="nav-link" data-scroll-target="#sec-structural"><span class="header-section-number">B.4</span> Structural Features</a></li>
   </ul>
@@ -430,6 +438,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sec-upstream" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="sec-upstream"><span class="header-section-number">B.2</span> Upstream R Packages</h2>
+<section id="sec-renv" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="sec-renv"><span class="header-section-number">B.2.1</span> renv</h3>
+<section id="background" class="level4" data-number="B.2.1.1">
+<h4 data-number="B.2.1.1" class="anchored" data-anchor-id="background"><span class="header-section-number">B.2.1.1</span> Background</h4>
+<p>The {renv} package is a key player for allowing {sandpaper} to provision and maintain the R packages required to build R-based lessons. The motivation and strategy for how it works can be found in the <a href="https://carpentries.github.io/sandpaper/articles/building-with-renv.html">Building Lessons With A Package Cache</a> article in the {sandpaper} docuementation.</p>
+<p>It’s worth diving into <a href="https://github.com/carpentries/sandpaper/issues/21">carpentries/sandpaper#21</a> to see the discussion and thoughts around the origin of the design for using this feature. It was implemented during a three week period between 2021-08-24 and 2021-09-16, as detailed in the pull request <a href="https://github.com/carpentries/sandpaper/pull/158">carpentries/sandpaper#158</a>.</p>
+</section>
+<section id="in-practices" class="level4" data-number="B.2.1.2">
+<h4 data-number="B.2.1.2" class="anchored" data-anchor-id="in-practices"><span class="header-section-number">B.2.1.2</span> In practices</h4>
+<p>We have to consider {renv} in practice from the standpoint of both local computers and on GitHub, which can behave very differently and require different tools to address their tasks.</p>
+<p>There are three tools and packages that use {renv}:</p>
+<ol type="1">
+<li>{sandpaper} is designed to provide a way to manage dependencies in a lesson</li>
+<li><a href="https://carpentries.github.io/vise">{vise}</a> was originally intended as a project to split out {sandpaper} code that used {renv} to simplify the testing. At the moment, it provides utilities for automatically provisioning C libraries on Ubunutu Linux and running the equivalent of <code>sandpaper::update_cache()</code> in a GitHub Actions context.</li>
+<li><a href="https://github.com/carpentries/actions">carpentries/actions</a> these contain R code within YAML files 😱 that will call {renv} and {vise}.</li>
+</ol>
+</section>
+<section id="debugging-tips" class="level4" data-number="B.2.1.3">
+<h4 data-number="B.2.1.3" class="anchored" data-anchor-id="debugging-tips"><span class="header-section-number">B.2.1.3</span> Debugging Tips</h4>
+<section id="setting-up-a-reproducible-environment" class="level5" data-number="B.2.1.3.1">
+<h5 data-number="B.2.1.3.1" class="anchored" data-anchor-id="setting-up-a-reproducible-environment"><span class="header-section-number">B.2.1.3.1</span> Setting up a reproducible environment</h5>
+<p>Browse the <a href="https://github.com/rstudio/renv/issues?q=is%3Aissue+author%3Azkamvar+is%3Aclosed+sort%3Acreated-asc">{renv} issues opened by @zkamvar</a>. In nearly all of these issues, I provide a reproducible example. They generally follow the pattern of:</p>
+<ol type="1">
+<li>create a temporary file</li>
+<li>make it a directory and move there</li>
+<li>add any files that are needed <em>before</em> the renv project is set up (if specific to problem)</li>
+<li>set up a {renv} project with <code>renv::init()</code></li>
+<li>demonstrate problem</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(tmp)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(tmp)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="st">"library(R6)"</span>, <span class="st">"test.R"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>(<span class="at">profile =</span> <span class="st">"test"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># demonstrate problem here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="choosing-a-minimal-example" class="level5" data-number="B.2.1.3.2">
+<h5 data-number="B.2.1.3.2" class="anchored" data-anchor-id="choosing-a-minimal-example"><span class="header-section-number">B.2.1.3.2</span> Choosing a minimal example</h5>
+<p>Presenting a failing CI run with a Workbench lesson <em>is</em> reproducible, but it’s not minimal. Presenting the same with a smaller lesson is still not minimal. Often times, the issue involves detecting and installing a new package. In this case, you want to choose a package that has few to no dependencies and <em>is not listed as a dependency for knitr</em>. One example that I use often is the <a href="https://cran.r-project.org/package=cowsay">{cowsay}</a> package. It has a total of three dependencies and is not depended on by anything. If I need a quick package with zero dependencies, I will reach for <a href="https://r6.r-lib.org">{R6}</a> or <a href="https://cran.r-project.org/package=aweek">{aweek}</a>. Both of these packages are under 100 Kilobytes, are pure R code, do not have any dependencies, and do not require compillation.</p>
+</section>
+<section id="when-you-just-cant-reproduce-it-locally" class="level5" data-number="B.2.1.3.3">
+<h5 data-number="B.2.1.3.3" class="anchored" data-anchor-id="when-you-just-cant-reproduce-it-locally"><span class="header-section-number">B.2.1.3.3</span> When you just can’t reproduce it locally</h5>
+<p>There have been times when {renv} seems to fail <em>only</em> on GitHub Actions. This was the case for {renv} version 0.17.0, as I reported in <a href="https://github.com/rstudio/renv/issues/1161">rstudio/renv#1161</a>.</p>
+<p>The important thing in these situations is to stay calm and try to narrow down as much as possible the exact conditions that will create the problem. Once you have those, you can open an issue on the {renv} issue tracker. If you are at this point, it’s important to not expect this to be resolved quickly, because it is likely out of your control. The best you can do is to try the debugging techniques that Kevin provides and report back on the issue thread.</p>
+<p>Once the issue is resolved: <strong>Thank Kevin for his help.</strong> This is a very important point. Maintainers often only hear from their users if somehting is going wrong, so it’s important to let them know that they are appreciated.</p>
+</section>
+</section>
+</section>
 </section>
 <section id="sec-actions" class="level2" data-number="B.3">
 <h2 data-number="B.3" class="anchored" data-anchor-id="sec-actions"><span class="header-section-number">B.3</span> GitHub Actions</h2>
