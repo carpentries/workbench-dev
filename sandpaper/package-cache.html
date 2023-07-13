@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 11&nbsp; Summary</title>
+<title>Workbench Developer’s Guide - 7&nbsp; The R package cache</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,27 +21,46 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./releases.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pegboard/intro.html" rel="next">
+<link href="../sandpaper/testing.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="guide.scss">
+<link rel="stylesheet" href="../guide.scss">
 </head>
 
 <body class="nav-sidebar floating">
@@ -81,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./summary.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/package-cache.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -96,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Workbench Developer’s Guide</a> 
+      <a href="../">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -116,25 +135,25 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -149,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flow.html" class="sidebar-item-text sidebar-link">
+  <a href="../flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
@@ -166,19 +185,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
@@ -195,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -212,7 +231,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -229,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./releases.html" class="sidebar-item-text sidebar-link">
+  <a href="../releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
@@ -245,13 +264,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link active">
+  <a href="../summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -266,13 +285,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sop.html" class="sidebar-item-text sidebar-link">
+  <a href="../sop.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flight-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="../flight-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span></a>
   </div>
 </li>
@@ -284,14 +303,20 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link active" data-scroll-target="#a-bit-of-history"><span class="header-section-number">7.1</span> A Bit of History</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/package-cache.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></h1>
 </div>
 
 
@@ -306,9 +331,29 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>In summary, this book has no content whatsoever.</p>
+<section id="a-bit-of-history" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">7.1</span> A Bit of History</h2>
+<p>As of this writing, The Workbench is able to reproducibly build and deploy lessons across machines and infrastructures thanks to the package cache provided by {renv}, but it is important to understand how we got here and what the motivations were, because the tools we have now simply did not exist in 2016. This section dives a bit into the history of writing R markdown content in Carpentries lessons and what lessons… were learned.</p>
+<p>Software Carpentry Lessons have been able to handle content written in R Markdown <a href="https://github.com/swcarpentry/DEPRECATED-bc/pull/626">since July 2014</a>. This process was disrupted in June 2016 with the release of the new styles template, but luckily, <a href="https://github.com/carpentries/lesson-example/pull/30">François Michonneau swooped in to the rescue</a> by providing a templating setup that would not only render the Markdown, but keep the output separate. The very next month, François submitted <a href="https://github.com/carpentries/styles/pull/83">carpentries/styles#83</a>, which added the capability to automatically detect and install packages needed to build an R-based lesson.</p>
+<p>Of course, back in 2016, in order to deploy an R-based lesson, you still had to build it locally, which sounds simple until you consider the aspect of reproducibility <span class="citation" data-cites="marwick2016computational wilson2017good">(<a href="../references.html#ref-marwick2016computational" role="doc-biblioref">Marwick 2016</a>; <a href="../references.html#ref-wilson2017good" role="doc-biblioref">Wilson et al. 2017</a>)</span>. If you build the same document on two different machines, there is no guarantee that you will get the same results. Thus, in May 2018, Raniere Silva added the ability to <a href="https://github.com/carpentries/styles/pull/275">build R-based lessones on Continuous Integration</a>. Finally, in 2020, Maxim Belkin added <a href="https://github.com/carpentries/styles/pull/488">GitHub Workflows to the styles repository</a> so that we no longer had to rely on TravisCI.</p>
+<p>These changes allowed a single, definitive source for lessons to be built, but alas, they still were not <em>reproducible</em> because the packages used to build the lesson were always being run with the most recent versions. This lead to problems with outputs changing or worse, the entire build failing (see <a href="https://github.com/swcarpentry/r-novice-gapminder/issues/746">swcarpentry/r-novice-gapminder#746</a>. Moreover, lesson maintainers of thes R lessons encountered the following problems:</p>
+<ol type="1">
+<li>Every time they built their lessons locally, their default R package library would update. This was especially a problem for maintainers who were working on their dissertations and really could not afford to lose work due to their packages changing.</li>
+<li>Maintainers were unsure of what would happen to the lesson with any given pull request and would have to manually run the results or trust the contributor.</li>
+<li>All the normal struggles with Jekyll.</li>
+</ol>
+<p>Reproducibility is <em>hard</em>. Software ecosystems are always shifting like the sand dunes in the Sahara. By late 2020, we had come a long way in terms of automating the build process for R-based lessons, but there were still many hills to climb. It was in this context that we developed the use of {renv} and the R package cache to automate package provisioning, caching, and auditable updating so that R-based lessons could reliably be deployed with no surprises.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-marwick2016computational" class="csl-entry" role="listitem">
+Marwick, Ben. 2016. <span>“Computational Reproducibility in Archaeological Research: Basic Principles and a Case Study of Their Implementation.”</span> <em>Journal of Archaeological Method and Theory</em> 24 (2): 424–50. <a href="https://doi.org/10.1007/s10816-015-9272-9">https://doi.org/10.1007/s10816-015-9272-9</a>.
+</div>
+<div id="ref-wilson2017good" class="csl-entry" role="listitem">
+Wilson, Greg, Jennifer Bryan, Karen Cranston, Justin Kitzes, Lex Nederbragt, and Tracy K. Teal. 2017. <span>“Good Enough Practices in Scientific Computing.”</span> Edited by Francis Ouellette. <em>PLOS Computational Biology</em> 13 (6): e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510">https://doi.org/10.1371/journal.pcbi.1005510</a>.
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -609,13 +654,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./releases.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span>
+      <a href="../sandpaper/testing.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../pegboard/intro.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
