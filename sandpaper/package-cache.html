@@ -309,7 +309,7 @@ div.csl-indent {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
   <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">7.2</span> A Bit of History</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">7.3</span> </a></li>
+  <li><a href="#design-principles" id="toc-design-principles" class="nav-link" data-scroll-target="#design-principles"><span class="header-section-number">7.3</span> Design Principles</a></li>
   </ul>
 </nav>
     </div>
@@ -395,8 +395,21 @@ Flow Diagram for <code>build_episode_md()</code>
 </ol>
 <p>Reproducibility is <em>hard</em>. Software ecosystems are always shifting like the sand dunes in the Sahara. By late 2020, we had come a long way in terms of automating the build process for R-based lessons, but there were still many hills to climb. It was in this context that we developed the use of {renv} and the R package cache to automate package provisioning, caching, and auditable updating so that R-based lessons could reliably be deployed with no surprises.</p>
 </section>
-<section id="section" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="section"><span class="header-section-number">7.3</span> </h2>
+<section id="design-principles" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="design-principles"><span class="header-section-number">7.3</span> Design Principles</h2>
+<p>As always, whenver designing something for The Workbench, you need to think about what the lesson maintainer/developer/contributor is potentially dealing with. Moreover, you want to minimize the amount of fuss that the contributor needs to do to get something working. That means the following WRT to packages in a lesson:</p>
+<ol type="1">
+<li>Users should not have to know that the lockfile exists</li>
+<li>The packages used in the lesson should be locked to specific versions and be reproducible across machines</li>
+<li>The packages used in the lesson should <em>not</em> overwrite the packages in the user’s default R library</li>
+<li>Any package that is missing from the user’s machine should automatically be provisioned</li>
+<li>All packages used should be the correct version</li>
+<li>The lockfile should be auditable</li>
+<li>The lockfile defining the package versions should update/remove packages according to the contents of the lesson</li>
+<li>Users should be able to specify versions in the lockfile easily</li>
+<li>Users should be able to automatically update the lockfile</li>
+</ol>
+<p>It is worth reading through <a href="https://github.com/carpentries/sandpaper/issues/21">carpentries/sandpaper#21</a> to see the discussion and thoughts around the origin of the design for using this feature. It was implemented during a three week period between 2021-08-24 and 2021-09-16, as detailed in the pull request <a href="https://github.com/carpentries/sandpaper/pull/158">carpentries/sandpaper#158</a>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
