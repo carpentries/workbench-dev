@@ -139,4 +139,31 @@ It was in this context that we developed the use of {renv} and the R package
 cache to automate package provisioning, caching, and auditable updating so that
 R-based lessons could reliably be deployed with no surprises.
 
-## 
+## Design Principles
+
+As always, whenver designing something for The Workbench, you need to think
+about what the lesson maintainer/developer/contributor is potentially dealing
+with. Moreover, you want to minimize the amount of fuss that the contributor
+needs to do to get something working. That means the following WRT to packages
+in a lesson:
+
+1. Users should not have to know that the lockfile exists
+2. The packages used in the lesson should be locked to specific versions and be
+   reproducible across machines
+3. The packages used in the lesson should _not_ overwrite the packages in the
+   user's default R library
+4. Any package that is missing from the user's machine should automatically be provisioned
+5. All packages used should be the correct version
+6. The lockfile should be auditable
+7. The lockfile defining the package versions should update/remove packages
+   according to the contents of the lesson
+8. Users should be able to specify versions in the lockfile easily
+9. Users should be able to automatically update the lockfile
+
+
+It is worth reading through
+[carpentries/sandpaper#21](https://github.com/carpentries/sandpaper/issues/21)
+to see the discussion and thoughts around the origin of the design for using
+this feature. It was implemented during a three week period between 2021-08-24
+and 2021-09-16, as detailed in the pull request
+[carpentries/sandpaper#158](https://github.com/carpentries/sandpaper/pull/158).
