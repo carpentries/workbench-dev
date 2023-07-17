@@ -133,7 +133,7 @@ problems:
 3. All the normal struggles with Jekyll.
 
 Reproducibility is _hard_. Software ecosystems are always shifting like the sand
-dunes in the Sahara. By late 2020, we had come a long way in terms of automating
+dunes in the Sahara [@vaniea2016tales]. By late 2020, we had come a long way in terms of automating
 the build process for R-based lessons, but there were still many hills to climb.
 It was in this context that we developed the use of {renv} and the R package 
 cache to automate package provisioning, caching, and auditable updating so that
@@ -141,11 +141,68 @@ R-based lessons could reliably be deployed with no surprises.
 
 ## Design Principles
 
-As always, whenver designing something for The Workbench, you need to think
-about what the lesson maintainer/developer/contributor is potentially dealing
-with. Moreover, you want to minimize the amount of fuss that the contributor
-needs to do to get something working. That means the following WRT to packages
-in a lesson:
+It is worth reading through
+[carpentries/sandpaper#21](https://github.com/carpentries/sandpaper/issues/21)
+to see the discussion and thoughts around the origin of the design for using
+this feature. It was implemented during a three week period between 2021-08-24
+and 2021-09-16, as detailed in the pull request
+[carpentries/sandpaper#158](https://github.com/carpentries/sandpaper/pull/158).
+
+It's easy to think about a package cache as a way to declare dependencies for a
+lesson in a reproducible way, but it's more than that. The philosophy of R
+packages on CRAN is that they all need to work with the latest versions of each
+other, so a lesson that teaches R should be reasonably up-to-date. Thus, any
+given package must be able to do the following four things in the package
+cache:
+
+1. enter the package cache and record the version number
+2. exit the package cache and be removed from the record
+3. update to the latest version
+4. pin to a specific version
+
+Every good tool for handling a package cache does these four things, and the
+workflow to add a new package with {renv} (before version 1.0.0) flows like
+this:
+
+1. Contributor A would like to add {packageA} to the project
+2. Contributor A opens the project and installs {packageA}
+3. Contributor A adds {packageA} to the project content
+4. Contributor A takes a snapshot of the project to the lockfile
+
+In this scenario, Contributor A must explicitly install the package to the
+project before they can use it regardless of whether or not they have that
+package on their system. Steps 2 and 4 of this workflow involve explicitly
+working with the package cache and, in my experience, R users will often jump
+directly to step 3, which leads to failed builds and frustration.
+
+When designing a user interface, you also need to think about what distractions
+and real-life stressors the lesson maintainer/developer/contributor is
+potentially dealing with. You want to minimize the amount of fuss that the
+contributor needs to do to get something working. **A contributor should only
+have to add a package once to the lesson content to make it available.** This
+means that the following steps are taken to add a new package: 
+
+1. Contributor A has {packageA} in their library and wants to demonstrate the
+   use of {packageA} in the lesson.
+2. Contributor A inserts a code block in the lesson that declares
+   `library("packageA")` or `packageA::fun()` somewhere in the code block:
+   ````{verbatim, lang = "markdown"}
+   ```{r}
+   # load the packageA package
+   library("packageA")
+   ```
+   ````
+
+After that, when the lesson is built, {packageA} is automatically added to the
+lockfile. If Contributor A decideds to no longer use {packageA}, they can remove
+it from the lesson content and the next build will remove {packageA} from the
+lockfile. In this way, the lesson content remains the source of truth for the
+packages used in the lesson and the lockfile represents the metadata associated
+with the lesson.
+
+
+
+That means the following WRT to packages in a lesson:
 
 1. Users should not have to know that the lockfile exists
 2. The packages used in the lesson should be locked to specific versions and be
@@ -161,9 +218,3 @@ in a lesson:
 9. Users should be able to automatically update the lockfile
 
 
-It is worth reading through
-[carpentries/sandpaper#21](https://github.com/carpentries/sandpaper/issues/21)
-to see the discussion and thoughts around the origin of the design for using
-this feature. It was implemented during a three week period between 2021-08-24
-and 2021-09-16, as detailed in the pull request
-[carpentries/sandpaper#158](https://github.com/carpentries/sandpaper/pull/158).
