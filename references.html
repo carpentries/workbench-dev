@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.226">
+<meta name="generator" content="quarto-1.4.232">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -332,6 +332,11 @@ Archaeological Research: Basic Principles and a Case Study of Their
 Implementation.”</span> <em>Journal of Archaeological Method and
 Theory</em> 24 (2): 424–50. <a href="https://doi.org/10.1007/s10816-015-9272-9">https://doi.org/10.1007/s10816-015-9272-9</a>.
 </div>
+<div id="ref-vaniea2016tales" class="csl-entry" role="listitem">
+Vaniea, Kami, and Yasmeen Rashidi. 2016. <span>“Tales of Software
+Updates.”</span> <em>Proceedings of the 2016 CHI Conference on Human
+Factors in Computing Systems</em>, May. <a href="https://doi.org/10.1145/2858036.2858303">https://doi.org/10.1145/2858036.2858303</a>.
+</div>
 <div id="ref-rpkgs" class="csl-entry" role="listitem">
 Wickham, Hadley, and Jennifer Bryan. 2023. <span>“<span>R</span>
 Packages (2e).”</span> <a href="https://r-pkgs.org/" class="uri">https://r-pkgs.org/</a>.
@@ -486,33 +491,39 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       instance.disable();
       let url = xref.getAttribute('href');
       let hash = undefined; 
-      try { hash = new URL(url).hash; } catch {}
-      const id = hash.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note !== null) {
-        try {
-          const html = processXRef(id, note);
-          instance.setContent(html);
-        } finally {
-          instance.enable();
-          instance.show();
-        }
+      if (url.startsWith('#')) {
+        hash = url;
       } else {
-        // See if we can fetch this
-        fetch(url.split('#')[0])
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.getElementById(id);
-          if (note !== null) {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
             const html = processXRef(id, note);
             instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
       }
     }, function(instance) {
     });
