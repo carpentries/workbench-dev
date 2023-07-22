@@ -11,7 +11,7 @@ The core of The Carpentries Workbench consists of three packages:
 These packages are all available and released to the [Carpentries 
 R-Universe][r-universe], which checks for updates to the source packages hourly.
 
-## Building Lessons
+## Building Lessons {#sec-local}
 
 In a broad sense, this is what happens when you run `sandpaper::serve()` or
 `sandpaper::build_lesson()`. The interaction between the three Workbench
@@ -119,7 +119,7 @@ remote setting. The only difference with the remote setting is that we use a few
 Git tricks to provision the markdown cache without needing to store it in the
 default branch.
 
-## Building Lessons Remotely (e.g. on GitHub)
+## Building Lessons Remotely (e.g. on GitHub) {#sec-remote}
 
 In the remote workflow, **we still use the same workflow as above**, except now
 we use `ci_deploy()` to link the branches and folders using worktrees, which
