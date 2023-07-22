@@ -291,8 +291,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#building-lessons" id="toc-building-lessons" class="nav-link active" data-scroll-target="#building-lessons"><span class="header-section-number">1.1</span> Building Lessons</a></li>
-  <li><a href="#building-lessons-remotely-e.g.-on-github" id="toc-building-lessons-remotely-e.g.-on-github" class="nav-link" data-scroll-target="#building-lessons-remotely-e.g.-on-github"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</a></li>
+  <li><a href="#sec-local" id="toc-sec-local" class="nav-link active" data-scroll-target="#sec-local"><span class="header-section-number">1.1</span> Building Lessons</a></li>
+  <li><a href="#sec-remote" id="toc-sec-remote" class="nav-link" data-scroll-target="#sec-remote"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</a></li>
   <li><a href="#development" id="toc-development" class="nav-link" data-scroll-target="#development"><span class="header-section-number">1.3</span> Development</a></li>
   <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation"><span class="header-section-number">1.4</span> Documentation</a></li>
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">1.5</span> Testing</a></li>
@@ -328,8 +328,8 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="https://carpentries.github.io/varnish/">{varnish}</a>: HTML templates, CSS, and JS elements</li>
 </ul>
 <p>These packages are all available and released to the <a href="https://carpentries.r-universe.dev/">Carpentries R-Universe</a>, which checks for updates to the source packages hourly.</p>
-<section id="building-lessons" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="building-lessons"><span class="header-section-number">1.1</span> Building Lessons</h2>
+<section id="sec-local" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-local"><span class="header-section-number">1.1</span> Building Lessons</h2>
 <p>In a broad sense, this is what happens when you run <code>sandpaper::serve()</code> or <code>sandpaper::build_lesson()</code>. The interaction between the three Workbench packages, the lesson content, and the author can be summarised like this where the author makes an edit:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -437,8 +437,8 @@ Resource folder names
 </div>
 <p>The <code>site/docs</code> folder contains the full website that can be safely used offline. This is the core of the workflow and is used both locally and in a remote setting. The only difference with the remote setting is that we use a few Git tricks to provision the markdown cache without needing to store it in the default branch.</p>
 </section>
-<section id="building-lessons-remotely-e.g.-on-github" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="building-lessons-remotely-e.g.-on-github"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</h2>
+<section id="sec-remote" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-remote"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</h2>
 <p>In the remote workflow, <strong>we still use the same workflow as above</strong>, except now we use <code>ci_deploy()</code> to link the branches and folders using worktrees, which you can think of as Git branches assigned to separate folders.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
