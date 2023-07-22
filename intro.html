@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.232">
+<meta name="generator" content="quarto-1.4.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -292,7 +292,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#building-lessons" id="toc-building-lessons" class="nav-link active" data-scroll-target="#building-lessons"><span class="header-section-number">1.1</span> Building Lessons</a></li>
-  <li><a href="#building-lessons-on-github" id="toc-building-lessons-on-github" class="nav-link" data-scroll-target="#building-lessons-on-github"><span class="header-section-number">1.2</span> Building Lessons on GitHub</a></li>
+  <li><a href="#building-lessons-remotely-e.g.-on-github" id="toc-building-lessons-remotely-e.g.-on-github" class="nav-link" data-scroll-target="#building-lessons-remotely-e.g.-on-github"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</a></li>
   <li><a href="#development" id="toc-development" class="nav-link" data-scroll-target="#development"><span class="header-section-number">1.3</span> Development</a></li>
   <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation"><span class="header-section-number">1.4</span> Documentation</a></li>
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">1.5</span> Testing</a></li>
@@ -317,6 +317,7 @@ ul.task-list li input[type="checkbox"] {
     
   </div>
   
+
 
 </header>
 
@@ -436,9 +437,24 @@ Resource folder names
 </div>
 <p>The <code>site/docs</code> folder contains the full website that can be safely used offline. This is the core of the workflow and is used both locally and in a remote setting. The only difference with the remote setting is that we use a few Git tricks to provision the markdown cache without needing to store it in the default branch.</p>
 </section>
-<section id="building-lessons-on-github" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="building-lessons-on-github"><span class="header-section-number">1.2</span> Building Lessons on GitHub</h2>
+<section id="building-lessons-remotely-e.g.-on-github" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="building-lessons-remotely-e.g.-on-github"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</h2>
 <p>In the remote workflow, <strong>we still use the same workflow as above</strong>, except now we use <code>ci_deploy()</code> to link the branches and folders using worktrees, which you can think of as Git branches assigned to separate folders.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Platform Independence
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When we developed The Workbench, GitHub was the most widely used platform for social coding that represented the easiest way for newcomers to contribute to our lessons. We used this knowledge to build the workflows for the lessons on GitHub, but we were also aware of the valid criticisms of GitHub and the dangers of vendor lock-in.</p>
+<p>Thus, while the lessons are deployed using GitHub workflows and we have features that handle pull requests and updates, <strong>the core deployment features remain platform-independent</strong>. The workflows are merely instructions that we provide for GitHub to set up the workbench and to run the individual functions. In theory, <strong>any platform can be configured to deploy lessons via The Workbench.</strong></p>
+<p>In fact, in a pinch when GitHub workflows are not working properly, a lesson maintainer could run <code>sandpaper:::ci_deploy()</code> to render and deploy a local copy of the lesson.</p>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -646,6 +662,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
   const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
     if (id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -658,6 +684,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return note.innerHTML;
       }
     } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
       return note.innerHTML;
     }
   }
@@ -677,7 +708,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         const note = window.document.getElementById(id);
         if (note !== null) {
           try {
-            const html = processXRef(id, note);
+            const html = processXRef(id, note.cloneNode(true));
             instance.setContent(html);
           } finally {
             instance.enable();
