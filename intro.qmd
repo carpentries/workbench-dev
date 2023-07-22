@@ -119,11 +119,34 @@ remote setting. The only difference with the remote setting is that we use a few
 Git tricks to provision the markdown cache without needing to store it in the
 default branch.
 
-## Building Lessons on GitHub
+## Building Lessons Remotely (e.g. on GitHub)
 
 In the remote workflow, **we still use the same workflow as above**, except now
 we use `ci_deploy()` to link the branches and folders using worktrees, which
-you can think of as Git branches assigned to separate folders. 
+you can think of as Git branches assigned to separate folders.
+
+::: {.callout-note}
+
+### Platform Independence
+
+When we developed The Workbench, GitHub was the most widely used platform for
+social coding that represented the easiest way for newcomers to contribute to
+our lessons. We used this knowledge to build the workflows for the lessons on
+GitHub, but we were also aware of the valid criticisms of GitHub and the dangers
+of vendor lock-in. 
+
+Thus, while the lessons are deployed using GitHub workflows and we have features
+that handle pull requests and updates, **the core deployment features remain
+platform-independent**. The workflows are merely instructions that we provide
+for GitHub to set up the workbench and to run the individual functions. In
+theory, **any platform can be configured to deploy lessons via The Workbench.**
+
+In fact, in a pinch when GitHub workflows are not working properly, a lesson
+maintainer could run `sandpaper:::ci_deploy()` to render and deploy a local
+copy of the lesson.
+
+:::
+
 
 
 ```{mermaid}
