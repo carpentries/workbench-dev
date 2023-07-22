@@ -4,6 +4,31 @@ subtitle: "aka: what to do when something's not working"
 toc-depth: 4
 ---
 
+<!---
+
+##### Issue Report Template
+
+Replace {pkg} with the first letter of the package the issue occurs in and
+{num} with the issue number
+
+###### {pkg}{num} Situation {.unnumbered}
+
+ - Issue: [carpentries/{pkg}#{num}](https://github.com/carpentries/{pkg}/issues/num)
+ - Resolver: zkamvar
+ - Type: Local
+ - OS: Rocky Linux 8.8
+ - Package: {pkg}
+
+###### {pkg}{num} Diagnosis {.unnumbered}
+
+###### {pkg}{num} Solution {.unnumbered}
+
+###### {pkg}{num} Alternative Solution {.unnumbered}
+
+###### {pkg}{num} Narrative {.unnumbered}
+
+--->
+
 This part of the developers manual is a living document and serves as a window
 into the mind of a Workbench Maintainer as they address issues and new feature
 requests.
@@ -224,6 +249,193 @@ going wrong, so it's important to let them know that they are appreciated.
 
 ## GitHub Actions {#sec-actions}
 
+There is a category of issues that fail explicitly with GitHub actions only. As
+with the other issues, it is important not to panic when you encounter these,
+but instead, take stock of what happens when these happen. In general, here are
+the steps you should take to diagnosing problems:
+
+0. Prepare your inbox to filter messages from GitHub. A good way is to check
+   that the subject line matches "Run failed 01 Build and Deploy" or "Run failed
+   03 Update Cache".
+1. Find and read the error message from the log. You can find this by looking
+   for the red X and expanding that section. It will normally scroll down to the
+   error. 
+2. Read the _context_ of the error message. Most errors happen because of
+   problems upstream, so it's important to see what was happening when that
+   error happened
+3. Restart the action. GitHub has a button near the top right of the action. If
+   it's ephemeral (e.g. networking error) then it will run fine on the next run.
+4. Test the build locally
+5. Test it on the `carpentries/sandpaper-docs` repository
+6. Test it on a brand new repository created via the templates 
+   (<https://bit.ly/new-lesson-md> or <https://bit.ly/new-lesson-rmd>)
+
+Below I will attempt to outline common problem areas and their potential
+solutions. Note: this is not an exhaustive list, but you have to remember that
+in these situations, you are effectively debugging someone else's computer, so
+patience is absolutely required because this is more difficult than plucking a
+single grain of rice with metal chopsticks.
+
+### Networking Failures
+
+These are often the easiest problems to solve. You will encounter an error that
+says somthing like "network timed out" and it fails when either checking out the
+repository or installing pandoc. In these situations, you should check
+<https://status.github.com> to see if this is a problem with GitHub, and then
+you should restart the build. Most of the time, the build will work on the
+second try. 
+
+### Upstream System Dependency Issues
+
+#### SSL error {.unnumbered}
+
+##### bioc-intro109 Situation {.unnumbered}
+
+ - Issue: <https://github.com/carpentries-incubator/bioc-intro/issues/109>
+ - Resolver: NA
+ - Type: Remote
+ - OS: Ubuntu 22.04
+ - Package: NA
+
+On 2023-07-20, \@lgatto, who maintains the carpentries-incubator/bioc-intro
+repository reported an error in their builds during the "Setup Package Cache" of
+the `sandpaper-main.yaml` workflow:
+
+```
+Register Repositories
+Using github PAT from envvar GITHUB_PAT
+Error: Error: Failed to install 'vise' from GitHub:
+  SSL peer certificate or SSH remote key was not OK: [api.github.com] SSL: no alternative certificate subject name matches target host name 'api.github.com'
+Execution halted
+Error: Process completed with exit code 1.
+```
+
+This error was causing the [carpentries/vise](https://carpentries.github.io/vise)
+package to not be installed and the {renv} package cache could not be
+provisioned for lessons. Because it involved the {renv} package cache, this was
+a problem that was limited to R-based lessons.
+
+##### bioc-intro109 Diagnosis {.unnumbered}
+
+The cause of the problem was [identified by Gabor Csardi](https://fosstodon.org/@gaborcsardi/110741646942210567) as a bug specific to the development version of `curl`
+on Ubuntu: <https://bugs.launchpad.net/ubuntu/+source/curl/+bug/2028170>.
+
+The key error message here was `SSL: no alternative certificate subject name
+matches target host name 'api.github.com'`. The `curl` program was checking the
+validity of the SSL certificate for `github.com`, but it was ignoring the rules
+for `*.github.com`, so when it found `api.github.com`, it saw that as an invalid
+site that should not be trusted.
+
+Even though the default version of curl on GitHub's runners is _not_ the dev
+version, when we provision the workbench in the "Setup Lesson Engine" step, we
+query the system dependencies from the R-universe:
+
+```bash
+$ curl https://carpentries.r-universe.dev/stats/sysdeps 2> /dev/null \
+  | jq -r '.headers[0] | select(. != null)'
+```
+
+```
+libcurl4-openssl-dev
+libfontconfig-dev
+libfreetype-dev
+libfribidi-dev
+libharfbuzz-dev
+libicu-dev
+libgit2-dev
+libjpeg-turbo8-dev
+libpng-dev
+libtiff-dev
+libxml2-dev
+libxslt1-dev
+libssl-dev
+```
+
+This installed the development version of curl into our system and introduced
+the bug during the "Setup Package Cache" step. 
+
+##### bioc-intro109 Solution {.unnumbered}
+
+The solution was to wait for a fix.
+
+##### bioc-intro109 Alternative Solution {.unnumbered}
+
+An alternative solution that we tested was to switch the download method for R
+packages to "wget", but this was a non-starter because this caused the
+installation times for R packages _and_ the workbench to rise because they would
+need to be compiled (posit PPM did not serve the binary packages over wget).
+
+##### bioc-intro109 Narrative {.unnumbered}
+
+ - I get the notification of the issue and \@lgatto suspects it's because of
+   {vise}.
+ - I install {vise} using `remotes::install_github("carpentries/vise")` to check
+   that it's installable and I am successful.
+ - I rerun the action and get the same error. I run the action on the
+   [carpentries/sandpaper-docs](https://github.com/carpentries/sandpaper-docs/actions/runs/5600450591/job/15170692838)
+   repository, but it also fails similarly. This confirms that it's a broader
+   issue. 
+ - I thought maybe also it was a problem in the {remotes} package since it
+   hasn't been updated on CRAN since 2021. 
+ - I found <https://github.com/r-lib/remotes/issues/762> which points to an
+   issue in `utils::download.file()` as the source of the problems with curl.
+ - I notice that {vise} is still recorded as "zkamvar/vise" in the github
+   actions files. I change it in [carpentries/actions@2de7e3fef](https://github.com/carpentries/actions/commit/2de7e3fef36e242cb7b6dae348bfdb274b2791fd)
+ - This [does not fix the issue](https://github.com/carpentries/sandpaper-docs/actions/runs/5600450591/job/15171251862) and I post to mastodon: <https://fosstodon.org/@zkamvar/110741428815173845>
+ - I update the installation for vise to use "wget" as a fallback (see this
+   [comparison of commits](https://github.com/carpentries/actions/compare/e9405d9b8f2f99a2a7fd16a31194fd8563af95c9..3fb4f689d3fed641e2644e11ce3b312edc991c70)
+ - I create a new branch in carpentries/actions to set
+   `options(download.file.method = "wget")` in setup-sandpaper ([view the
+   diff](https://github.com/carpentries/actions/compare/2023-07-ssl-errors)).
+ - I create https://github.com/zkamvar/2023-07-19-test-actions, which [fails
+   initially](https://github.com/zkamvar/2023-07-19-test-actions/actions/runs/5601090073/job/15172762540)
+   and replace all `@main` declarations in `.github/workflows/` with
+   `@2023-07-ssl-errors` to test the fix that I created. The [next run also
+   fails](https://github.com/zkamvar/2023-07-19-test-actions/actions/runs/5601160026/job/15173081859)
+   and it takes > 17 minutes to set up the workbench (which normally takes ~1
+   minute or less). I understand that the "wget" method will not work.
+ - [Gabor Csardi identifies the issue as coming from the dev version of curl](https://fosstodon.org/@gaborcsardi/110741646942210567)
+ - I check the version of curl in [the ubuntu runner image](https://github.com/actions/runner-images/blob/ubuntu22/20230710.1/images/linux/Ubuntu2204-Readme.md), which I found by expanding "Setup Job" and then "Runner Image" in the GitHub action run and finding the URL above, but it is not devel.
+ - I create <https://github.com/zkamvar/test-github-actions-ssl> to as a MWE of
+   the error. 
+ - I [create a workflow that runs the command from the ubuntu bug report](https://github.com/zkamvar/test-github-actions-ssl/commit/7b9bd2269c5c81ef7fe0658aaca2ef976cdeab8e) and find that it works.
+ - I [update the workflow](https://github.com/zkamvar/test-github-actions-ssl/commit/ee637acccf45cbf41f5b60e963b72a07a28bcca7) so that it demonstrates the working example and then demonstrates the failing example. [It successfully fails](https://github.com/zkamvar/test-github-actions-ssl/actions/runs/5602298664/job/15176571806)
+ - I wait and check the bug has been fixed for ubuntu and I rerun the workflow.
+   [It succeeds](https://github.com/zkamvar/test-github-actions-ssl/actions/runs/5602298664/job/15185938773) and I re-run the bioc-intro and sandpaper-docs builds to find that they work.
+
+### Workflow Mis-Configuration
+
+Sometimes the workflow files themselves are mis-configured. In these cases, the
+fix will involve updating the files in sandpaper's `inst/workflows/` directory.
+If the `pr-comment.yaml` or `update-workflows.yaml` files are not affected, then
+a pull request will be created automatically to all lessons within a week after
+you submit the patch, but if these files are affected, then you will have to
+manually submit the patch. 
+
+#### files with spaces in names cause `pr-comment.yaml` workflow to fail {#s399 .unnumbered}
+
+##### s399 Situation {.unnumbered}
+
+ - Issue: [carpentries/sandpaper#399](https://github.com/carpentries/sandpaper/issues/399)
+ - Resolver: zkamvar
+ - Type: Remote
+ - OS: Ubuntu 22.04
+ - Package: sandpaper
+
+##### s399 Diagnosis {.unnumbered}
+
+##### s399 Solution {.unnumbered}
+
+##### s399 Alternative Solution {.unnumbered}
+
+##### s399 Narrative {.unnumbered}
+
+
+### Permissions Changes
+
+#### carpentries-bot
+
+### Actions
 
 ## Structural Features {#sec-structural}
 
