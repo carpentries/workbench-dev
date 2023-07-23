@@ -340,7 +340,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#debugging-tips" id="toc-debugging-tips" class="nav-link" data-scroll-target="#debugging-tips"><span class="header-section-number">B.2.1.3</span> Debugging Tips</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#sec-actions" id="toc-sec-actions" class="nav-link" data-scroll-target="#sec-actions"><span class="header-section-number">B.3</span> GitHub Actions</a></li>
+  <li><a href="#sec-actions" id="toc-sec-actions" class="nav-link" data-scroll-target="#sec-actions"><span class="header-section-number">B.3</span> GitHub Actions</a>
+  <ul>
+  <li><a href="#networking-failures" id="toc-networking-failures" class="nav-link" data-scroll-target="#networking-failures"><span class="header-section-number">B.3.1</span> Networking Failures</a></li>
+  <li><a href="#upstream-system-dependency-issues" id="toc-upstream-system-dependency-issues" class="nav-link" data-scroll-target="#upstream-system-dependency-issues"><span class="header-section-number">B.3.2</span> Upstream System Dependency Issues</a>
+  <ul class="collapse">
+  <li><a href="#ssl-error" id="toc-ssl-error" class="nav-link" data-scroll-target="#ssl-error">SSL error</a></li>
+  </ul></li>
+  <li><a href="#workflow-mis-configuration" id="toc-workflow-mis-configuration" class="nav-link" data-scroll-target="#workflow-mis-configuration"><span class="header-section-number">B.3.3</span> Workflow Mis-Configuration</a>
+  <ul class="collapse">
+  <li><a href="#s399" id="toc-s399" class="nav-link" data-scroll-target="#s399">files with spaces in names cause <code>pr-comment.yaml</code> workflow to fail</a></li>
+  </ul></li>
+  <li><a href="#permissions-changes" id="toc-permissions-changes" class="nav-link" data-scroll-target="#permissions-changes"><span class="header-section-number">B.3.4</span> Permissions Changes</a>
+  <ul class="collapse">
+  <li><a href="#carpentries-bot" id="toc-carpentries-bot" class="nav-link" data-scroll-target="#carpentries-bot"><span class="header-section-number">B.3.4.1</span> carpentries-bot</a></li>
+  </ul></li>
+  <li><a href="#actions" id="toc-actions" class="nav-link" data-scroll-target="#actions"><span class="header-section-number">B.3.5</span> Actions</a></li>
+  </ul></li>
   <li><a href="#sec-structural" id="toc-sec-structural" class="nav-link" data-scroll-target="#sec-structural"><span class="header-section-number">B.4</span> Structural Features</a></li>
   </ul>
 </nav>
@@ -367,6 +383,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<!---
+
+##### Issue Report Template
+
+Replace {pkg} with the first letter of the package the issue occurs in and
+{num} with the issue number
+
+###### {pkg}{num} Situation {.unnumbered}
+
+ - Issue: [carpentries/{pkg}#{num}](https://github.com/carpentries/{pkg}/issues/num)
+ - Resolver: zkamvar
+ - Type: Local
+ - OS: Rocky Linux 8.8
+ - Package: {pkg}
+
+###### {pkg}{num} Diagnosis {.unnumbered}
+
+###### {pkg}{num} Solution {.unnumbered}
+
+###### {pkg}{num} Alternative Solution {.unnumbered}
+
+###### {pkg}{num} Narrative {.unnumbered}
+
+--->
 <p>This part of the developers manual is a living document and serves as a window into the mind of a Workbench Maintainer as they address issues and new feature requests.</p>
 <p>The following sections of this appendix will not distinguish between bugs and features, because often the process for fixing bugs is not sufficiently different than that of adding a new feature (though there are exceptions, which I will highlight below). Rather, a more logical division is to distinguish between if the issue is within The Workbench Packages, In an Upstream dependency, with GitHub Actions, and finally, issues that are more structural in nature and require more extensive user experience (UX) testing.</p>
 <section id="sec-within" class="level2" data-number="B.1">
@@ -496,6 +536,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sec-actions" class="level2" data-number="B.3">
 <h2 data-number="B.3" class="anchored" data-anchor-id="sec-actions"><span class="header-section-number">B.3</span> GitHub Actions</h2>
+<p>There is a category of issues that fail explicitly with GitHub actions only. As with the other issues, it is important not to panic when you encounter these, but instead, take stock of what happens when these happen. In general, here are the steps you should take to diagnosing problems:</p>
+<ol start="0" type="1">
+<li>Prepare your inbox to filter messages from GitHub. A good way is to check that the subject line matches “Run failed 01 Build and Deploy” or “Run failed 03 Update Cache”.</li>
+<li>Find and read the error message from the log. You can find this by looking for the red X and expanding that section. It will normally scroll down to the error.</li>
+<li>Read the <em>context</em> of the error message. Most errors happen because of problems upstream, so it’s important to see what was happening when that error happened</li>
+<li>Restart the action. GitHub has a button near the top right of the action. If it’s ephemeral (e.g.&nbsp;networking error) then it will run fine on the next run.</li>
+<li>Test the build locally</li>
+<li>Test it on the <code>carpentries/sandpaper-docs</code> repository</li>
+<li>Test it on a brand new repository created via the templates (<a href="https://bit.ly/new-lesson-md" class="uri">https://bit.ly/new-lesson-md</a> or <a href="https://bit.ly/new-lesson-rmd" class="uri">https://bit.ly/new-lesson-rmd</a>)</li>
+</ol>
+<p>Below I will attempt to outline common problem areas and their potential solutions. Note: this is not an exhaustive list, but you have to remember that in these situations, you are effectively debugging someone else’s computer, so patience is absolutely required because this is more difficult than plucking a single grain of rice with metal chopsticks.</p>
+<section id="networking-failures" class="level3" data-number="B.3.1">
+<h3 data-number="B.3.1" class="anchored" data-anchor-id="networking-failures"><span class="header-section-number">B.3.1</span> Networking Failures</h3>
+<p>These are often the easiest problems to solve. You will encounter an error that says somthing like “network timed out” and it fails when either checking out the repository or installing pandoc. In these situations, you should check <a href="https://status.github.com" class="uri">https://status.github.com</a> to see if this is a problem with GitHub, and then you should restart the build. Most of the time, the build will work on the second try.</p>
+</section>
+<section id="upstream-system-dependency-issues" class="level3" data-number="B.3.2">
+<h3 data-number="B.3.2" class="anchored" data-anchor-id="upstream-system-dependency-issues"><span class="header-section-number">B.3.2</span> Upstream System Dependency Issues</h3>
+<section id="ssl-error" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="ssl-error">SSL error</h4>
+<section id="bioc-intro109-situation" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="bioc-intro109-situation">bioc-intro109 Situation</h5>
+<ul>
+<li>Issue: <a href="https://github.com/carpentries-incubator/bioc-intro/issues/109" class="uri">https://github.com/carpentries-incubator/bioc-intro/issues/109</a></li>
+<li>Resolver: NA</li>
+<li>Type: Remote</li>
+<li>OS: Ubuntu 22.04</li>
+<li>Package: NA</li>
+</ul>
+<p>On 2023-07-20, @lgatto, who maintains the carpentries-incubator/bioc-intro repository reported an error in their builds during the “Setup Package Cache” of the <code>sandpaper-main.yaml</code> workflow:</p>
+<pre><code>Register Repositories
+Using github PAT from envvar GITHUB_PAT
+Error: Error: Failed to install 'vise' from GitHub:
+  SSL peer certificate or SSH remote key was not OK: [api.github.com] SSL: no alternative certificate subject name matches target host name 'api.github.com'
+Execution halted
+Error: Process completed with exit code 1.</code></pre>
+<p>This error was causing the <a href="https://carpentries.github.io/vise">carpentries/vise</a> package to not be installed and the {renv} package cache could not be provisioned for lessons. Because it involved the {renv} package cache, this was a problem that was limited to R-based lessons.</p>
+</section>
+<section id="bioc-intro109-diagnosis" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="bioc-intro109-diagnosis">bioc-intro109 Diagnosis</h5>
+<p>The cause of the problem was <a href="https://fosstodon.org/@gaborcsardi/110741646942210567">identified by Gabor Csardi</a> as a bug specific to the development version of <code>curl</code> on Ubuntu: <a href="https://bugs.launchpad.net/ubuntu/+source/curl/+bug/2028170" class="uri">https://bugs.launchpad.net/ubuntu/+source/curl/+bug/2028170</a>.</p>
+<p>The key error message here was <code>SSL: no alternative certificate subject name matches target host name 'api.github.com'</code>. The <code>curl</code> program was checking the validity of the SSL certificate for <code>github.com</code>, but it was ignoring the rules for <code>*.github.com</code>, so when it found <code>api.github.com</code>, it saw that as an invalid site that should not be trusted.</p>
+<p>Even though the default version of curl on GitHub’s runners is <em>not</em> the dev version, when we provision the workbench in the “Setup Lesson Engine” step, we query the system dependencies from the R-universe:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> curl https://carpentries.r-universe.dev/stats/sysdeps <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">'.headers[0] | select(. != null)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>libcurl4-openssl-dev
+libfontconfig-dev
+libfreetype-dev
+libfribidi-dev
+libharfbuzz-dev
+libicu-dev
+libgit2-dev
+libjpeg-turbo8-dev
+libpng-dev
+libtiff-dev
+libxml2-dev
+libxslt1-dev
+libssl-dev</code></pre>
+<p>This installed the development version of curl into our system and introduced the bug during the “Setup Package Cache” step.</p>
+</section>
+<section id="bioc-intro109-solution" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="bioc-intro109-solution">bioc-intro109 Solution</h5>
+<p>The solution was to wait for a fix.</p>
+</section>
+<section id="bioc-intro109-alternative-solution" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="bioc-intro109-alternative-solution">bioc-intro109 Alternative Solution</h5>
+<p>An alternative solution that we tested was to switch the download method for R packages to “wget”, but this was a non-starter because this caused the installation times for R packages <em>and</em> the workbench to rise because they would need to be compiled (posit PPM did not serve the binary packages over wget).</p>
+</section>
+<section id="bioc-intro109-narrative" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="bioc-intro109-narrative">bioc-intro109 Narrative</h5>
+<ul>
+<li>I get the notification of the issue and @lgatto suspects it’s because of {vise}.</li>
+<li>I install {vise} using <code>remotes::install_github("carpentries/vise")</code> to check that it’s installable and I am successful.</li>
+<li>I rerun the action and get the same error. I run the action on the <a href="https://github.com/carpentries/sandpaper-docs/actions/runs/5600450591/job/15170692838">carpentries/sandpaper-docs</a> repository, but it also fails similarly. This confirms that it’s a broader issue.</li>
+<li>I thought maybe also it was a problem in the {remotes} package since it hasn’t been updated on CRAN since 2021.</li>
+<li>I found <a href="https://github.com/r-lib/remotes/issues/762" class="uri">https://github.com/r-lib/remotes/issues/762</a> which points to an issue in <code>utils::download.file()</code> as the source of the problems with curl.</li>
+<li>I notice that {vise} is still recorded as “zkamvar/vise” in the github actions files. I change it in <a href="https://github.com/carpentries/actions/commit/2de7e3fef36e242cb7b6dae348bfdb274b2791fd">carpentries/actions@2de7e3fef</a></li>
+<li>This <a href="https://github.com/carpentries/sandpaper-docs/actions/runs/5600450591/job/15171251862">does not fix the issue</a> and I post to mastodon: <a href="https://fosstodon.org/@zkamvar/110741428815173845" class="uri">https://fosstodon.org/@zkamvar/110741428815173845</a></li>
+<li>I update the installation for vise to use “wget” as a fallback (see this <a href="https://github.com/carpentries/actions/compare/e9405d9b8f2f99a2a7fd16a31194fd8563af95c9..3fb4f689d3fed641e2644e11ce3b312edc991c70">comparison of commits</a></li>
+<li>I create a new branch in carpentries/actions to set <code>options(download.file.method = "wget")</code> in setup-sandpaper (<a href="https://github.com/carpentries/actions/compare/2023-07-ssl-errors">view the diff</a>).</li>
+<li>I create https://github.com/zkamvar/2023-07-19-test-actions, which <a href="https://github.com/zkamvar/2023-07-19-test-actions/actions/runs/5601090073/job/15172762540">fails initially</a> and replace all <code>@main</code> declarations in <code>.github/workflows/</code> with <code>@2023-07-ssl-errors</code> to test the fix that I created. The <a href="https://github.com/zkamvar/2023-07-19-test-actions/actions/runs/5601160026/job/15173081859">next run also fails</a> and it takes &gt; 17 minutes to set up the workbench (which normally takes ~1 minute or less). I understand that the “wget” method will not work.</li>
+<li><a href="https://fosstodon.org/@gaborcsardi/110741646942210567">Gabor Csardi identifies the issue as coming from the dev version of curl</a></li>
+<li>I check the version of curl in <a href="https://github.com/actions/runner-images/blob/ubuntu22/20230710.1/images/linux/Ubuntu2204-Readme.md">the ubuntu runner image</a>, which I found by expanding “Setup Job” and then “Runner Image” in the GitHub action run and finding the URL above, but it is not devel.</li>
+<li>I create <a href="https://github.com/zkamvar/test-github-actions-ssl" class="uri">https://github.com/zkamvar/test-github-actions-ssl</a> to as a MWE of the error.</li>
+<li>I <a href="https://github.com/zkamvar/test-github-actions-ssl/commit/7b9bd2269c5c81ef7fe0658aaca2ef976cdeab8e">create a workflow that runs the command from the ubuntu bug report</a> and find that it works.</li>
+<li>I <a href="https://github.com/zkamvar/test-github-actions-ssl/commit/ee637acccf45cbf41f5b60e963b72a07a28bcca7">update the workflow</a> so that it demonstrates the working example and then demonstrates the failing example. <a href="https://github.com/zkamvar/test-github-actions-ssl/actions/runs/5602298664/job/15176571806">It successfully fails</a></li>
+<li>I wait and check the bug has been fixed for ubuntu and I rerun the workflow. <a href="https://github.com/zkamvar/test-github-actions-ssl/actions/runs/5602298664/job/15185938773">It succeeds</a> and I re-run the bioc-intro and sandpaper-docs builds to find that they work.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="workflow-mis-configuration" class="level3" data-number="B.3.3">
+<h3 data-number="B.3.3" class="anchored" data-anchor-id="workflow-mis-configuration"><span class="header-section-number">B.3.3</span> Workflow Mis-Configuration</h3>
+<p>Sometimes the workflow files themselves are mis-configured. In these cases, the fix will involve updating the files in sandpaper’s <code>inst/workflows/</code> directory. If the <code>pr-comment.yaml</code> or <code>update-workflows.yaml</code> files are not affected, then a pull request will be created automatically to all lessons within a week after you submit the patch, but if these files are affected, then you will have to manually submit the patch.</p>
+<section id="s399" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="s399">files with spaces in names cause <code>pr-comment.yaml</code> workflow to fail</h4>
+<section id="s399-situation" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="s399-situation">s399 Situation</h5>
+<ul>
+<li>Issue: <a href="https://github.com/carpentries/sandpaper/issues/399">carpentries/sandpaper#399</a></li>
+<li>Resolver: zkamvar</li>
+<li>Type: Remote</li>
+<li>OS: Ubuntu 22.04</li>
+<li>Package: sandpaper</li>
+</ul>
+</section>
+<section id="s399-diagnosis" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="s399-diagnosis">s399 Diagnosis</h5>
+</section>
+<section id="s399-solution" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="s399-solution">s399 Solution</h5>
+</section>
+<section id="s399-alternative-solution" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="s399-alternative-solution">s399 Alternative Solution</h5>
+</section>
+<section id="s399-narrative" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="s399-narrative">s399 Narrative</h5>
+</section>
+</section>
+</section>
+<section id="permissions-changes" class="level3" data-number="B.3.4">
+<h3 data-number="B.3.4" class="anchored" data-anchor-id="permissions-changes"><span class="header-section-number">B.3.4</span> Permissions Changes</h3>
+<section id="carpentries-bot" class="level4" data-number="B.3.4.1">
+<h4 data-number="B.3.4.1" class="anchored" data-anchor-id="carpentries-bot"><span class="header-section-number">B.3.4.1</span> carpentries-bot</h4>
+</section>
+</section>
+<section id="actions" class="level3" data-number="B.3.5">
+<h3 data-number="B.3.5" class="anchored" data-anchor-id="actions"><span class="header-section-number">B.3.5</span> Actions</h3>
+</section>
 </section>
 <section id="sec-structural" class="level2" data-number="B.4">
 <h2 data-number="B.4" class="anchored" data-anchor-id="sec-structural"><span class="header-section-number">B.4</span> Structural Features</h2>
