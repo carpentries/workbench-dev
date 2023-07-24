@@ -166,7 +166,7 @@ flowchart TB
     CIBUILDMD(["ci_build_markdown()"]):::external
     CIBUILDSITE(["ci_build_site()"]):::external
 
-    subgraph GitHub Actions Runner
+    subgraph virtual machine
     REPO["[repo]"]:::local
     BUILT["[repo]/site/built"]:::local
     SITE["[repo]/site/docs"]:::local

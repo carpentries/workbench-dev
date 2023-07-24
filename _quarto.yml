@@ -36,8 +36,9 @@ book:
     - part: "Package Distribution"
       chapters:
       - releases.qmd
-    - part: "Building Lessons Remotely"
-    - part: "GitHub Actions"
+    - part: "Remote Deployment"
+      chapters:
+      - remote/intro.qmd
     - summary.qmd
     - references.qmd
   appendices:

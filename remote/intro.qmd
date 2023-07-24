@@ -1,0 +1,64 @@
+---
+title: "Introduction"
+---
+
+The Workbench was built to be platform-independent, so that you could continue
+to deploy its features without relying on specific features of GitHub. The core
+deployment function in the workbench is `sandpaper:::ci_deploy()`, which will
+deploy the rendered markdown and the HTML to separate _orphan branches_ in the 
+Git repository. 
+
+THis allows us to retain the commit history from building not just the HTML, but
+also the markdown outputs without interfering with the commit history of the
+source of the lesson. Having separate branches for each output also allows us to
+inspect and provision these resources when we need to. 
+
+```{mermaid}
+flowchart TB
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+
+    GH[("@main")]:::remote
+    MDOUT[("@md-outputs")]:::notouch
+    PAGES[("@gh-pages")]:::notouch
+    DEPLOY(["ci_deploy()"]):::external
+    CIBUILDMD(["ci_build_markdown()"]):::external
+    CIBUILDSITE(["ci_build_site()"]):::external
+
+    subgraph virtual machine
+    REPO["[repo]"]:::local
+    BUILT["[repo]/site/built"]:::local
+    SITE["[repo]/site/docs"]:::local
+    VLESS("validate_lesson()"):::normal
+    BUILDMD(["build_markdown()"]):::normal
+    BUILDSITE(["build_site()"]):::normal
+    end
+
+
+    GH ---> REPO
+    GH ~~~ DEPLOY
+    REPO -.- VLESS
+
+
+    DEPLOY ---> VLESS
+    DEPLOY ---> CIBUILDMD
+    DEPLOY ---> CIBUILDSITE
+    VLESS -.- BUILDMD
+    CIBUILDMD ---> MDOUT
+    MDOUT <-.-> BUILT
+    CIBUILDMD ---> BUILDMD
+    CIBUILDSITE ---> PAGES
+    PAGES <-.-> SITE
+    CIBUILDSITE ---> BUILDSITE
+    BUILT -.- BUILDSITE
+    VLESS -.- BUILDSITE
+    BUILDMD --> BUILT
+    BUILDSITE --> SITE
+```
+
+
