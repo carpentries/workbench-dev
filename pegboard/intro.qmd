@@ -46,6 +46,7 @@ functional programming framework.
   few minutes to build because it needed to download the lessons, and it was no
   longer appropriate as {pegboard} was shaping up to be the lesson validator and
   translator.
+
 [{tinkr}]: https://docs.ropensci.org/tinkr/
 [{R6}]: https://r6.r-lib.org/
 [{xml2}]: https://xml2.r-lib.org/
