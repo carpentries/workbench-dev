@@ -84,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment</a></li><li class="breadcrumb-item"><a href="../remote/intro.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/intro.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -241,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
- <span class="menu-text">Remote Deployment</span></a>
+ <span class="menu-text">Remote Deployment and Management</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -296,12 +296,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#beyond-deployment" id="toc-beyond-deployment" class="nav-link active" data-scroll-target="#beyond-deployment"><span class="header-section-number">11.1</span> Beyond Deployment</a>
+  <ul class="collapse">
+  <li><a href="#pull-request-previews" id="toc-pull-request-previews" class="nav-link" data-scroll-target="#pull-request-previews"><span class="header-section-number">11.1.1</span> Pull Request Previews</a></li>
+  <li><a href="#updating-compontents" id="toc-updating-compontents" class="nav-link" data-scroll-target="#updating-compontents"><span class="header-section-number">11.1.2</span> Updating Compontents</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment</a></li><li class="breadcrumb-item"><a href="../remote/intro.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/intro.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
 </div>
@@ -319,8 +329,7 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>The Workbench was built to be platform-independent, so that you could continue to deploy its features without relying on specific features of GitHub. The core deployment function in the workbench is <code>sandpaper:::ci_deploy()</code>, which will deploy the rendered markdown and the HTML to separate <em>orphan branches</em> in the Git repository.</p>
-<p>THis allows us to retain the commit history from building not just the HTML, but also the markdown outputs without interfering with the commit history of the source of the lesson. Having separate branches for each output also allows us to inspect and provision these resources when we need to.</p>
+<p>The Workbench was built to be platform-independent, so that you could continue to deploy its features without relying on specific features of GitHub. We use the exact same two step process of building the markdown and then passing that to the HTML renderer, with a twist. The core deployment function in the workbench is <code>sandpaper:::ci_deploy()</code>, which will deploy the rendered markdown and the HTML to separate <em>orphan branches</em> in the Git repository that are mapped as <em>git worktrees</em> to the <code>site/built</code> and <code>site/docs</code> folders during the build process.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -375,8 +384,21 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p>This allows us to retain the commit history from building not just the HTML, but also the markdown outputs without interfering with the commit history for the lesson source. It <em>also</em> gives us the ability to use these branches as a cache so that the lesson doesn’t have to rebuild from scratch every time, but the biggest advantage is in the things that go beyond just deploying lessons.</p>
+<section id="beyond-deployment" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="beyond-deployment"><span class="header-section-number">11.1</span> Beyond Deployment</h2>
+<p>Having a single workflow for deployment is fine, but in the context of a lesson that will generate its content, other tools are needed to avoid the element of surprise from taking over when a change is made to the lesson. On the converse side, tools are needed to bring in updates that can affect the security and accuracy of the lesson.</p>
+<section id="pull-request-previews" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="pull-request-previews"><span class="header-section-number">11.1.1</span> Pull Request Previews</h3>
+<p>The norm for working on GitHub is a trunk-based workflow—small branches containing different features or bug fixes are created and then merged into the default branch after review. If new content is added or packages update, it is important to have mechanisms to verify that the contents of a lesson and to intervene if something is incorrect before the changes happen.</p>
+</section>
+<section id="updating-compontents" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="updating-compontents"><span class="header-section-number">11.1.2</span> Updating Compontents</h3>
+<p>The update workflows are there because we understand that a data science lesson does not live in isolation and it cannot be built in isolation—contents and tools need to be updated as the software ecosystem changes. Thus, just like we provide the {sandpaper} functions <a href="https://carpentries.github.io/sandpaper/reference/dependency_management.html">sandpaper::update_cache()</a> and <a href="https://carpentries.github.io/sandpaper/reference/update_github_workflows.html">sandpaper::update_github_workflows()</a>, these are also available as GitHub workflows that will create a pull request (if it has permissions).</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
