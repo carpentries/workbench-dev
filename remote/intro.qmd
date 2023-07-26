@@ -3,15 +3,14 @@ title: "Introduction"
 ---
 
 The Workbench was built to be platform-independent, so that you could continue
-to deploy its features without relying on specific features of GitHub. The core
-deployment function in the workbench is `sandpaper:::ci_deploy()`, which will
-deploy the rendered markdown and the HTML to separate _orphan branches_ in the 
-Git repository. 
+to deploy its features without relying on specific features of GitHub. We use
+the exact same two step process of building the markdown and then passing that
+to the HTML renderer, with a twist. The core deployment function in the
+workbench is `sandpaper:::ci_deploy()`, which will deploy the rendered markdown
+and the HTML to separate _orphan branches_ in the Git repository that are mapped
+as _git worktrees_ to the `site/built` and `site/docs` folders during the build
+process.
 
-THis allows us to retain the commit history from building not just the HTML, but
-also the markdown outputs without interfering with the commit history of the
-source of the lesson. Having separate branches for each output also allows us to
-inspect and provision these resources when we need to. 
 
 ```{mermaid}
 flowchart TB
@@ -60,5 +59,35 @@ flowchart TB
     BUILDMD --> BUILT
     BUILDSITE --> SITE
 ```
+
+
+This allows us to retain the commit history from building not just the HTML, but
+also the markdown outputs without interfering with the commit history for the
+lesson source. It _also_ gives us the ability to use these branches as a cache
+so that the lesson doesn't have to rebuild from scratch every time, but the
+biggest advantage is in the things that go beyond just deploying lessons.
+
+## Beyond Deployment
+
+Having a single workflow for deployment is fine, but in the context of a lesson
+that will generate its content, other tools are needed to avoid the element of
+surprise from taking over when a change is made to the lesson. On the converse
+side, tools are needed to bring in updates that can affect the security and
+accuracy of the lesson.
+
+### Pull Request Previews
+
+The norm for working on GitHub is a trunk-based workflow---small branches
+containing different features or bug fixes are created and then merged into the
+default branch after review. If new content is added or packages update, it is
+important to have mechanisms to verify that the contents of a lesson and to
+intervene if something is incorrect before the changes happen.
+
+### Updating Compontents
+
+The update workflows are there because we understand that a data science lesson
+does not live in isolation and it cannot be built in isolation---contents and
+tools need to be updated as the software ecosystem changes. Thus, just like we
+provide the {sandpaper} functions [sandpaper::update_cache()](https://carpentries.github.io/sandpaper/reference/dependency_management.html) and [sandpaper::update_github_workflows()](https://carpentries.github.io/sandpaper/reference/update_github_workflows.html), these are also available as GitHub workflows that will create a pull request (if it has permissions).
 
 
