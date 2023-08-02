@@ -2,6 +2,8 @@
 title: "Introduction"
 ---
 
+## Philosophy
+
 The Workbench was built to be platform-independent, so that you could continue
 to deploy its features without relying on specific features of GitHub. We use
 the exact same two step process of building the markdown and then passing that
@@ -75,7 +77,7 @@ surprise from taking over when a change is made to the lesson. On the converse
 side, tools are needed to bring in updates that can affect the security and
 accuracy of the lesson.
 
-### Pull Request Previews
+### Pull Request Management
 
 The norm for working on GitHub is a trunk-based workflow---small branches
 containing different features or bug fixes are created and then merged into the
@@ -90,4 +92,66 @@ does not live in isolation and it cannot be built in isolation---contents and
 tools need to be updated as the software ecosystem changes. Thus, just like we
 provide the {sandpaper} functions [sandpaper::update_cache()](https://carpentries.github.io/sandpaper/reference/dependency_management.html) and [sandpaper::update_github_workflows()](https://carpentries.github.io/sandpaper/reference/update_github_workflows.html), these are also available as GitHub workflows that will create a pull request (if it has permissions).
 
+
+## In Practice
+
+We use [GitHub Workflows][GHW] to build and deploy our lessons[^gha]. These workflows
+are responsible for provisioning [GitHub's Ubuntu 22.04 Runner
+Image](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md)
+with the packages and software needed to build a lesson with The Workbench. 
+
+### Workflows
+
+There are broadly four categories of workflows, where an asterisk (\*) denotes
+workflows that can be manually triggered by maintainers and a carrot (\^)
+denotes workflows that require a personal access token to create a pull request
+
+1. Deployment\* (`sandpaper-main.yaml`)
+2. Pull Request Responders (`pr-preflight.yaml`, `pr-receive.yaml`)
+3. Updates\*\^ (`update-cache.yaml`, `update-workflows.yaml`)
+4. Pull Request Preview Managers (`pr-comment.yaml`, `pr-close-signal.yaml`, 
+   `pr-post-remove-branch.yaml`)
+
+
+These [workflows are individually documented in the sandpaper
+repository](https://github.com/carpentries/sandpaper/tree/main/inst/workflows#readme)
+and you can find more detail about their design, caching, and linkage in a
+following chapter.
+
+[GHW]: https://docs.github.com/en/actions/using-workflows/about-workflows
+[^gha]: GitHub can be a bit confusing with it's terminology and fluid concepts.
+  Their resource for [Understanding GitHub
+  Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)
+  may help, but here's how I think about it In this publication, whenever I
+  refer to a _GitHub Workflow_, this is a YAML file that lives inside of a
+  repository that tells GitHub how to set up its machine to build the lesson.
+  It's like a recipe plan and shopping list for a dinner. On the other hand,
+  when I refer to a _GitHub Action_, this is a self-contained piece of software
+  that will perform a specific task _within a workflow_. This is akin to a
+  specific kitchen utensil, ingredient or spice within a recipe. 
+
+### Actions
+
+These workflows use a series of [Custom GitHub Actions][GHA] which can be found
+in the following repositories:
+
+ - <https://github.com/carpentries/actions> a combination of both [composite]
+   and [JavaScript Actions][jsa] that perform the duties for provisioning the
+   workbench, provisioning packages for R-based lessons, validating pull
+   requests, downloading data from previous runs, commenting on pull requests, 
+   and updating components.
+ - <https://github.com/r-lib/actions> similar to carpentries/actions, but these
+   are used in our workflows to provision R (that is, set up the correct
+   environment variables) and to provision pandoc. Many of these actions are
+   designed for packages and we use them heavily in the workbench development.
+ - <https://github.com/carpentries/create-pull-request> a fork of a popular
+   action that will create a pull request _from a Github Workflow_. This is a
+   fork so that we can make sure that we will keep it secure.
+
+[GHA]: https://docs.github.com/en/actions/creating-actions/about-custom-actions
+[composite]: https://docs.github.com/en/actions/creating-actions/about-custom-actions#composite-actions
+[jsa]: https://docs.github.com/en/actions/creating-actions/about-custom-actions#composite-actions
+
+Each repository has the actions documented to a degree, but we will discuss the
+implications and design of the actions in a following chapter. 
 
