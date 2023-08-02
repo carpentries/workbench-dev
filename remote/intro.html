@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -300,7 +334,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#philosophy" id="toc-philosophy" class="nav-link active" data-scroll-target="#philosophy"><span class="header-section-number">11.1</span> Philosophy</a></li>
+  <li><a href="#sec-philosophy" id="toc-sec-philosophy" class="nav-link active" data-scroll-target="#sec-philosophy"><span class="header-section-number">11.1</span> Philosophy</a>
+  <ul class="collapse">
+  <li><a href="#proof" id="toc-proof" class="nav-link" data-scroll-target="#proof"><span class="header-section-number">11.1.1</span> Proof</a></li>
+  </ul></li>
   <li><a href="#beyond-deployment" id="toc-beyond-deployment" class="nav-link" data-scroll-target="#beyond-deployment"><span class="header-section-number">11.2</span> Beyond Deployment</a>
   <ul class="collapse">
   <li><a href="#pull-request-management" id="toc-pull-request-management" class="nav-link" data-scroll-target="#pull-request-management"><span class="header-section-number">11.2.1</span> Pull Request Management</a></li>
@@ -335,9 +372,9 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="philosophy" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="philosophy"><span class="header-section-number">11.1</span> Philosophy</h2>
-<p>The Workbench was built to be platform-independent, so that you could continue to deploy its features without relying on specific features of GitHub. We use the exact same two step process of building the markdown and then passing that to the HTML renderer, with a twist. The core deployment function in the workbench is <code>sandpaper:::ci_deploy()</code>, which will deploy the rendered markdown and the HTML to separate <em>orphan branches</em> in the Git repository that are mapped as <em>git worktrees</em> to the <code>site/built</code> and <code>site/docs</code> folders during the build process.</p>
+<section id="sec-philosophy" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-philosophy"><span class="header-section-number">11.1</span> Philosophy</h2>
+<p>The Workbench was built to be platform-independent, so that you could continue to deploy its features without relying on specific features of GitHub. We use the exact same two step process of building the markdown and then passing that to the HTML renderer, with a twist. The core deployment function in the workbench is <a href="https://carpentries.github.io/sandpaper/reference/ci_deploy.html"><code>sandpaper:::ci_deploy()</code></a>, which will deploy the rendered markdown and the HTML to separate <em>orphan branches</em> in the Git repository that are mapped as <em>git worktrees</em> to the <code>site/built</code> and <code>site/docs</code> folders during the build process. In each step, when the build is successful, the results are pushed to the respective worktree before moving to the next step. When the process is done (regardless of outcome), the worktrees are torn down gracefully.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -349,7 +386,6 @@ ul.task-list li input[type="checkbox"] {
     classDef local fill:#FFC700,stroke:#333,stroke-width:1px
     classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
     classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
-
 
     GH[("@main")]:::remote
     MDOUT[("@md-outputs")]:::notouch
@@ -367,11 +403,9 @@ ul.task-list li input[type="checkbox"] {
     BUILDSITE(["build_site()"]):::normal
     end
 
-
     GH ---&gt; REPO
     GH ~~~ DEPLOY
     REPO -.- VLESS
-
 
     DEPLOY ---&gt; VLESS
     DEPLOY ---&gt; CIBUILDMD
@@ -393,6 +427,46 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>This allows us to retain the commit history from building not just the HTML, but also the markdown outputs without interfering with the commit history for the lesson source. It <em>also</em> gives us the ability to use these branches as a cache so that the lesson doesn’t have to rebuild from scratch every time, but the biggest advantage is in the things that go beyond just deploying lessons.</p>
+<section id="proof" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="proof"><span class="header-section-number">11.1.1</span> Proof</h3>
+<p>One way to prove this works on any system that uses Git, you can create a lesson, push it to GitHub, and then render the contents before GitHub is done setting up its runners.</p>
+<p>The file <a href="test-deploy.R"><code>test-deploy.R</code></a> will do just that<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<div class="cell" data-file="test-deploy.R">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load The packages --------------------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandpaper)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(withr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ids)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the Lesson ------------------------------------</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"TEST-"</span>, <span class="fu">adjective_animal</span>(<span class="at">style =</span> <span class="st">"kebab"</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dir_create</span>(tmp)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>lsn <span class="ot">&lt;-</span> <span class="fu">path</span>(tmp, id)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">create_lesson</span>(lsn, <span class="at">open =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Push the Lesson To Github ------------------------------</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">with_dir</span>(lsn, {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_github</span>()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Render and Deploy the Lesson ---------------------------</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">with_dir</span>(lsn, {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  sandpaper<span class="sc">:::</span><span class="fu">ci_deploy</span>()</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Set GitHub Pages ---------------------------------------</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">with_dir</span>(lsn, {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_github_pages</span>()</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You must run it in a non-interactive fashion:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> remote/test-deploy.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now you can visit the GitHub repository and if you wait ~30 seconds, GitHub will have created a website for you and will still be setting up the lesson engine. This shows that it is possible to deploy as long as you have the following:</p>
+<ol type="1">
+<li>A system with {sandpaper} and Git set up properly</li>
+<li>push access to a remote Git repository</li>
+</ol>
+<p>In fact, if you look at the <a href="https://carpentries.github.io/sandpaper/reference/ci_deploy.html">example for <code>ci_deploy()</code></a>, you will see that it creates a lesson and remote repository and walks you through the process that happens.</p>
+<p>The challenge when deploying a Workbench lesson then lies in the step of provisioning the virtual machine or docker container to build a lesson when it updates.</p>
+</section>
 </section>
 <section id="beyond-deployment" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="beyond-deployment"><span class="header-section-number">11.2</span> Beyond Deployment</h2>
@@ -408,7 +482,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="in-practice" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="in-practice"><span class="header-section-number">11.3</span> In Practice</h2>
-<p>We use <a href="https://docs.github.com/en/actions/using-workflows/about-workflows">GitHub Workflows</a> to build and deploy our lessons<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. These workflows are responsible for provisioning <a href="https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md">GitHub’s Ubuntu 22.04 Runner Image</a> with the packages and software needed to build a lesson with The Workbench.</p>
+<p>We use <a href="https://docs.github.com/en/actions/using-workflows/about-workflows">GitHub Workflows</a> to build and deploy our lessons<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and the rest of the chapters in this section will discuss <em>how</em> we set these up, but <em>within the context of GitHub</em>. Remember that <a href="#sec-philosophy">our philosophy</a> is that the workbench should be deployable anywhere. These workflows are responsible for provisioning <a href="https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md">GitHub’s Ubuntu 22.04 Runner Image</a> with the packages and software needed to build a lesson with The Workbench.</p>
 <section id="workflows" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="workflows"><span class="header-section-number">11.3.1</span> Workflows</h3>
 <p>There are broadly four categories of workflows, where an asterisk (*) denotes workflows that can be manually triggered by maintainers and a carrot (^) denotes workflows that require a personal access token to create a pull request</p>
@@ -436,7 +510,8 @@ ul.task-list li input[type="checkbox"] {
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>GitHub can be a bit confusing with it’s terminology and fluid concepts. Their resource for <a href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions">Understanding GitHub Actions</a> may help, but here’s how I think about it In this publication, whenever I refer to a <em>GitHub Workflow</em>, this is a YAML file that lives inside of a repository that tells GitHub how to set up its machine to build the lesson. It’s like a recipe plan and shopping list for a dinner. On the other hand, when I refer to a <em>GitHub Action</em>, this is a self-contained piece of software that will perform a specific task <em>within a workflow</em>. This is akin to a specific kitchen utensil, ingredient or spice within a recipe.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Please note: this will only work if you have a GitHub PAT set up so that {usethis} can interact with the GitHub API.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>GitHub can be a bit confusing with it’s terminology and fluid concepts. Their resource for <a href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions">Understanding GitHub Actions</a> may help, but here’s how I think about it In this publication, whenever I refer to a <em>GitHub Workflow</em>, this is a YAML file that lives inside of a repository that tells GitHub how to set up its machine to build the lesson. It’s like a recipe plan and shopping list for a dinner. On the other hand, when I refer to a <em>GitHub Action</em>, this is a self-contained piece of software that will perform a specific task <em>within a workflow</em>. This is akin to a specific kitchen utensil, ingredient or spice within a recipe.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
 
