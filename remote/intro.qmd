@@ -2,16 +2,21 @@
 title: "Introduction"
 ---
 
-## Philosophy
+## Philosophy {#sec-philosophy}
 
 The Workbench was built to be platform-independent, so that you could continue
 to deploy its features without relying on specific features of GitHub. We use
 the exact same two step process of building the markdown and then passing that
 to the HTML renderer, with a twist. The core deployment function in the
-workbench is `sandpaper:::ci_deploy()`, which will deploy the rendered markdown
-and the HTML to separate _orphan branches_ in the Git repository that are mapped
-as _git worktrees_ to the `site/built` and `site/docs` folders during the build
-process.
+workbench is [`sandpaper:::ci_deploy()`][ci-deploy], which will deploy the
+rendered markdown and the HTML to separate _orphan branches_ in the Git
+repository that are mapped as _git worktrees_ to the `site/built` and
+`site/docs` folders during the build process. In each step, when the build is
+successful, the results are pushed to the respective worktree before moving to
+the next step. When the process is done (regardless of outcome), the worktrees
+are torn down gracefully. 
+
+[ci-deploy]: https://carpentries.github.io/sandpaper/reference/ci_deploy.html
 
 
 ```{mermaid}
@@ -62,12 +67,46 @@ flowchart TB
     BUILDSITE --> SITE
 ```
 
-
 This allows us to retain the commit history from building not just the HTML, but
 also the markdown outputs without interfering with the commit history for the
 lesson source. It _also_ gives us the ability to use these branches as a cache
 so that the lesson doesn't have to rebuild from scratch every time, but the
 biggest advantage is in the things that go beyond just deploying lessons.
+
+### Proof
+
+One way to prove this works on any system that uses Git, you can create a
+lesson, push it to GitHub, and then render the contents before GitHub is done
+setting up its runners.
+
+The file [`test-deploy.R`](test-deploy.R) will do just that[^pat]:
+
+```{r, file="test-deploy.R", eval = FALSE}
+```
+
+[^pat]: Please note: this will only work if you have a GitHub PAT set up so that
+  {usethis} can interact with the GitHub API.
+
+You must run it in a non-interactive fashion:
+
+```bash
+Rscript test-deploy.R
+```
+
+Now you can visit the GitHub repository and if you wait ~30 seconds, GitHub will
+have created a website for you and will still be setting up the lesson engine.
+This shows that it is possible to deploy as long as you have the following:
+
+1. A system with {sandpaper} and Git set up properly
+2. push access to a remote Git repository
+
+In fact, if you look at the [example for `ci_deploy()`], you will see that it
+creates a lesson and remote repository and walks you through the process that
+happens. 
+
+The challenge when deploying a Workbench lesson then lies in the step of
+provisioning the virtual machine or docker container to build a lesson when it
+updates. 
 
 ## Beyond Deployment
 
@@ -95,8 +134,11 @@ provide the {sandpaper} functions [sandpaper::update_cache()](https://carpentrie
 
 ## In Practice
 
-We use [GitHub Workflows][GHW] to build and deploy our lessons[^gha]. These workflows
-are responsible for provisioning [GitHub's Ubuntu 22.04 Runner
+We use [GitHub Workflows][GHW] to build and deploy our lessons[^gha] and the
+rest of the chapters in this section will discuss _how_ we set these up, but
+_within the context of GitHub_. Remember that [our philosophy](#sec-philosophy)
+is that the workbench should be deployable anywhere. These workflows are
+responsible for provisioning [GitHub's Ubuntu 22.04 Runner
 Image](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md)
 with the packages and software needed to build a lesson with The Workbench. 
 
