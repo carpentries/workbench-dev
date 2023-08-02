@@ -90,7 +90,7 @@ The file [`test-deploy.R`](test-deploy.R) will do just that[^pat]:
 You must run it in a non-interactive fashion:
 
 ```bash
-Rscript test-deploy.R
+Rscript remote/test-deploy.R
 ```
 
 Now you can visit the GitHub repository and if you wait ~30 seconds, GitHub will
@@ -100,7 +100,7 @@ This shows that it is possible to deploy as long as you have the following:
 1. A system with {sandpaper} and Git set up properly
 2. push access to a remote Git repository
 
-In fact, if you look at the [example for `ci_deploy()`], you will see that it
+In fact, if you look at the [example for `ci_deploy()`][ci-deploy], you will see that it
 creates a lesson and remote repository and walks you through the process that
 happens. 
 
