@@ -498,7 +498,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Updates*^ (<code>update-cache.yaml</code>, <code>update-workflows.yaml</code>)</li>
 <li>Pull Request Preview Managers (<code>pr-comment.yaml</code>, <code>pr-close-signal.yaml</code>, <code>pr-post-remove-branch.yaml</code>)</li>
 </ol>
-<p>These <a href="https://github.com/carpentries/sandpaper/tree/main/inst/workflows#readme">workflows are individually documented in the sandpaper repository</a> and you can find more detail about their design, caching, and linkage in a following chapter.</p>
+<p>These <a href="https://github.com/carpentries/sandpaper/tree/main/inst/workflows#readme">workflows are individually documented in the sandpaper repository</a></p>
+<p>These workflows are interrelated and have different triggers. Below are a set of diagrams that disambiguates these relationships. First up are the workflows that are run on a schedule <strong>and on demand</strong>. Note that the update workflows will only push to a branch if any updates exist, otherwise, they will exit silently.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    WEEK[\"CRON weekly"\]:::remote
+    MONTH[\"CRON monthly"\]:::remote
+
+    subgraph MAIN WORKFLOW
+    push[\"push to main"\]:::remote
+    md-outputs[("md-outputs")]:::local
+    gh-pages[("gh-pages")]:::local
+
+    sandpaper-main.yaml:::normal
+    end
+
+    subgraph "UPDATES (requires SANDPAPER_WORKFLOW token)"
+    update-cache.yaml:::normal
+    update-workflows.yaml:::normal
+
+    update-cache[("update/packages")]:::notouch
+    update-workflows[("update/workflows")]:::notouch
+
+    PR[/"pull request"/]:::remote
+    end
+
+    push --&gt; sandpaper-main.yaml
+    WEEK --&gt; sandpaper-main.yaml
+    sandpaper-main.yaml -.-&gt;|"pushes to"| md-outputs
+    sandpaper-main.yaml -.-&gt;|"pushes to"| gh-pages
+    WEEK --&gt; update-cache.yaml
+    MONTH --&gt; update-workflows.yaml
+    update-cache.yaml -.-&gt;|"pushes to"| update-cache
+    update-workflows.yaml -.-&gt;|"pushes to"| update-workflows
+    update-cache.yaml -.-&gt;|"creates"| PR
+    update-workflows.yaml -.-&gt;|"creates"| PR
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>Notice how <strong>none of the workflows push to main</strong>. The update workflows will push to the <code>update/*</code> branches and then create a pull request. It’s common to find workflows that will perform updates and then immediately push to the default branch (which is the case for the lesson-transition workflow), but it’s important to remember that a workflow that does <em>automatic</em> updates prevents the maintainers from critically inspecting the changes to the components. This is especially true of the <code>update-cache.yaml</code> workflow, which will update the {renv} lockfile. By passing it through the pull request process first, we can give the maintainers a way to audit the changes coming through.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph PULL REQUEST
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    md-outputs[("md-outputs")]:::local
+    PR[\"pull request"\]:::remote
+    pr-preflight.yaml:::normal
+    pr-recieve.yaml(["pr-recieve.yaml"]):::normal
+    pr-comment.yaml:::normal
+    pr-close-signal.yaml:::normal
+    pr-post-remove-branch.yaml:::normal
+    md-outputs-PR[("md-outputs-PR#")]:::notouch
+    end
+
+    PR --&gt; pr-preflight.yaml
+    pr-preflight.yaml -.-&gt;|"comments on"| PR
+    pr-preflight.yaml ~~~ pr-recieve.yaml
+    PR --&gt;|"on maintainer approval"| pr-recieve.yaml
+    pr-recieve.yaml -.-|"uses"| md-outputs
+    pr-recieve.yaml -.-&gt;|"triggers"| pr-comment.yaml
+    pr-comment.yaml -.-&gt;|"creates"| md-outputs-PR
+    pr-comment.yaml -.-&gt;|"comments on"| PR
+    PR -.-&gt;|"on close"| pr-close-signal.yaml
+    pr-close-signal.yaml -.-&gt;|"triggers"| pr-post-remove-branch.yaml
+    pr-post-remove-branch.yaml -.-&gt;|"deletes"| md-outputs-PR
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="actions" class="level3" data-number="11.3.2">
 <h3 data-number="11.3.2" class="anchored" data-anchor-id="actions"><span class="header-section-number">11.3.2</span> Actions</h3>
