@@ -266,9 +266,44 @@
     "text": "11.3 In Practice\nWe use GitHub Workflows to build and deploy our lessons2 and the rest of the chapters in this section will discuss how we set these up, but within the context of GitHub. Remember that our philosophy is that the workbench should be deployable anywhere. These workflows are responsible for provisioning GitHub’s Ubuntu 22.04 Runner Image with the packages and software needed to build a lesson with The Workbench.\n\n11.3.1 Workflows\nThere are broadly four categories of workflows, where an asterisk (*) denotes workflows that can be manually triggered by maintainers and a carrot (^) denotes workflows that require a personal access token to create a pull request\n\nDeployment* (sandpaper-main.yaml)\nPull Request Responders (pr-preflight.yaml, pr-receive.yaml)\nUpdates*^ (update-cache.yaml, update-workflows.yaml)\nPull Request Preview Managers (pr-comment.yaml, pr-close-signal.yaml, pr-post-remove-branch.yaml)\n\nThese workflows are individually documented in the sandpaper repository and you can find more detail about their design, caching, and linkage in a following chapter.\n\n\n11.3.2 Actions\nThese workflows use a series of Custom GitHub Actions which can be found in the following repositories:\n\nhttps://github.com/carpentries/actions a combination of both composite and JavaScript Actions that perform the duties for provisioning the workbench, provisioning packages for R-based lessons, validating pull requests, downloading data from previous runs, commenting on pull requests, and updating components.\nhttps://github.com/r-lib/actions similar to carpentries/actions, but these are used in our workflows to provision R (that is, set up the correct environment variables) and to provision pandoc. Many of these actions are designed for packages and we use them heavily in the workbench development.\nhttps://github.com/carpentries/create-pull-request a fork of a popular action that will create a pull request from a Github Workflow. This is a fork so that we can make sure that we will keep it secure.\n\nEach repository has the actions documented to a degree, but we will discuss the implications and design of the actions in a following chapter."
   },
   {
+    "objectID": "remote/deploy.html#provisioning-r",
+    "href": "remote/deploy.html#provisioning-r",
+    "title": "12  Deployment",
+    "section": "12.1 Provisioning R",
+    "text": "12.1 Provisioning R\nWe use the r-lib/actions/setup-r@v2 action to set up R’s environmental variables. It does not actually install R because R comes installed by default on GitHub’s runners2."
+  },
+  {
+    "objectID": "remote/deploy.html#caching",
+    "href": "remote/deploy.html#caching",
+    "title": "12  Deployment",
+    "section": "12.2 Caching",
+    "text": "12.2 Caching"
+  },
+  {
+    "objectID": "remote/deploy.html#provisioning-the-workbench",
+    "href": "remote/deploy.html#provisioning-the-workbench",
+    "title": "12  Deployment",
+    "section": "12.3 Provisioning The Workbench",
+    "text": "12.3 Provisioning The Workbench"
+  },
+  {
+    "objectID": "remote/deploy.html#provisioning-the-package-cache",
+    "href": "remote/deploy.html#provisioning-the-package-cache",
+    "title": "12  Deployment",
+    "section": "12.4 Provisioning The Package Cache",
+    "text": "12.4 Provisioning The Package Cache"
+  },
+  {
+    "objectID": "remote/deploy.html#a-bit-of-history",
+    "href": "remote/deploy.html#a-bit-of-history",
+    "title": "12  Deployment",
+    "section": "12.5 A bit of History",
+    "text": "12.5 A bit of History\nIn theory, these can all be taken care of with a Docker container and, indeed, we have written a Dockerfile to do just this, piggybacking off of the R-universe base image. You might be wondering: why don’t we use a Docker image to build the lessons? Why do we use the runners for GitHub Actions? When we initially built The Workbench, building R packages on Ubuntu always required compilation, so we used macOS runners so that we could get compiled packages most of the time. The key point here is most of the time.\nThe release cycle of R packages on CRAN will release the source of the package first and build the binaries for macOS and Windows in the few days following. Importantly, these binaries would have the C libraries bundled with the packages that required them, so the installation would just work. During these few days, users will be prompted with a message asking them if they would like to install the binary version or compile the latest source. However, on GitHub runners, the machine always defaulted to the latest version, so sometimes, just after a package updated, we would get issues where a package (e.g. {stringi}) would fail to compile because the proper C library was not installed. This was especially problematic for a situation where we needed to provision an arbitrary set of packages for R-based lessons.\nIn November 2021, we officially switched our runners over to use Ubuntu with carpentries/actions#31 and carpentries/sandpaper#211. These allowed us to use the binary packages from the Posit Package Manger (previously RStudio Package Manager) to provision our builds and parse the necessary system dependencies."
+  },
+  {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "12  Summary",
+    "title": "13  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever."
   },

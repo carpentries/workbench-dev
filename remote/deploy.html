@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 1&nbsp; Introduction</title>
+<title>Workbench Developer’s Guide - 12&nbsp; Deployment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./setup.html" rel="next">
-<link href="./index.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../summary.html" rel="next">
+<link href="../remote/intro.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -67,12 +67,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="guide.scss">
+<link rel="stylesheet" href="../guide.scss">
 </head>
 
 <body class="nav-sidebar floating">
@@ -84,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/deploy.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Deployment</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -99,7 +96,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Workbench Developer’s Guide</a> 
+      <a href="../">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -119,25 +116,25 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="../intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -152,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flow.html" class="sidebar-item-text sidebar-link">
+  <a href="../flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
@@ -169,19 +166,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
@@ -198,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -215,7 +212,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -232,7 +229,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./releases.html" class="sidebar-item-text sidebar-link">
+  <a href="../releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
@@ -249,13 +246,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/deploy.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
@@ -263,13 +260,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+  <a href="../summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -284,13 +281,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sop.html" class="sidebar-item-text sidebar-link">
+  <a href="../sop.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flight-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="../flight-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span></a>
   </div>
 </li>
@@ -306,21 +303,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-local" id="toc-sec-local" class="nav-link active" data-scroll-target="#sec-local"><span class="header-section-number">1.1</span> Building Lessons</a></li>
-  <li><a href="#sec-remote" id="toc-sec-remote" class="nav-link" data-scroll-target="#sec-remote"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</a></li>
-  <li><a href="#development" id="toc-development" class="nav-link" data-scroll-target="#development"><span class="header-section-number">1.3</span> Development</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation"><span class="header-section-number">1.4</span> Documentation</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">1.5</span> Testing</a></li>
-  <li><a href="#continous-integration" id="toc-continous-integration" class="nav-link" data-scroll-target="#continous-integration"><span class="header-section-number">1.6</span> Continous Integration</a></li>
+  <li><a href="#provisioning-r" id="toc-provisioning-r" class="nav-link active" data-scroll-target="#provisioning-r"><span class="header-section-number">12.1</span> Provisioning R</a></li>
+  <li><a href="#caching" id="toc-caching" class="nav-link" data-scroll-target="#caching"><span class="header-section-number">12.2</span> Caching</a></li>
+  <li><a href="#provisioning-the-workbench" id="toc-provisioning-the-workbench" class="nav-link" data-scroll-target="#provisioning-the-workbench"><span class="header-section-number">12.3</span> Provisioning The Workbench</a></li>
+  <li><a href="#provisioning-the-package-cache" id="toc-provisioning-the-package-cache" class="nav-link" data-scroll-target="#provisioning-the-package-cache"><span class="header-section-number">12.4</span> Provisioning The Package Cache</a></li>
+  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">12.5</span> A bit of History</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/deploy.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Deployment</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Deployment</span></h1>
 </div>
 
 
@@ -336,227 +332,40 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>The core of The Carpentries Workbench consists of three packages:</p>
-<ul>
-<li><a href="https://carpentries.github.io/sandpaper/">{sandpaper}</a>: user interface and workflow engine</li>
-<li><a href="https://carpentries.github.io/pegboard/">{pegboard}</a>: parsing and validation engine</li>
-<li><a href="https://carpentries.github.io/varnish/">{varnish}</a>: HTML templates, CSS, and JS elements</li>
-</ul>
-<p>These packages are all available and released to the <a href="https://carpentries.r-universe.dev/">Carpentries R-Universe</a>, which checks for updates to the source packages hourly.</p>
-<section id="sec-local" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="sec-local"><span class="header-section-number">1.1</span> Building Lessons</h2>
-<p>In a broad sense, this is what happens when you run <code>sandpaper::serve()</code> or <code>sandpaper::build_lesson()</code>. The interaction between the three Workbench packages, the lesson content, and the author can be summarised like this where the author makes an edit:</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Summary Content
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This content is a general picture of what happens between the packages. For a more in-depth discussion and more detailed diagrams, please visit the <a href="flow.html">Flow Diagrams page</a>.</p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">sequenceDiagram
-    autonumber
-    actor Author
-    participant Lesson 
-    box rgb(255, 214, 216) The Workbench
-    participant {sandpaper}
-    participant {pegboard}
-    participant {varnish}
-    end
-
-    Author -&gt;&gt; {sandpaper}: sandpaper::serve()
-    activate Author
-    {sandpaper} --) Author: website preview
-    note left of {sandpaper}: monitor for changes
-    Author -&gt;&gt; Lesson: make an edit
-    deactivate Author
-    Lesson --&gt;&gt; {sandpaper}: READ changed file(s)
-    {sandpaper} --&gt;&gt; {pegboard}: validate Lesson
-    activate {pegboard}
-    note left of {sandpaper}: provision global menu elements
-    {pegboard} --) Author: report accessibility 
-    deactivate {pegboard}
-    activate {sandpaper}
-    note left of {sandpaper}: WRITE markdown
-    {varnish} --&gt;&gt; {sandpaper}: load and apply website template
-    note left of {sandpaper}: WRITE website
-    {sandpaper} --) Author: website preview
-    deactivate {sandpaper}
-</pre>
-</div>
-</div>
-</div>
-</div>
-<p>In terms of folder structure, the workflow runs the two-step workflow to first render markdown files into <code>site/built</code> and then uses those files to render the HTML, CSS, and JavaScript into <code>site/built</code>. These workflows are detailed in <a href="flow.html">The Workflows Chapter</a>.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
-    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
-    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
-    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2, color:#201434,stroke-width:1px
-
-    SERVE("serve()"):::normal
-    BLESS("build_lesson()"):::normal
-
-    subgraph "Core Workflow"
-    BUILT["site/built"]:::local
-    SITE["site/docs"]:::local
-    VLESS("validate_lesson()"):::normal
-    BUILDMD(["build_markdown()"]):::normal
-    BUILDSITE(["build_site()"]):::normal
-    end
-
-    %%BUILT ~~~ SITE
-
-    SERVE --&gt; BLESS
-    %% SERVE ~~~ VLESS
-    %% SERVE ~~~ BUILDMD
-    BLESS --&gt; VLESS
-    VLESS -.- BUILDMD
-    BLESS --&gt; BUILDMD
-    BUILDMD --&gt; BUILT
-    BUILT -.- BUILDSITE
-    VLESS -.- BUILDSITE
-    BLESS --&gt; BUILDSITE
-    BUILDSITE --&gt; SITE
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Resource folder names
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The names of the folders inside <code>site/</code> are considered internal resources and they can change at any time. The reason why the folder for the final website output is called <code>site/docs/</code> is because we use the <a href="https://pkgdown.github.io">{pkgdown}</a> package to provision the website without needing to bundle the templates inside of {sandpaper}, but we never got around to explicitly changing the name of that folder.</p>
-</div>
-</div>
-<p>The <code>site/docs</code> folder contains the full website that can be safely used offline. This is the core of the workflow and is used both locally and in a remote setting. The only difference with the remote setting is that we use a few Git tricks to provision the markdown cache without needing to store it in the default branch.</p>
+<p>As we saw in <a href="intro.html">the previous chapter</a>, deployment of lesson content requires two things:</p>
+<ol type="1">
+<li>a system provisioned with R, pandoc, and Git that is capable of installing any R packages (including those that require compillation or external C libraries).</li>
+<li>access to a remote Git repository with the ability to create and push branches.</li>
+</ol>
+<p>Point 2 is easily taken care of by any remote Git hosting service such as GitHub, GitLab, or GitTea. Point 1 is also fairly straightforward because many hosting services will be able to run Ubuntu or some other flavour of Linux<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The challenge is: how do you do this in a way that is reliable, up-to-date, and <em>fast</em>? When you consider the fact that some lessons will be using R Markdown to render content with an arbitrary set of packages and that those packages are not known until build time, this challenge becomes even more difficult.</p>
+<section id="provisioning-r" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="provisioning-r"><span class="header-section-number">12.1</span> Provisioning R</h2>
+<p>We use the <a href="https://github.com/r-lib/actions">r-lib/actions/setup-r@v2</a> action to set up R’s environmental variables. It does not actually install R because R comes installed by default on GitHub’s runners<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 </section>
-<section id="sec-remote" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-remote"><span class="header-section-number">1.2</span> Building Lessons Remotely (e.g.&nbsp;on GitHub)</h2>
-<p>In the remote workflow, <strong>we still use the same workflow as above</strong>, except now we use <code>ci_deploy()</code> to link the branches and folders using worktrees, which you can think of as Git branches assigned to separate folders.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Platform Independence
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When we developed The Workbench, GitHub was the most widely used platform for social coding that represented the easiest way for newcomers to contribute to our lessons. We used this knowledge to build the workflows for the lessons on GitHub, but we were also aware of the valid criticisms of GitHub and the dangers of vendor lock-in.</p>
-<p>Thus, while the lessons are deployed using GitHub workflows and we have features that handle pull requests and updates, <strong>the core deployment features remain platform-independent</strong>. The workflows are merely instructions that we provide for GitHub to set up the workbench and to run the individual functions. In theory, <strong>any platform can be configured to deploy lessons via The Workbench.</strong></p>
-<p>In fact, in a pinch when GitHub workflows are not working properly, a lesson maintainer could run <code>sandpaper:::ci_deploy()</code> to render and deploy a local copy of the lesson.</p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
-    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
-    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
-    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
-    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
-
-
-    GH[("@main")]:::remote
-    MDOUT[("@md-outputs")]:::notouch
-    PAGES[("@gh-pages")]:::notouch
-    DEPLOY(["ci_deploy()"]):::external
-    CIBUILDMD(["ci_build_markdown()"]):::external
-    CIBUILDSITE(["ci_build_site()"]):::external
-
-    subgraph virtual machine
-    REPO["[repo]"]:::local
-    BUILT["[repo]/site/built"]:::local
-    SITE["[repo]/site/docs"]:::local
-    VLESS("validate_lesson()"):::normal
-    BUILDMD(["build_markdown()"]):::normal
-    BUILDSITE(["build_site()"]):::normal
-    end
-
-
-    GH ---&gt; REPO
-    GH ~~~ DEPLOY
-    REPO -.- VLESS
-
-
-    DEPLOY ---&gt; VLESS
-    DEPLOY ---&gt; CIBUILDMD
-    DEPLOY ---&gt; CIBUILDSITE
-    VLESS -.- BUILDMD
-    CIBUILDMD ---&gt; MDOUT
-    MDOUT &lt;-.-&gt; BUILT
-    CIBUILDMD ---&gt; BUILDMD
-    CIBUILDSITE ---&gt; PAGES
-    PAGES &lt;-.-&gt; SITE
-    CIBUILDSITE ---&gt; BUILDSITE
-    BUILT -.- BUILDSITE
-    VLESS -.- BUILDSITE
-    BUILDMD --&gt; BUILT
-    BUILDSITE --&gt; SITE
-</pre>
-</div>
-</div>
-</div>
-</div>
+<section id="caching" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="caching"><span class="header-section-number">12.2</span> Caching</h2>
 </section>
-<section id="development" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="development"><span class="header-section-number">1.3</span> Development</h2>
-<p>Development of The Workbench is overseen by Zhian N. Kamvar. New features are added incrementally as pull requests. Pushes to the main branch are <em>rare</em> and discouraged. New features must have tests associated (with the exception of {varnish}).</p>
-<p>If you are interested, we have <a href="releases.html">documentation for the release process</a> available.</p>
+<section id="provisioning-the-workbench" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="provisioning-the-workbench"><span class="header-section-number">12.3</span> Provisioning The Workbench</h2>
 </section>
-<section id="documentation" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="documentation"><span class="header-section-number">1.4</span> Documentation</h2>
-<p>Reference documentation for individual functions for each package is written alongside the function using <a href="https://roxygen2.r-lib.org/">{roxygen2}</a>.</p>
-<p>This documentation is generated by <code>devtools::document()</code></p>
+<section id="provisioning-the-package-cache" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="provisioning-the-package-cache"><span class="header-section-number">12.4</span> Provisioning The Package Cache</h2>
 </section>
-<section id="testing" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="testing"><span class="header-section-number">1.5</span> Testing</h2>
-<p>Tests for each package live in <code>tests/testthat/</code> and follow a <code>test-[file-name].R</code> naming convention. These are controlled by the <a href="https://testthat.r-lib.org/">{testthat}</a> package and run by <code>devtools::test()</code>.</p>
-<p>You can find more information about testing the core packages in <a href="testing.html">Testing The Workbench</a></p>
+<section id="a-bit-of-history" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">12.5</span> A bit of History</h2>
+<p>In theory, these can all be taken care of with a Docker container and, indeed, we have written a <code>Dockerfile</code> to do just this, piggybacking off of the <a href="https://github.com/r-universe-org/base-image/tree/master">R-universe base image</a>. You might be wondering: why don’t we use a Docker image to build the lessons? Why do we use the runners for GitHub Actions? When we initially built The Workbench, building R packages on Ubuntu <em>always</em> required compilation, so we used macOS runners so that we could get compiled packages most of the time. The key point here is <em>most</em> of the time.</p>
+<p>The release cycle of R packages on CRAN will release the source of the package first and build the binaries for macOS and Windows in the few days following. Importantly, these binaries would have the C libraries bundled with the packages that required them, so the installation would <em>just work</em>. During these few days, <a href="https://ropensci.org/blog/2023/08/01/r-universe-and-cran/#alt-cran">users will be prompted with a message</a> asking them if they would like to install the binary version or compile the latest source. However, on GitHub runners, the machine always defaulted to the latest version, so sometimes, just after a package updated, we would get issues where a package (e.g.&nbsp;<a href="https://cran.r-project.org/package=stringi">{stringi}</a>) would fail to compile because the proper C library was not installed. This was especially problematic for a situation where we needed to provision an arbitrary set of packages for R-based lessons.</p>
+<p>In November 2021, we officially switched our runners over to use Ubuntu with <a href="https://github.com/carpentries/actions/pull/31">carpentries/actions#31</a> and <a href="https://github.com/carpentries/sandpaper/pull/211">carpentries/sandpaper#211</a>. These allowed us to use the binary packages from the Posit Package Manger (previously RStudio Package Manager) to provision our builds <em>and</em> parse the necessary system dependencies.</p>
+
+
 </section>
-<section id="continous-integration" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="continous-integration"><span class="header-section-number">1.6</span> Continous Integration</h2>
-<p>The continous integration for each package tests on Ubuntu, MacOS, and Windows systems with the last five versions of R (same as the RStudio convention).</p>
-<p>More information about the Continous Integration can be found in the <a href="testing.html#ci">Continuous Integration section</a> of the testing section.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
-<p>Coming up:</p>
-<ul>
-<li>Testing Pull Requests (Locally and on your fork)</li>
-<li>Resources for R package development</li>
-<li>Adding functionality to {sandpaper}</li>
-<li>Adding functionality to {pegboard}</li>
-<li>Adding styling elements to {varnish}</li>
-<li>Adding functionality to carpentries/actions</li>
-</ul>
-
-
-</section>
+<ol>
+<li id="fn1"><p>Perhaps not RedHat or CentOS, which are notoriously strict about updating their C libraries.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>see <a href="https://github.com/carpentries/sandpaper/pull/279" class="uri">https://github.com/carpentries/sandpaper/pull/279</a> for information about how we found that out.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -878,13 +687,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../remote/intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./setup.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../summary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
