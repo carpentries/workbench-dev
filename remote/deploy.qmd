@@ -190,7 +190,7 @@ and we can restore the cache as usual.
 
 [gh-cache]: https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#using-contexts-to-create-cache-keys
 
-## Provisioning The Workbench
+## Provisioning The Workbench {#sec-provision-workbench}
 
 The Workbench Packages are provisioned with the
 [carpentries/actions/setup-sandpaper@main](https://github.com/carpentries/actions/tree/main/setup-sandpaper#readme) composite action.
@@ -207,7 +207,7 @@ This workflow does the following:
 
 [^sysdeps-issue]: See [the ssl error of July 2023 for one consequence of this](../flight-rules.html#sec-bioc-intro109)
 
-## Provisioning The Package Cache
+## Provisioning The Package Cache {#sec-provision-renv}
 
 The {renv} package cache is provisioned with the
 [carpentries/actions/setup-lesson-deps@main](https://github.com/carpentries/actions/blob/main/setup-lesson-deps#readme)
