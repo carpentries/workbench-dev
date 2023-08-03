@@ -39,6 +39,7 @@ book:
     - part: "Remote Deployment and Management"
       chapters:
       - remote/intro.qmd
+      - remote/deploy.qmd
     - summary.qmd
     - references.qmd
   appendices:
