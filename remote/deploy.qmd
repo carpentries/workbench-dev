@@ -237,7 +237,7 @@ we have written a `Dockerfile` to do just this, piggybacking off of the
 image to build the lessons? Why do we use the runners for GitHub Actions? When
 we initially built The Workbench, building R packages on Ubuntu _always_
 required compilation, so we used macOS runners so that we could get compiled
-packages most of the time. The key point here is _most_ of the time. 
+packages most of the time. The key point here is _most_ of the time.
 
 The release cycle of R packages on CRAN will release the source of the package
 first and build the binaries for macOS and Windows in the few days following.
@@ -256,9 +256,18 @@ In November 2021, we officially switched our runners over to use Ubuntu with
 [carpentries/sandpaper#211](https://github.com/carpentries/sandpaper/pull/211).
 These allowed us to use the binary packages from the Posit Package Manger
 (previously RStudio Package Manager) to provision our builds _and_ parse the
-necessary system dependencies.
+necessary system dependencies. 
+
+This code initially lived inside of the github workflow, but the code got
+complex enough that it was worthwhile to port it to a specific package, which
+eventually became [{vise}]. This package was intended as a way to split off the
+{renv} system from {sandpaper} into its own package (akin to something like
+[{capsule}], but I never had the bandwitdh to properly separate the {renv}
+components from the {sandpaper} components (though that may be easier now that
+the {flow} package exists for analysis of code pathways). 
 
 
 [rubi]: https://github.com/r-universe-org/base-image/tree/master 
 [pkg-prompt]: https://ropensci.org/blog/2023/08/01/r-universe-and-cran/#alt-cran
 [{stringi}]: https://cran.r-project.org/package=stringi
+[{capsule}]: https://milesmcbain.r-universe.dev/capsule

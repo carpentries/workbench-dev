@@ -154,11 +154,104 @@ denotes workflows that require a personal access token to create a pull request
 4. Pull Request Preview Managers (`pr-comment.yaml`, `pr-close-signal.yaml`, 
    `pr-post-remove-branch.yaml`)
 
-
 These [workflows are individually documented in the sandpaper
 repository](https://github.com/carpentries/sandpaper/tree/main/inst/workflows#readme)
-and you can find more detail about their design, caching, and linkage in a
-following chapter.
+
+These workflows are interrelated and have different triggers. Below are a set of
+diagrams that disambiguates these relationships. First up are the workflows that
+are run on a schedule **and on demand**. Note that the update workflows will
+only push to a branch if any updates exist, otherwise, they will exit silently.
+
+```{mermaid}
+flowchart LR
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    WEEK[\"CRON weekly"\]:::remote
+    MONTH[\"CRON monthly"\]:::remote
+
+    subgraph MAIN WORKFLOW
+    push[\"push to main"\]:::remote
+    md-outputs[("md-outputs")]:::local
+    gh-pages[("gh-pages")]:::local
+
+    sandpaper-main.yaml:::normal
+    end
+
+    subgraph "UPDATES (requires SANDPAPER_WORKFLOW token)"
+    update-cache.yaml:::normal
+    update-workflows.yaml:::normal
+
+    update-cache[("update/packages")]:::notouch
+    update-workflows[("update/workflows")]:::notouch
+
+    PR[/"pull request"/]:::remote
+    end
+
+    push --> sandpaper-main.yaml
+    WEEK --> sandpaper-main.yaml
+    sandpaper-main.yaml -.->|"pushes to"| md-outputs
+    sandpaper-main.yaml -.->|"pushes to"| gh-pages
+    WEEK --> update-cache.yaml
+    MONTH --> update-workflows.yaml
+    update-cache.yaml -.->|"pushes to"| update-cache
+    update-workflows.yaml -.->|"pushes to"| update-workflows
+    update-cache.yaml -.->|"creates"| PR
+    update-workflows.yaml -.->|"creates"| PR
+
+```
+
+
+Notice how **none of the workflows push to main**. The update workflows will
+push to the `update/*` branches and then create a pull request. It's common to
+find workflows that will perform updates and then immediately push to the
+default branch (which is the case for the lesson-transition workflow), but it's
+important to remember that a workflow that does _automatic_ updates prevents the
+maintainers from critically inspecting the changes to the components. This is
+especially true of the `update-cache.yaml` workflow, which will update the
+{renv} lockfile. By passing it through the pull request process first, we can
+give the maintainers a way to audit the changes coming through. 
+
+```{mermaid}
+flowchart LR
+    subgraph PULL REQUEST
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    md-outputs[("md-outputs")]:::local
+    PR[\"pull request"\]:::remote
+    pr-preflight.yaml:::normal
+    pr-recieve.yaml(["pr-recieve.yaml"]):::normal
+    pr-comment.yaml:::normal
+    pr-close-signal.yaml:::normal
+    pr-post-remove-branch.yaml:::normal
+    md-outputs-PR[("md-outputs-PR#")]:::notouch
+    end
+
+    PR --> pr-preflight.yaml
+    pr-preflight.yaml -.->|"comments on"| PR
+    pr-preflight.yaml ~~~ pr-recieve.yaml
+    PR -->|"on maintainer approval"| pr-recieve.yaml
+    pr-recieve.yaml -.-|"uses"| md-outputs
+    pr-recieve.yaml -.->|"triggers"| pr-comment.yaml
+    pr-comment.yaml -.->|"creates"| md-outputs-PR
+    pr-comment.yaml -.->|"comments on"| PR
+    PR -.->|"on close"| pr-close-signal.yaml
+    pr-close-signal.yaml -.->|"triggers"| pr-post-remove-branch.yaml
+    pr-post-remove-branch.yaml -.->|"deletes"| md-outputs-PR
+
+```
+
+
+
 
 [GHW]: https://docs.github.com/en/actions/using-workflows/about-workflows
 [^gha]: GitHub can be a bit confusing with it's terminology and fluid concepts.
