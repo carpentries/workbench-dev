@@ -287,7 +287,7 @@ second try.
 
 ### Upstream System Dependency Issues
 
-#### SSL error {.unnumbered}
+#### SSL error {#sec-bioc-intro109 .unnumbered}
 
 ##### bioc-intro109 Situation {.unnumbered}
 

@@ -174,7 +174,8 @@ following chapter.
 
 ### Actions
 
-These workflows use a series of [Custom GitHub Actions][GHA] which can be found
+These workflows use a series of [Custom GitHub Actions][GHA] (aside from the
+official GitHub actions of `checkout` and `cache`) which can be found
 in the following repositories:
 
  - <https://github.com/carpentries/actions> a combination of both [composite]

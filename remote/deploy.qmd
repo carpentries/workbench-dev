@@ -20,24 +20,214 @@ using R Markdown to render content with an arbitrary set of packages and that
 those packages are not known until build time, this challenge becomes even more
 difficult. 
 
+Whatever workflow is building the workbench needs to do these things, which are
+covered in the sections below:
 
-## Provisioning R
-
-We use the [r-lib/actions/setup-r@v2](https://github.com/r-lib/actions) action
-to set up R's environmental variables. It does not actually install R because
-R comes installed by default on GitHub's runners[^provision-r].
+1. provision R
+2. provision pandoc
+3. install and cache a Workbench installation
+4. install and cache the required packages for building markdown lessons
 
 [^centos]: Perhaps not RedHat or CentOS, which are notoriously strict about
   updating their C libraries.
+
+## Provisioning R
+
+We use the
+[r-lib/actions/setup-r@v2](https://github.com/r-lib/actions/tree/v2-branch/setup-r)
+action to set up R's environmental variables. The way we use it, it does not
+actually install R because R comes installed by default on GitHub's
+[Ubuntu
+runners](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md)
+[^provision-r], saving about a minute's worth of installation time. 
+
+Another alternative is to use containers from the [Rocker project][rocker] or
+the [base image of the R-universe][rubi] if you want to work with Docker
+containers.
+
+
+[rocker]: https://rocker-project.org/
 [^provision-r]: see <https://github.com/carpentries/sandpaper/pull/279> for
   information about how we found that out. 
 
-## Caching
+## Provisioning pandoc
 
+Again, we use r-lib for this task, with the
+[r-lib/actions/setup-pandoc@v2](https://github.com/r-lib/actions/tree/v2-branch/setup-pandoc)
+action. Note: we use the default installation of pandoc, which is 2.19.2 as of
+this writing, and is expected to match the version of pandoc used in RStudio.
+
+Alternative ways to provision pandoc can be found in [pandoc's installation
+guide](https://pandoc.org/installing.html).
+
+## Caching {#sec-cache}
+
+In order to ensure that the process moves as rapidly as possible, we need to be
+able to cache the packages used in our workflow. This is a bit of a complex
+topic, but GitHub has written up a [guide for caching dependencies][gh-cache].
+Effectively, our strategy for the cache is to ensure we can restore the packages
+that we have previously downloaded and (in the case of provisioning the
+workbench) installing only the updates we need. To do this, we need to define
+the folder to restore from and two keys: 
+
+0. Folder: path to the R package library used, which for a normal R installation
+   is the `${R_LIBS_USER}` environment variable. For a {renv} cache, it will be 
+   in the `${RENV_PATHS_ROOT}` environment variable. 
+1. `key` a very specific key to restore a valid cache that can be used
+   immediately
+2. `restore-keys` a less-specific key to restore an invalid cache that might
+   be able to be updated
+
+### Restoring an outdated cache with `restore-keys`
+
+In the case of R packages, you need to be concerned about two things to restore
+a cache, valid or not:
+
+1. The OS version
+2. The R version 
+
+Remember that R packages in the libary [are built for the specific operating
+system](https://r-pkgs.org/structure.html#sec-structure-binary) and thus, if the
+operating system changes, the cache cannot be recovered. Similarly, if the R
+version has changed, a package _may_ work, but there is no guarantee that it
+_will_ work and thus the cache cannot be recovered. 
+
+Thus, when we define the prefix for the `restore-keys` and the `key`, we define
+it like this:
+
+```yaml
+restore-keys: ${{ os-version }}-${{ r-version }}-
+```
+
+The important part of having the `restore-keys` is that, when it is hit, the
+cache will be updated when the workflow completes, thus recording the updates
+that were found.
+
+::: {.callout-note}
+
+#### `cache-version` key
+
+You might see reference to a `$CACHE_VERSION` key in some of the workflows. This
+is an outdated feature that will be removed in the future. There are times when
+a cache becomes borked and it needs to be reset quickly. Sometime in 2022,
+GitHub added the ability for maintainers to delete a cache with a button click
+in the "actions" tab, so this became trivial.
+
+Before then, we had to rely on a trick that had maintainers register a
+`CACHE_VERSION` secret, which was recommended to set it to the date. This was
+tacked on to the end of the restore key so that if a cache needed to be reset, a
+maintainer could update the `CACHE_VERSION` secret and the cache would be
+invalidated completely. 
+
+:::
+
+
+### Restoring a valid cache with `key`
+
+A valid cache can be restored and used immediately without needing to reinstall
+any resources. To determine the validity of a particular cache, it's important
+to understand where your updates are coming from. 
+
+#### `key` For The Workbench
+
+In terms of The Workbench, you want to make sure you pull in any updates from
+the R-universe and CRAN, because they will have any bugfixes that we did not
+consider. In practise, the way we do this is by saving a file from the [output
+of `remotes::package_deps()`](https://remotes.r-lib.org/reference/package_deps.html#value), which will get the recursive dependencies for The Workbench, check
+their package versions against the versions of the installed package and report
+which packages have updates available. 
+
+However, you might be noticing something that is amiss: if you are checking for
+outdated packages before any packages are installed, then how does this help
+with invalidating the cache if you don't know the package versions you have
+installed before you restore from the cache? The trick is that whenever you
+query the packages in this way, you are always comparing against a (near) empty
+R library, so the result will be the same across runs _if and only if_ none of
+the packages have updated in the upstream repositories. 
+
+::: {.callout-note}
+
+##### Example: cowsay
+
+For example, this is the output of checking for dependencies of the {cowsay}
+package:
+
+```r
+> deps <- remotes::package_deps("cowsay")
+> deps
+Needs update -----------------------------
+ package  installed available is_cran remote
+ rmsfact  NA        0.0.3     TRUE    CRAN
+ fortunes NA        1.5-4     TRUE    CRAN
+ crayon   NA        1.5.2     TRUE    CRAN
+ cowsay   NA        0.8.2     TRUE    CRAN
+```
+
+When the data frame is saved in the workspace and the file is hashed, it will
+produce the same hash across builds because the `installed` the only column that
+will vary will be the `available` column (unless "cowsay" changes dependencies).
+
+:::
+
+::: {.callout-tip}
+
+##### Idea for the future
+
+It might be possible for us to centralize this caching so that we run
+`remotes::package_deps("sandpaper")` _outside_ of the workflow in
+<https://files.carpentries.org> so that we can save a few seconds of time
+installing remotes and querying dependencies if the restore is successful.
+
+:::
+
+#### `key` for the {renv} package cache
+
+The goal of the {renv} package cache is only to reliably restore it for
+reproducibility (say that five times fast), thus, the only key that we need to
+validate the cache is the `renv/profiles/lesson-requirements/renv.lock` file
+itself. If the hash for that is identical across runs, then the hash is valid
+and we can restore the cache as usual.
+
+[gh-cache]: https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#using-contexts-to-create-cache-keys
 
 ## Provisioning The Workbench
 
+The Workbench Packages are provisioned with the
+[carpentries/actions/setup-sandpaper@main](https://github.com/carpentries/actions/tree/main/setup-sandpaper#readme) composite action.
+
+This workflow does the following:
+
+1. Sets up environment variables and options to allow us to fetch from the
+   R-universe and RSPM
+2. Fetches the [system dependencies json
+   record](https://carpentries.r-universe.dev/stats/sysdeps) from the R-universe
+   and installs them [^sysdeps-issue].
+3. Restores the Cache and Installs any missing/outdated dependencies
+4. Installs any custom versions of sandpaper/varnish
+
+[^sysdeps-issue]: See [the ssl error of July 2023 for one consequence of this](../flight-rules.html#sec-bioc-intro109)
+
 ## Provisioning The Package Cache
+
+The {renv} package cache is provisioned with the
+[carpentries/actions/setup-lesson-deps@main](https://github.com/carpentries/actions/blob/main/setup-lesson-deps#readme)
+composite action. This action relies on the [{vise}] package to determine and
+install the system dependencies for the packages in the cache (e.g. it's the
+reason why the spatial packages can be installed for the spatial lessons). 
+
+This has the following steps and is run only if the `renv/` folder exists.
+
+1. Sets up environment variables and options to allow us to fetch from the
+   R-universe and RSPM
+2. Determine and install system dependencies from the lockfile[^patchy]
+3. provision the packages with `sandpaper::manage_deps()`
+
+[^patchy]: At the moment, this is sort of complex because {remotes} package has
+  not been updated on CRAN since 2021 and does not know about ubuntu 22.04,
+  which is the version of runners that GitHub uses. We do this because
+  installing from CRAN is faster.
+
+[{vise}]: https://carpentries.github.io/vise
 
 ## A bit of History
 
