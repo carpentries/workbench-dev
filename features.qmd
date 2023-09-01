@@ -1,0 +1,87 @@
+---
+title: "Adding Features"
+---
+
+## Introduction
+
+One of the best things about developing a tool for a broad community: there is
+never a dearth of ideas that will fuel the improvement of the tool. This fact
+also happens to be one of the worst things about developing a tool for a broad
+community. The larger and more widely-used a tool is, the more you begin to find
+that the default features really shape the tool, which shapes what people can
+create with it. 
+
+
+Before adding a new feature to The Workbench, it is important to consider the
+answer to a few questions before even drafting the implementation, which are
+detailed later in this section. These questions boil down to thinking deeply
+about purpose, users, support, and resources, which are all interlinked. 
+
+For example, the transition to The Workbench represents a feature whose needs
+outweight the negative impact for some of the users. This was a project whose
+**purpose** was to improve the accessibility and maintainability of our lessons
+for our community. It would impact the **users** by providing a better interface
+_at the cost of requiring maintainers to fundamenally change their workflows_.
+We were able to provide **support** for The Workbench because the developer of
+the system was a paid staff member of The Carpentries. Finally, the
+**resources** existed through funding via Chan-Zuckerberg Initiative, the Moore
+Foundation, The Sloan Foundation, and The R Consortium. Moreover the tools that
+we used to build The Workbench were well-tested and well-supported. 
+
+Most features you encounter will have a purpose and a subset of users who need
+it.
+
+### Feature Complete
+
+The workbench was build to be a feature-complete replacement for The styles
+repository in the sense that the following was true:
+
+1. Lessons were comprised of primarily episodes with special pages that
+   aggregate content including key points and images
+2. Pages within lessons would have links back to their source content so people
+   could edit the pages they were viewing
+3. Lessons could be writtin in Markdown and deployed to GitHub pages
+4. Lessons could be rendered and previewed locally
+5. Lessons could render Markdown from R Markdown
+
+During the design phase (2020--2021), we explicitly focussed on a set of
+features that would _enhance_ the above features of lessons. The most salient
+features that were of immediate value to our community were:
+
+1. A web template that was tested for its accessibility
+2. A separate instructor and learner view
+3. An internal package cache for R Markdown-based lessons
+
+Importantly, it was 
+
+## Purpose
+
+### What will this feature do?
+
+### Why is this feature needed?
+
+### Is the feature optional?
+
+## Users
+
+### Who will use this feature?
+
+### Who will not use this feature?
+
+### Who will be affected by this feature?
+
+## Support
+
+### Do we have the resources to implement _most_ of this feature?
+
+### Can we provide support in the future? AKA what is the bus factor?
+
+## Resources
+
+### Is a feature dependent on another vendor?
+
+### Can this feature be used in an area with limited internet connection?
+
+
+
+

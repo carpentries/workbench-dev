@@ -17,9 +17,10 @@ book:
     - intro.qmd
     - setup.qmd
     - testing.qmd
-    - part: "Building Lessons"
+    - part: "Design Considerations"
       chapters:
       - flow.qmd
+      - features.qmd
     - part: "{sandpaper} User Interface"
       chapters:
       - sandpaper/intro.qmd
