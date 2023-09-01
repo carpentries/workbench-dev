@@ -2,6 +2,37 @@
 title: "Adding Features"
 ---
 
+::: {.callout-note}
+
+## Three short stories about features
+
+Adding features is an absolute joy in programming because these are little gifts
+that you can give your users that ultimately serve to make their lives easier
+and, importantly, give an onramp for more people to enter the community. Here
+are three short stories about new features and how they affect users.
+
+Story 1: <https://xkcd.com/1172/>
+
+Story 2: 
+
+I remember seeing a little story on Twitter once about an exchange between a
+game developer and user.
+
+> User: I was designing my character and I noticed that there is no option for
+> it to have a scarf. Can you add that option?
+>
+> Dev: Sure! I can get that done by tomorrow :)
+>
+> User: This is awesome, Thank you! I love the new scarf, but I wonder, can it
+> wave a little as I have my character walk?
+>
+> Dev: Uh... that's going to take about six months of work. 
+
+Story 3: "I joined The Carpentries because I saw that The Workbench was being
+developed"
+
+:::
+
 ## Introduction
 
 One of the best things about developing a tool for a broad community: there is
@@ -11,29 +42,7 @@ community. The larger and more widely-used a tool is, the more you begin to find
 that the default features really shape the tool, which shapes what people can
 create with it. 
 
-
-Before adding a new feature to The Workbench, it is important to consider the
-answer to a few questions before even drafting the implementation, which are
-detailed later in this section. These questions boil down to thinking deeply
-about purpose, users, support, and resources, which are all interlinked. 
-
-For example, the transition to The Workbench represents a feature whose needs
-outweight the negative impact for some of the users. This was a project whose
-**purpose** was to improve the accessibility and maintainability of our lessons
-for our community. It would impact the **users** by providing a better interface
-_at the cost of requiring maintainers to fundamenally change their workflows_.
-We were able to provide **support** for The Workbench because the developer of
-the system was a paid staff member of The Carpentries. Finally, the
-**resources** existed through funding via Chan-Zuckerberg Initiative, the Moore
-Foundation, The Sloan Foundation, and The R Consortium. Moreover the tools that
-we used to build The Workbench were well-tested and well-supported. 
-
-Most features you encounter will have a purpose and a subset of users who need
-it.
-
-### Feature Complete
-
-The workbench was build to be a feature-complete replacement for The styles
+The workbench was built to be a feature-complete replacement for The styles
 repository in the sense that the following was true:
 
 1. Lessons were comprised of primarily episodes with special pages that
@@ -52,9 +61,57 @@ features that were of immediate value to our community were:
 2. A separate instructor and learner view
 3. An internal package cache for R Markdown-based lessons
 
-Importantly, it was 
+One key about all of these features? As The Workbench was being built, these
+were all implemented _separately_. This may not seem like a big deal, but it is
+worth noting because it gives creedence to the modular nature of The Workbench.
+As I work on The Workbench I always strive to retain this modularity and ensure
+that whatever I create does not break the workflow of another (unless I have a
+_very good reason_ for it).
+
+## The Workbench user interface is a lesson
+
+When building a feature for The Workbench, it's important to remember that
+people who use The Workbench may not know how to use R, Git, or GitHub. They
+will be working with a lesson and members of The Carpentries who have been here
+for a hot minute might actually be afraid of rendering a lesson locally from the
+experiences they had with the Jekyll interface.
+
+## Ask not for whom the feature breaks
+
+Before adding a new feature to The Workbench, it is important to consider the
+answer to a few questions before even drafting the implementation, which are
+detailed later in this section. These questions boil down to thinking deeply
+about purpose, users, support, and resources, which are all interlinked.
+Broadly, features can be thought of in two categories: non-breaking changes
+and breaking changes. When given the choice, always strive for the non-breaking
+change.
+
+### Non-breaking changes
+
+Most of the features you will encounter fall into this category. These are
+little gifts that you give to your users when they update The Workbench.
+Sometimes, they can be as small as an message that is formatted to be more
+readable. Often times, they are going to be optional flags in `config.yaml` that
+will allow the user to customize their lesson just a little bit.
+
+### Breaking changes
+
+For example, the transition to The Workbench represents a feature with breaking
+changes whose needs outweighed the negative impact for some of the users. This
+was a project whose **purpose** was to improve the accessibility and
+maintainability of our lessons for our community. It would impact the **users**
+by providing a better interface _at the cost of requiring maintainers to
+fundamenally change their workflows_. We were able to provide **support** for
+The Workbench because the developer of the system was a paid staff member of The
+Carpentries. Finally, the **resources** existed through funding via
+Chan-Zuckerberg Initiative, the Moore Foundation, The Sloan Foundation, and The
+R Consortium. Moreover the tools that we used to build The Workbench were
+well-tested and well-supported. 
+
 
 ## Purpose
+
+### What is the scope of the feature?
 
 ### What will this feature do?
 
@@ -81,6 +138,8 @@ Importantly, it was
 ### Is a feature dependent on another vendor?
 
 ### Can this feature be used in an area with limited internet connection?
+
+### Is this feature going to significantly slow down build time?
 
 
 
