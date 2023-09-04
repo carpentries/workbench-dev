@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 7&nbsp; Testing {sandpaper}</title>
+<title>Workbench Developer’s Guide - 5&nbsp; Adding Features</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../sandpaper/package-cache.html" rel="next">
-<link href="../sandpaper/intro.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./sandpaper/intro.html" rel="next">
+<link href="./flow.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../guide.scss">
+<link rel="stylesheet" href="guide.scss">
 </head>
 
 <body class="nav-sidebar floating">
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/testing.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./flow.html">Design Considerations</a></li><li class="breadcrumb-item"><a href="./features.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -96,7 +96,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Workbench Developer’s Guide</a> 
+      <a href="./">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -116,25 +116,25 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../setup.html" class="sidebar-item-text sidebar-link">
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../testing.html" class="sidebar-item-text sidebar-link">
+  <a href="./testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -149,13 +149,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../flow.html" class="sidebar-item-text sidebar-link">
+  <a href="./flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../features.html" class="sidebar-item-text sidebar-link">
+  <a href="./features.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></span></a>
   </div>
 </li>
@@ -172,19 +172,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link active">
+  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
+  <a href="./sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
@@ -201,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -218,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -235,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../releases.html" class="sidebar-item-text sidebar-link">
+  <a href="./releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
@@ -252,13 +252,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../remote/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./remote/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link">
+  <a href="./remote/deploy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
@@ -266,13 +266,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../summary.html" class="sidebar-item-text sidebar-link">
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../references.html" class="sidebar-item-text sidebar-link">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -287,13 +287,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sop.html" class="sidebar-item-text sidebar-link">
+  <a href="./sop.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../flight-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="./flight-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span></a>
   </div>
 </li>
@@ -309,17 +309,36 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
-  <li><a href="#test-setup" id="toc-test-setup" class="nav-link" data-scroll-target="#test-setup"><span class="header-section-number">7.2</span> Test Setup</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#the-workbench-user-interface-is-a-lesson" id="toc-the-workbench-user-interface-is-a-lesson" class="nav-link" data-scroll-target="#the-workbench-user-interface-is-a-lesson"><span class="header-section-number">5.2</span> The Workbench user interface is a lesson</a></li>
+  <li><a href="#ask-not-for-whom-the-feature-breaks" id="toc-ask-not-for-whom-the-feature-breaks" class="nav-link" data-scroll-target="#ask-not-for-whom-the-feature-breaks"><span class="header-section-number">5.3</span> Ask not for whom the feature breaks</a>
   <ul class="collapse">
-  <li><a href="#helpers" id="toc-helpers" class="nav-link" data-scroll-target="#helpers"><span class="header-section-number">7.2.1</span> Test Helpers</a></li>
-  <li><a href="#setup-script" id="toc-setup-script" class="nav-link" data-scroll-target="#setup-script"><span class="header-section-number">7.2.2</span> Setup Script</a></li>
+  <li><a href="#non-breaking-changes" id="toc-non-breaking-changes" class="nav-link" data-scroll-target="#non-breaking-changes"><span class="header-section-number">5.3.1</span> Non-breaking changes</a></li>
+  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">5.3.2</span> Breaking changes</a></li>
   </ul></li>
-  <li><a href="#conditionally-skipped-tests" id="toc-conditionally-skipped-tests" class="nav-link" data-scroll-target="#conditionally-skipped-tests"><span class="header-section-number">7.3</span> Conditionally Skipped Tests</a></li>
-  <li><a href="#continuous-integration" id="toc-continuous-integration" class="nav-link" data-scroll-target="#continuous-integration"><span class="header-section-number">7.4</span> Continuous Integration</a>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose"><span class="header-section-number">5.4</span> Purpose</a>
   <ul class="collapse">
-  <li><a href="#package-cache" id="toc-package-cache" class="nav-link" data-scroll-target="#package-cache"><span class="header-section-number">7.4.1</span> Package Cache</a></li>
-  <li><a href="#dependencies" id="toc-dependencies" class="nav-link" data-scroll-target="#dependencies"><span class="header-section-number">7.4.2</span> Dependencies</a></li>
+  <li><a href="#what-is-the-scope-of-the-feature" id="toc-what-is-the-scope-of-the-feature" class="nav-link" data-scroll-target="#what-is-the-scope-of-the-feature"><span class="header-section-number">5.4.1</span> What is the scope of the feature?</a></li>
+  <li><a href="#what-will-this-feature-do" id="toc-what-will-this-feature-do" class="nav-link" data-scroll-target="#what-will-this-feature-do"><span class="header-section-number">5.4.2</span> What will this feature do?</a></li>
+  <li><a href="#why-is-this-feature-needed" id="toc-why-is-this-feature-needed" class="nav-link" data-scroll-target="#why-is-this-feature-needed"><span class="header-section-number">5.4.3</span> Why is this feature needed?</a></li>
+  <li><a href="#is-the-feature-optional" id="toc-is-the-feature-optional" class="nav-link" data-scroll-target="#is-the-feature-optional"><span class="header-section-number">5.4.4</span> Is the feature optional?</a></li>
+  </ul></li>
+  <li><a href="#users" id="toc-users" class="nav-link" data-scroll-target="#users"><span class="header-section-number">5.5</span> Users</a>
+  <ul class="collapse">
+  <li><a href="#who-will-use-this-feature" id="toc-who-will-use-this-feature" class="nav-link" data-scroll-target="#who-will-use-this-feature"><span class="header-section-number">5.5.1</span> Who will use this feature?</a></li>
+  <li><a href="#who-will-not-use-this-feature" id="toc-who-will-not-use-this-feature" class="nav-link" data-scroll-target="#who-will-not-use-this-feature"><span class="header-section-number">5.5.2</span> Who will not use this feature?</a></li>
+  <li><a href="#who-will-be-affected-by-this-feature" id="toc-who-will-be-affected-by-this-feature" class="nav-link" data-scroll-target="#who-will-be-affected-by-this-feature"><span class="header-section-number">5.5.3</span> Who will be affected by this feature?</a></li>
+  </ul></li>
+  <li><a href="#support" id="toc-support" class="nav-link" data-scroll-target="#support"><span class="header-section-number">5.6</span> Support</a>
+  <ul class="collapse">
+  <li><a href="#do-we-have-the-resources-to-implement-most-of-this-feature" id="toc-do-we-have-the-resources-to-implement-most-of-this-feature" class="nav-link" data-scroll-target="#do-we-have-the-resources-to-implement-most-of-this-feature"><span class="header-section-number">5.6.1</span> Do we have the resources to implement <em>most</em> of this feature?</a></li>
+  <li><a href="#can-we-provide-support-in-the-future-aka-what-is-the-bus-factor" id="toc-can-we-provide-support-in-the-future-aka-what-is-the-bus-factor" class="nav-link" data-scroll-target="#can-we-provide-support-in-the-future-aka-what-is-the-bus-factor"><span class="header-section-number">5.6.2</span> Can we provide support in the future? AKA what is the bus factor?</a></li>
+  </ul></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">5.7</span> Resources</a>
+  <ul class="collapse">
+  <li><a href="#is-a-feature-dependent-on-another-vendor" id="toc-is-a-feature-dependent-on-another-vendor" class="nav-link" data-scroll-target="#is-a-feature-dependent-on-another-vendor"><span class="header-section-number">5.7.1</span> Is a feature dependent on another vendor?</a></li>
+  <li><a href="#can-this-feature-be-used-in-an-area-with-limited-internet-connection" id="toc-can-this-feature-be-used-in-an-area-with-limited-internet-connection" class="nav-link" data-scroll-target="#can-this-feature-be-used-in-an-area-with-limited-internet-connection"><span class="header-section-number">5.7.2</span> Can this feature be used in an area with limited internet connection?</a></li>
+  <li><a href="#is-this-feature-going-to-significantly-slow-down-build-time" id="toc-is-this-feature-going-to-significantly-slow-down-build-time" class="nav-link" data-scroll-target="#is-this-feature-going-to-significantly-slow-down-build-time"><span class="header-section-number">5.7.3</span> Is this feature going to significantly slow down build time?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -327,9 +346,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/testing.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./flow.html">Design Considerations</a></li><li class="breadcrumb-item"><a href="./features.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></h1>
 </div>
 
 
@@ -345,79 +364,110 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introduction" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
-<p>{sandpaper} is the largest package and the main user and deployment interface for The Workbench. The tests are all designed to work within a lesson context, which means a couple of things to be aware of.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Three short stories about features
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Adding features is an absolute joy in programming because these are little gifts that you can give your users that ultimately serve to make their lives easier and, importantly, give an onramp for more people to enter the community. Here are three short stories about new features and how they affect users.</p>
+<p>Story 1: <a href="https://xkcd.com/1172/" class="uri">https://xkcd.com/1172/</a></p>
+<p>Story 2:</p>
+<p>I remember seeing a little story on Twitter once about an exchange between a game developer and user.</p>
+<blockquote class="blockquote">
+<p>User: I was designing my character and I noticed that there is no option for it to have a scarf. Can you add that option?</p>
+<p>Dev: Sure! I can get that done by tomorrow :)</p>
+<p>User: This is awesome, Thank you! I love the new scarf, but I wonder, can it wave a little as I have my character walk?</p>
+<p>Dev: Uh… that’s going to take about six months of work.</p>
+</blockquote>
+<p>Story 3: “I joined The Carpentries because I saw that The Workbench was being developed”</p>
+</div>
+</div>
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>One of the best things about developing a tool for a broad community: there is never a dearth of ideas that will fuel the improvement of the tool. This fact also happens to be one of the worst things about developing a tool for a broad community. The larger and more widely-used a tool is, the more you begin to find that the default features really shape the tool, which shapes what people can create with it.</p>
+<p>The workbench was built to be a feature-complete replacement for The styles repository in the sense that the following was true:</p>
 <ol type="1">
-<li><strong>Some tests will take a long time to run.</strong> IO procedures are often one of the most time-consuming steps in computing and {sandpaper} does a lot of it.</li>
-<li><strong>Most tests will be dependent on the previous tests in a file.</strong> Because the tests work on a folder on disk, we need to provision different scenarios of lesson state. It is far simpler to do this by side-effect rather than copying, setting up, and tearing down the state of the lesson for each and every test.</li>
+<li>Lessons were comprised of primarily episodes with special pages that aggregate content including key points and images</li>
+<li>Pages within lessons would have links back to their source content so people could edit the pages they were viewing</li>
+<li>Lessons could be writtin in Markdown and deployed to GitHub pages</li>
+<li>Lessons could be rendered and previewed locally</li>
+<li>Lessons could render Markdown from R Markdown</li>
 </ol>
-</section>
-<section id="test-setup" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="test-setup"><span class="header-section-number">7.2</span> Test Setup</h2>
-<p>There is nothing that you as the contributor/developer need to do to set up for running these tests beyond what you have already done in <a href="setup.html">your development setup</a>. This section describes conceptually how {testthat} and {sandpaper} setup the testing environment after you run <code>devtools::test()</code>.</p>
-<p>In short, this is the process:</p>
+<p>During the design phase (2020–2021), we explicitly focussed on a set of features that would <em>enhance</em> the above features of lessons. The most salient features that were of immediate value to our community were:</p>
 <ol type="1">
-<li>{sandpaper} is loaded</li>
-<li><a href="#helpers">Helper test files</a> are loaded</li>
-<li>The <a href="#setup-script">setup script</a> is loaded, which provisions the <a href="https://carpentries.github.io/sandpaper/reference/fixtures.html">test lesson</a></li>
-<li>Each test file matching<code>tests/testthat/test-*.R</code> is run, resetting the test lesson at the top of each file.</li>
+<li>A web template that was tested for its accessibility</li>
+<li>A separate instructor and learner view</li>
+<li>An internal package cache for R Markdown-based lessons</li>
 </ol>
-<section id="helpers" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="helpers"><span class="header-section-number">7.2.1</span> Test Helpers</h3>
-<p>Sandpaper has three test helpers that handle some of the more tedious side-effects of testing.</p>
-<dl>
-<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-hash.R"><code>helper-hash.R</code></a></dt>
-<dd>
-Expectation <code>expect_hashed()</code> that an episode file MD5 sum (expected) matches the MD5 sum (actual) we recorded in the <code>site/built/md5sum.txt</code> database.
-</dd>
-<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-processing.R"><code>helper-processing.R</code></a></dt>
-<dd>
-Provides an output string that demonstrates a screen output of a file being processed by {knitr}. This is used with <a href="https://testthat.r-lib.org/reference/expect_output.html"><code>expect_output()</code></a>.
-</dd>
-<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-snap-transform.R"><code>helper-snap-transform.R</code></a></dt>
-<dd>
-A function that is passed to the transform parameter of <a href="https://testthat.r-lib.org/reference/expect_snapshot.html"><code>expect_snapshot()</code></a> and will mask the temporary directory path so that the snapshot does not continuously invalidate on every run.
-</dd>
-</dl>
+<p>One key about all of these features? As The Workbench was being built, these were all implemented <em>separately</em>. This may not seem like a big deal, but it is worth noting because it gives creedence to the modular nature of The Workbench. As I work on The Workbench I always strive to retain this modularity and ensure that whatever I create does not break the workflow of another (unless I have a <em>very good reason</em> for it).</p>
 </section>
-<section id="setup-script" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="setup-script"><span class="header-section-number">7.2.2</span> Setup Script</h3>
-<p>The first script to run is <a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/setup.R"><code>tests/testthat/setup.R</code></a>, where <a href="https://carpentries.github.io/sandpaper/reference/fixtures.html">a test lesson</a> and a local git remote is created and stored in a temporary location for the duration of the test suite and a reset function is exposed for the tests.</p>
+<section id="the-workbench-user-interface-is-a-lesson" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="the-workbench-user-interface-is-a-lesson"><span class="header-section-number">5.2</span> The Workbench user interface is a lesson</h2>
+<p>When building a feature for The Workbench, it’s important to remember that people who use The Workbench may not know how to use R, Git, or GitHub. They will be working with a lesson and members of The Carpentries who have been here for a hot minute might actually be afraid of rendering a lesson locally from the experiences they had with the Jekyll interface.</p>
+</section>
+<section id="ask-not-for-whom-the-feature-breaks" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="ask-not-for-whom-the-feature-breaks"><span class="header-section-number">5.3</span> Ask not for whom the feature breaks</h2>
+<p>Before adding a new feature to The Workbench, it is important to consider the answer to a few questions before even drafting the implementation, which are detailed later in this section. These questions boil down to thinking deeply about purpose, users, support, and resources, which are all interlinked. Broadly, features can be thought of in two categories: non-breaking changes and breaking changes. When given the choice, always strive for the non-breaking change.</p>
+<section id="non-breaking-changes" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="non-breaking-changes"><span class="header-section-number">5.3.1</span> Non-breaking changes</h3>
+<p>Most of the features you will encounter fall into this category. These are little gifts that you give to your users when they update The Workbench. Sometimes, they can be as small as an message that is formatted to be more readable. Often times, they are going to be optional flags in <code>config.yaml</code> that will allow the user to customize their lesson just a little bit.</p>
+</section>
+<section id="breaking-changes" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">5.3.2</span> Breaking changes</h3>
+<p>For example, the transition to The Workbench represents a feature with breaking changes whose needs outweighed the negative impact for some of the users. This was a project whose <strong>purpose</strong> was to improve the accessibility and maintainability of our lessons for our community. It would impact the <strong>users</strong> by providing a better interface <em>at the cost of requiring maintainers to fundamenally change their workflows</em>. We were able to provide <strong>support</strong> for The Workbench because the developer of the system was a paid staff member of The Carpentries. Finally, the <strong>resources</strong> existed through funding via Chan-Zuckerberg Initiative, the Moore Foundation, The Sloan Foundation, and The R Consortium. Moreover the tools that we used to build The Workbench were well-tested and well-supported.</p>
 </section>
 </section>
-<section id="conditionally-skipped-tests" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="conditionally-skipped-tests"><span class="header-section-number">7.3</span> Conditionally Skipped Tests</h2>
-<p>Each link below will open a code search for the different types of skipped tests in {sandpaper}</p>
-<dl>
-<dt><a href="https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip_on_os&amp;type=code"><code>skip_on_os</code></a></dt>
-<dd>
-These are often tests that are skipped on Windows, usually for the reason that {renv} and filepaths behave slightly differently on Windows in a continuous integration setting.
-</dd>
-<dt><a href="https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip_if&amp;type=code"><code>skip_if</code></a></dt>
-<dd>
-Tests that are skipped under various conditions. For example, if Git is not installed on a system, we should not test any of the CI functions because they rely on Git.
-</dd>
-<dt><a href="https://github.com/search?q=repo%3Acarpentries%2Fsandpaper+skip%28&amp;type=code"><code>skip("&lt;for reasons&gt;")</code></a></dt>
-<dd>
-This pattern is more rare. It’s really useful in a situation where you are refactoring and know that a lot of tests will fail. If you sprinkle in these skips, you can focus on testing the core functionality of the refactor and then address the side-effects. Regarding the skips that remain: during testing, sometimes we encounter a ghost in the machine and we cannot set up the right conditions to run the test properly or the test was created with an earlier model of the package that we haven’t been able to shake. In these cases, instead of deleting the test or commenting out code, we add the <code>skip()</code> function and write a message of <em>why</em> we skipped it so if we need to come back to it later, we can.
-</dd>
-</dl>
+<section id="purpose" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="purpose"><span class="header-section-number">5.4</span> Purpose</h2>
+<section id="what-is-the-scope-of-the-feature" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="what-is-the-scope-of-the-feature"><span class="header-section-number">5.4.1</span> What is the scope of the feature?</h3>
 </section>
-<section id="continuous-integration" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="continuous-integration"><span class="header-section-number">7.4</span> Continuous Integration</h2>
-<section id="package-cache" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="package-cache"><span class="header-section-number">7.4.1</span> Package Cache</h3>
-<p>Running tests on Continuous Integration is tricky in part because we need to set up a {renv} package cache to work on Mac, Windows, and Linux systems. In practise, we have to set up a specific <code>RENV_PATHS_ROOT</code> folder for each system.</p>
-<section id="windows" class="level4" data-number="7.4.1.1">
-<h4 data-number="7.4.1.1" class="anchored" data-anchor-id="windows"><span class="header-section-number">7.4.1.1</span> Windows</h4>
-<p>For Windows, the setup is even more complex because there are weird caveats in how pandoc and {renv} work on the CI version of Windows.</p>
+<section id="what-will-this-feature-do" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="what-will-this-feature-do"><span class="header-section-number">5.4.2</span> What will this feature do?</h3>
+</section>
+<section id="why-is-this-feature-needed" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="why-is-this-feature-needed"><span class="header-section-number">5.4.3</span> Why is this feature needed?</h3>
+</section>
+<section id="is-the-feature-optional" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="is-the-feature-optional"><span class="header-section-number">5.4.4</span> Is the feature optional?</h3>
 </section>
 </section>
-<section id="dependencies" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="dependencies"><span class="header-section-number">7.4.2</span> Dependencies</h3>
-<p>At the moment, we test the current versions of dependencies when we are running tests in the <code>test-coverage.yaml</code> file. For the <code>R-CMD-check.yaml</code> file, however, we test the development version of {renv}. The reason <em>why</em> we do this is because in March 2023, {renv} 0.17.0 was released and subsequently broke bioconductor-based R Markdown lessons and new R Markdown lessons that needed to be bootstrapped (see <a href="https://github.com/carpentries/sandpaper/issues/406">sandpaper#406</a>).</p>
-<p>This can lead to a situation where the tests will pass on the test coverage check, but fail for <code>R CMD check</code>, which is diagnostic because it tells us that there is an upstream issue in {renv} that we can address before it becomes a problem after a CRAN release.</p>
+<section id="users" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="users"><span class="header-section-number">5.5</span> Users</h2>
+<section id="who-will-use-this-feature" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="who-will-use-this-feature"><span class="header-section-number">5.5.1</span> Who will use this feature?</h3>
+</section>
+<section id="who-will-not-use-this-feature" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="who-will-not-use-this-feature"><span class="header-section-number">5.5.2</span> Who will not use this feature?</h3>
+</section>
+<section id="who-will-be-affected-by-this-feature" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="who-will-be-affected-by-this-feature"><span class="header-section-number">5.5.3</span> Who will be affected by this feature?</h3>
+</section>
+</section>
+<section id="support" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="support"><span class="header-section-number">5.6</span> Support</h2>
+<section id="do-we-have-the-resources-to-implement-most-of-this-feature" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="do-we-have-the-resources-to-implement-most-of-this-feature"><span class="header-section-number">5.6.1</span> Do we have the resources to implement <em>most</em> of this feature?</h3>
+</section>
+<section id="can-we-provide-support-in-the-future-aka-what-is-the-bus-factor" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="can-we-provide-support-in-the-future-aka-what-is-the-bus-factor"><span class="header-section-number">5.6.2</span> Can we provide support in the future? AKA what is the bus factor?</h3>
+</section>
+</section>
+<section id="resources" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="resources"><span class="header-section-number">5.7</span> Resources</h2>
+<section id="is-a-feature-dependent-on-another-vendor" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="is-a-feature-dependent-on-another-vendor"><span class="header-section-number">5.7.1</span> Is a feature dependent on another vendor?</h3>
+</section>
+<section id="can-this-feature-be-used-in-an-area-with-limited-internet-connection" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="can-this-feature-be-used-in-an-area-with-limited-internet-connection"><span class="header-section-number">5.7.2</span> Can this feature be used in an area with limited internet connection?</h3>
+</section>
+<section id="is-this-feature-going-to-significantly-slow-down-build-time" class="level3" data-number="5.7.3">
+<h3 data-number="5.7.3" class="anchored" data-anchor-id="is-this-feature-going-to-significantly-slow-down-build-time"><span class="header-section-number">5.7.3</span> Is this feature going to significantly slow down build time?</h3>
 
 
 </section>
@@ -770,13 +820,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../sandpaper/intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span>
+      <a href="./flow.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../sandpaper/package-cache.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./sandpaper/intro.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

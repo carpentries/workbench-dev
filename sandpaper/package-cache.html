@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.330">
+<meta name="generator" content="quarto-1.4.339">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 7&nbsp; The R package cache</title>
+<title>Workbench Developer’s Guide - 8&nbsp; The R package cache</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/package-cache.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/package-cache.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -194,7 +194,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Building Lessons</span></a>
+ <span class="menu-text">Design Considerations</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -204,6 +204,12 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="../flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../features.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></span></a>
   </div>
 </li>
       </ul>
@@ -220,19 +226,19 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,7 +255,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,7 +272,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -283,7 +289,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../releases.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
       </ul>
@@ -300,13 +306,13 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../remote/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
       </ul>
@@ -314,7 +320,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -356,18 +362,18 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
-  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">7.2</span> A Bit of History</a></li>
-  <li><a href="#design-principles" id="toc-design-principles" class="nav-link" data-scroll-target="#design-principles"><span class="header-section-number">7.3</span> Design Principles</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
+  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">8.2</span> A Bit of History</a></li>
+  <li><a href="#design-principles" id="toc-design-principles" class="nav-link" data-scroll-target="#design-principles"><span class="header-section-number">8.3</span> Design Principles</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/package-cache.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/package-cache.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The R package cache</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></h1>
 </div>
 
 
@@ -383,8 +389,8 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
 <p>All lessons that use The Workbench can build using either Markdown or R Markdown file formats. The R package cache allows for R Markdown file formats to be built reproducibly and consistently. The cache is expected to be mindful of these formats in the following ways (as taken from <a href="https://carpentries.github.io/sandpaper/articles/building-with-renv.html">Building Lessons With A Package Cache</a>):</p>
 <ul>
 <li><em>reliable setup</em>: the version of the lesson built on the carpentries website will be the same as what you build on your computer because the packages will be identical</li>
@@ -432,8 +438,8 @@ Flow Diagram for <code>build_episode_md()</code>
 </ol>
 <p>This chapter will go into the history of using a package cache in Carpentries lessons, dig into the design principles, and understand challenges for moving forward.</p>
 </section>
-<section id="a-bit-of-history" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">7.2</span> A Bit of History</h2>
+<section id="a-bit-of-history" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">8.2</span> A Bit of History</h2>
 <p>As of this writing, The Workbench is able to reproducibly build and deploy lessons across machines and infrastructures thanks to the package cache provided by {renv}, but it is important to understand how we got here and what the motivations were, because the tools we have now simply did not exist in 2016. This section dives a bit into the history of writing R markdown content in Carpentries lessons and what lessons… were learned.</p>
 <p>Software Carpentry Lessons have been able to handle content written in R Markdown <a href="https://github.com/swcarpentry/DEPRECATED-bc/pull/626">since July 2014</a>. This process was disrupted in June 2016 with the release of the new styles template, but luckily, <a href="https://github.com/carpentries/lesson-example/pull/30">François Michonneau swooped in to the rescue</a> by providing a templating setup that would not only render the Markdown, but keep the output separate. The very next month, François submitted <a href="https://github.com/carpentries/styles/pull/83">carpentries/styles#83</a>, which added the capability to automatically detect and install packages needed to build an R-based lesson.</p>
 <p>Of course, back in 2016, in order to deploy an R-based lesson, you still had to build it locally, which sounds simple until you consider the aspect of reproducibility <span class="citation" data-cites="marwick2016computational wilson2017good">(<a href="../references.html#ref-marwick2016computational" role="doc-biblioref">Marwick 2016</a>; <a href="../references.html#ref-wilson2017good" role="doc-biblioref">Wilson et al. 2017</a>)</span>. If you build the same document on two different machines, there is no guarantee that you will get the same results. Thus, in May 2018, Raniere Silva added the ability to <a href="https://github.com/carpentries/styles/pull/275">build R-based lessones on Continuous Integration</a>. Finally, in 2020, Maxim Belkin added <a href="https://github.com/carpentries/styles/pull/488">GitHub Workflows to the styles repository</a> so that we no longer had to rely on TravisCI.</p>
@@ -445,8 +451,8 @@ Flow Diagram for <code>build_episode_md()</code>
 </ol>
 <p>Reproducibility is <em>hard</em>. Software ecosystems are always shifting like the sand dunes in the Sahara <span class="citation" data-cites="vaniea2016tales">(<a href="../references.html#ref-vaniea2016tales" role="doc-biblioref">Vaniea and Rashidi 2016</a>)</span>. By late 2020, we had come a long way in terms of automating the build process for R-based lessons, but there were still many hills to climb. It was in this context that we developed the use of {renv} and the R package cache to automate package provisioning, caching, and auditable updating so that R-based lessons could reliably be deployed with no surprises.</p>
 </section>
-<section id="design-principles" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="design-principles"><span class="header-section-number">7.3</span> Design Principles</h2>
+<section id="design-principles" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="design-principles"><span class="header-section-number">8.3</span> Design Principles</h2>
 <p>It is worth reading through <a href="https://github.com/carpentries/sandpaper/issues/21">carpentries/sandpaper#21</a> to see the discussion and thoughts around the origin of the design for using this feature. It was implemented during a three week period between 2021-08-24 and 2021-09-16, as detailed in the pull request <a href="https://github.com/carpentries/sandpaper/pull/158">carpentries/sandpaper#158</a>.</p>
 <p>It’s easy to think about a package cache as a way to declare dependencies for a lesson in a reproducible way, but it’s more than that. The philosophy of R packages on CRAN is that they all need to work with the latest versions of each other, so a lesson that teaches R should be reasonably up-to-date. Thus, any given package must be able to do the following four things in the package cache:</p>
 <ol type="1">
@@ -849,12 +855,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../sandpaper/testing.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../pegboard/intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
