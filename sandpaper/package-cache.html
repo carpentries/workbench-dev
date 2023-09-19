@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.358">
+<meta name="generator" content="quarto-1.4.373">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -414,7 +415,13 @@ Dependency Tree for <code>renv_check_consent()</code>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The <code>renv_check_consent()</code> checks if the user has run <code>sandpaper::use_package_cache()</code>, which allows {renv} to create and maintain a global package cache on their system.</p>
-<p><img src="renv-check-consent.png" class="img-fluid" alt="dependency diagram of renv_check_consent showing the paths to other functions in sandpaper, fs, cli, callr, glue, and renv"></p>
+<div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored" alt="dependency diagram of renv_check_consent showing the paths to other functions in sandpaper, fs, cli, callr, glue, and renv">
+<figure class="quarto-float quarto-float-fig figure">
+<div>
+<img src="renv-check-consent.png" id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="img-fluid figure-img" alt="dependency diagram of renv_check_consent showing the paths to other functions in sandpaper, fs, cli, callr, glue, and renv">
+</div>
+</figure>
+</div>
 </div>
 </div>
 </div></li>
@@ -432,7 +439,13 @@ Flow Diagram for <code>build_episode_md()</code>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>This flow represents the build process for <em>each R Markdown file</em>. This function is called from within a separate R process. The only conditional here determines if the {renv} environment needs to be loaded.</p>
-<p><img src="build-episode-md.png" class="img-fluid" alt="code flow diagram showing a single if statement that controls the loading of renv"></p>
+<div id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="quarto-figure quarto-figure-center anchored" alt="code flow diagram showing a single if statement that controls the loading of renv">
+<figure class="quarto-float quarto-float-fig figure">
+<div>
+<img src="build-episode-md.png" id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="img-fluid figure-img" alt="code flow diagram showing a single if statement that controls the loading of renv">
+</div>
+</figure>
+</div>
 </div>
 </div>
 </div></li>
@@ -495,7 +508,7 @@ Flow Diagram for <code>build_episode_md()</code>
 </ol>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-marwick2016computational" class="csl-entry" role="listitem">
 Marwick, Ben. 2016. <span>“Computational Reproducibility in Archaeological Research: Basic Principles and a Case Study of Their Implementation.”</span> <em>Journal of Archaeological Method and Theory</em> 24 (2): 424–50. <a href="https://doi.org/10.1007/s10816-015-9272-9">https://doi.org/10.1007/s10816-015-9272-9</a>.
 </div>
