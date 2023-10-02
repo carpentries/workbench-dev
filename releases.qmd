@@ -36,6 +36,7 @@ The workbench is built using very basic semantic versioning using the
   change this to assume a sandpaper lesson by default, then this would be a
   breaking change because anyone who is using `Lesson$new()` will now need to
   use `Lesson$new(jekyll = TRUE)`.
+
 `Y`
 : **Minor version number** this version number will change if there are new
   features or enhanced behaviors available to the users in a way that _does not
@@ -44,6 +45,7 @@ The workbench is built using very basic semantic versioning using the
   documents. If the lesson has no child documents, then it is processed as
   expected, but if the child documents exist, then they are additionally
   processed and validated. 
+
 `Z`
 : **Patch version number** this version number will change if something that
   was previously broken was fixed, but no new features have been added. An
@@ -51,6 +53,7 @@ The workbench is built using very basic semantic versioning using the
   0.13.3](https://github.com/carpentries/sandpaper/releases/tag/0.13.3) where
   there were two bugfixes that affected links to setup page sections and 404
   page rendering that otherwise did not add any new features.
+
 `9000`
 : **Development version indicator** this indicates that the version of
   {sandpaper} on GitHub is in development and not yet released. This indicator
