@@ -67,7 +67,8 @@ good to strive for these practises[^striving]:
   experimenting and need to revert back to one that gave you a working state.
 [^rstudio-branch]: In RStudio, when you use the interface to create a new
   branch, it will generally also push the branch to GitHub for you. If it does
-  not do this, you will need to push the branch with `git push -u`. I do this
+  not do this, you will need to push the branch with `git push -u origin
+  <BRANCH_NAME>`. I do this
   often enough that I've created a git alias (which can go in your
   `~/.gitconfig` file): \
   `pushb = !"git push --set-upstream $(git remote | head -n 1) $(git symbolic-ref HEAD --short)"`
@@ -98,8 +99,6 @@ as:
 With these tools, if you cannot reproduce the error, you can guide the user to
 give you the information you need to reproduce the error and then you can follow
 the [git guidelines](#sec-git-etiquitte) to iterate on the fix.
-
-
 
 :::{.callout-warning}
 
