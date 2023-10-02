@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.383">
+<meta name="generator" content="quarto-1.4.398">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
@@ -345,7 +345,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">11.1</span> Background</a></li>
-  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">11.2</span> Release Process</a></li>
+  <li><a href="#versioning" id="toc-versioning" class="nav-link" data-scroll-target="#versioning"><span class="header-section-number">11.2</span> Versioning</a></li>
+  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">11.3</span> Release Process</a></li>
   </ul>
 </nav>
     </div>
@@ -382,16 +383,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Each of these packages are available on the <a href="https://carpentries.r-universe.dev/">Carpentries R-Universe</a> and new versions are checked for hourly. This allows folks to get up-to-date versions of The Workbench packages built for their system without running out of GitHub API query attempts.</p>
 <p>In order to maintain quality, packages are only sent to the R-Universe if they have been formally released on GitHub (<a href="https://github.com/carpentries/universe/blob/0c330a1e8f0337de483144fece37c2710af6f4df/packages.json#L16-L33">as specified in the packages.json configuration file</a>). This allows us to incrementally add new experimental features without changing the stable deployments.</p>
 </section>
-<section id="release-process" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="release-process"><span class="header-section-number">11.2</span> Release Process</h2>
+<section id="versioning" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="versioning"><span class="header-section-number">11.2</span> Versioning</h2>
+<p>The workbench is built using very basic semantic versioning using the <code>X.Y.Z[.9000]</code> pattern.</p>
+<dl>
+<dt><code>X</code></dt>
+<dd>
+<strong>Major version number</strong> this version number will change if there are significant breaking changes to any of the user-facing workflows. That is, if a change requires users to modify their scripts, then it is a breaking change. <em>For example:</em> at this time of writing, <code>{pegboard}</code> is at version 0.7.0, for which the <code>Lesson</code> object assumes a Jekyll lesson by default. If we were to change this to assume a sandpaper lesson by default, then this would be a breaking change because anyone who is using <code>Lesson$new()</code> will now need to use <code>Lesson$new(jekyll = TRUE)</code>. <code>Y</code>
+</dd>
+<dd>
+<strong>Minor version number</strong> this version number will change if there are new features or enhanced behaviors available to the users in a way that <em>does not affect how users who do not need the new features use the package</em>. An example of this is <code>{pegboard}</code> version 0.7.0 introduced processing of child documents. If the lesson has no child documents, then it is processed as expected, but if the child documents exist, then they are additionally processed and validated. <code>Z</code>
+</dd>
+<dd>
+<strong>Patch version number</strong> this version number will change if something that was previously broken was fixed, but no new features have been added. An example of this is in <a href="https://github.com/carpentries/sandpaper/releases/tag/0.13.3"><code>{sandpaper}</code> version 0.13.3</a> where there were two bugfixes that affected links to setup page sections and 404 page rendering that otherwise did not add any new features. <code>9000</code>
+</dd>
+<dd>
+<strong>Development version indicator</strong> this indicates that the version of {sandpaper} on GitHub is in development and not yet released. This indicator is always appended to the current release number and should be between 9000 and 9999. For example, you the development version indicator for the version of sandpaper after 0.13.2 is 0.13.2.9000. This particular version resulted in a bump to 0.13.3, but it could also have resulted in 0.14.0 or 1.0.0. It has not been extensively used in the past, but it is quite useful for tracking incremental changes with different bugfixes and features that may appear. When this development version indicator exists, the documentation site will have an extra <code>dev/</code> directory that contains the upcoming changes so that we can continue to develop the workbench without disrupting the regular documentation flow.
+</dd>
+</dl>
+</section>
+<section id="release-process" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="release-process"><span class="header-section-number">11.3</span> Release Process</h2>
 <p>When a package is ready for release we use the following checklist:</p>
 <ul class="task-list">
-<li><p><label><input type="checkbox">Update version number in DESCRIPTION</label></p></li>
+<li><p><label><input type="checkbox">Create a new branch called <code>release-X.Y.Z</code></label></p></li>
+<li><p><label><input type="checkbox">Update version number in DESCRIPTION and check that the <code>Remotes:</code> is up-to-date</label></p></li>
 <li><p><label><input type="checkbox">Add NEWS for the changes in this version</label></p></li>
-<li><p><label><input type="checkbox">Ensure all changes are committed and pushed</label></p></li>
-<li><p><label><input type="checkbox">add new signed tag with the name “<package> X.Y.Z”</package></label></p>
+<li><p><label><input type="checkbox">commit, push changes, and create pull request</label></p></li>
+<li><p><label><input type="checkbox">Merge the pull request when checks pass</label></p></li>
+<li><p><label><input type="checkbox">add new signed tag with the name “<package> X.Y.Z” and push</package></label></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example: create a signed (-s) tag for sandpaper 3.3.3</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 3.3.3 <span class="at">-m</span> <span class="st">'sandpaper 3.3.3'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 3.3.3 <span class="at">-m</span> <span class="st">'sandpaper 3.3.3'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><label><input type="checkbox">create a release on github from the new tag</label></p></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">

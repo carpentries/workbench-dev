@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.383">
+<meta name="generator" content="quarto-1.4.398">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
@@ -427,7 +427,7 @@ Simple Example
 <hr>
 <ol>
 <li id="fn1"><p>I say <em>strive</em> for these practises because I do not always follow them myself, but they are there for very good reasons. For example: testing before you write code helps you design your code to do the thing you want it to do AND it helps avoid confirmation bias in the tests.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>In RStudio, when you use the interface to create a new branch, it will generally also push the branch to GitHub for you. If it does not do this, you will need to push the branch with <code>git push -u</code>. I do this often enough that I’ve created a git alias (which can go in your <code>~/.gitconfig</code> file):<br>
+<li id="fn2"><p>In RStudio, when you use the interface to create a new branch, it will generally also push the branch to GitHub for you. If it does not do this, you will need to push the branch with <code>git push -u origin   &lt;BRANCH_NAME&gt;</code>. I do this often enough that I’ve created a git alias (which can go in your <code>~/.gitconfig</code> file):<br>
 <code>pushb = !"git push --set-upstream $(git remote | head -n 1) $(git symbolic-ref HEAD --short)"</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>You do not have to push after each commit. Sometimes it is strategic to collect a little stack of local commits in case you were experimenting and need to revert back to one that gave you a working state.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
