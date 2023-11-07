@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.487">
+<meta name="generator" content="quarto-1.4.489">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -347,6 +347,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">11.1</span> Background</a></li>
   <li><a href="#versioning" id="toc-versioning" class="nav-link" data-scroll-target="#versioning"><span class="header-section-number">11.2</span> Versioning</a></li>
   <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">11.3</span> Release Process</a></li>
+  <li><a href="#release-timeline" id="toc-release-timeline" class="nav-link" data-scroll-target="#release-timeline"><span class="header-section-number">11.4</span> Release Timeline</a>
+  <ul class="collapse">
+  <li><a href="#minor-feature-updates" id="toc-minor-feature-updates" class="nav-link" data-scroll-target="#minor-feature-updates"><span class="header-section-number">11.4.1</span> Minor Feature Updates</a></li>
+  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">11.4.2</span> Breaking Changes</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -387,19 +392,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="11.2" class="anchored" data-anchor-id="versioning"><span class="header-section-number">11.2</span> Versioning</h2>
 <p>The workbench is built using very basic semantic versioning using the <code>X.Y.Z[.9000]</code> pattern.</p>
 <dl>
-<dt><code>X</code></dt>
+<dt><span id="major"><code>X</code></span></dt>
 <dd>
 <strong>Major version number</strong> this version number will change if there are significant breaking changes to any of the user-facing workflows. That is, if a change requires users to modify their scripts, then it is a breaking change. <em>For example:</em> at this time of writing, <code>{pegboard}</code> is at version 0.7.0, for which the <code>Lesson</code> object assumes a Jekyll lesson by default. If we were to change this to assume a sandpaper lesson by default, then this would be a breaking change because anyone who is using <code>Lesson$new()</code> will now need to use <code>Lesson$new(jekyll = TRUE)</code>.
 </dd>
-<dt><code>Y</code></dt>
+<dt><span id="minor"><code>Y</code></span></dt>
 <dd>
 <strong>Minor version number</strong> this version number will change if there are new features or enhanced behaviors available to the users in a way that <em>does not affect how users who do not need the new features use the package</em>. An example of this is <code>{pegboard}</code> version 0.7.0 introduced processing of child documents. If the lesson has no child documents, then it is processed as expected, but if the child documents exist, then they are additionally processed and validated.
 </dd>
-<dt><code>Z</code></dt>
+<dt><span id="patch"><code>Z</code></span></dt>
 <dd>
 <strong>Patch version number</strong> this version number will change if something that was previously broken was fixed, but no new features have been added. An example of this is in <a href="https://github.com/carpentries/sandpaper/releases/tag/0.13.3"><code>{sandpaper}</code> version 0.13.3</a> where there were two bugfixes that affected links to setup page sections and 404 page rendering that otherwise did not add any new features.
 </dd>
-<dt><code>9000</code></dt>
+<dt><span id="dev"><code>9000</code></span></dt>
 <dd>
 <strong>Development version indicator</strong> this indicates that the version of {sandpaper} on GitHub is in development and not yet released. This indicator is always appended to the current release number and should be between 9000 and 9999. For example, you the development version indicator for the version of sandpaper after 0.13.2 is 0.13.2.9000. This particular version resulted in a bump to 0.13.3, but it could also have resulted in 0.14.0 or 1.0.0. It has not been extensively used in the past, but it is quite useful for tracking incremental changes with different bugfixes and features that may appear. When this development version indicator exists, the documentation site will have an extra <code>dev/</code> directory that contains the upcoming changes so that we can continue to develop the workbench without disrupting the regular documentation flow.
 </dd>
@@ -413,6 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><label><input type="checkbox">Update version number in DESCRIPTION and check that the <code>Remotes:</code> is up-to-date</label></p></li>
 <li><p><label><input type="checkbox">Add NEWS for the changes in this version</label></p></li>
 <li><p><label><input type="checkbox">commit, push changes, and create pull request</label></p></li>
+<li><p><label><input type="checkbox">check the pull request against the <a href="https://github.com/carpentries/workbench-integration-test#readme">workbench integration test</a></label></p></li>
 <li><p><label><input type="checkbox">Merge the pull request when checks pass</label></p></li>
 <li><p><label><input type="checkbox">add new signed tag with the name “<package> X.Y.Z” and push</package></label></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example: create a signed (-s) tag for sandpaper 3.3.3</span></span>
@@ -442,8 +448,33 @@ Note
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   Leave blank</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Selecting “Write using generated notes as a template” opens an editor and populates it with the pull requests that have been accepted since the last release.</p>
 <p>Once the relase is created on GitHub, then the package will be available on the R-Universe in about an hour or less.</p>
+</section>
+<section id="release-timeline" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="release-timeline"><span class="header-section-number">11.4</span> Release Timeline</h2>
+<p>In the early days of The Workbench, the release process was ad-hoc because the number of users was low, but now that the entire community is using it, it is important to set expectations and properly communicate changes to the users. For <a href="#patch">patch relases</a>, these releases should continue to happen ad-hoc because, by definition, these releases only fix bugs and do not add new features.</p>
+<p>The release timelines are based on two assumptions:</p>
+<ol type="1">
+<li>a M–F workweek (i.e.&nbsp;NEVER release on a Friday unless you like working on the weekend)</li>
+<li>All lesson builds and updates happen every Tuesday at 00:00 UTC (packages for R-based lessons are updated on the <em>first</em> Tuesday)</li>
+</ol>
+<section id="minor-feature-updates" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="minor-feature-updates"><span class="header-section-number">11.4.1</span> Minor Feature Updates</h3>
+<p>For releases that add new non-breaking features which bump the <a href="#minor">minor version</a>, it is important to alert the community a couple of days in advance of the release so they have a chance to give feedback before the release. Thus, I propose the following timeline:</p>
+<ol type="1">
+<li><strong>Friday (drafting)</strong>: Members of Workbench Maintainer Group draft communications describing new features</li>
+<li><strong>Monday (communications)</strong>: Communications describing new features sent to relevant communities (maintainers/trainers/instructors, depending on feature)</li>
+<li><strong>Wednesday (release)</strong>: New version of Workbench package(s) released</li>
+</ol>
+<p>We release on Wednesday in order to give enough time for the communications to sink in <em>and</em> give enough time for us to release patches to the release before all lessons get rebuilt.</p>
+</section>
+<section id="breaking-changes" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">11.4.2</span> Breaking Changes</h3>
+<p>If there are breaking changes, it is important to give the community enough time to adapt and to offer them a path forward to fix their workflows. Depending on how drastic the change is, it may be important to conduct beta testing to ensure that the change doesn’t contain any unforseen bugs and, importantly, that it <em>improves the workflow for the audience over doing nothing at all</em>.</p>
+<p>The Beta Phase of The Workbench is an extreme version of this, but it <em>is</em> important, because <a href="https://github.com/dwinter/mmod/issues/2">major version changes have real-world consequences</a> that you want to avoid as much as possible.</p>
+<p>The release should still happen on a Wednesday, but the communications aspect should be timely, specific, targeted, and repeated. It may be that you have to communicate about the change one week, one month, or even one quarter ahead of the release. In a volunteer community, you will end up in situations where people are checked out for months at a time and will see everything changed, so please do take care with the communications and changes.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
