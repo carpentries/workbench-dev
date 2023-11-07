@@ -27,7 +27,7 @@ the stable deployments.
 The workbench is built using very basic semantic versioning using the
 `X.Y.Z[.9000]` pattern. 
 
-`X`
+[`X`]{#major}
 : **Major version number** this version number will change if there are
   significant breaking changes to any of the user-facing workflows. That is, if
   a change requires users to modify their scripts, then it is a breaking change.
@@ -37,7 +37,7 @@ The workbench is built using very basic semantic versioning using the
   breaking change because anyone who is using `Lesson$new()` will now need to
   use `Lesson$new(jekyll = TRUE)`.
 
-`Y`
+[`Y`]{#minor}
 : **Minor version number** this version number will change if there are new
   features or enhanced behaviors available to the users in a way that _does not
   affect how users who do not need the new features use the package_. An example
@@ -46,7 +46,7 @@ The workbench is built using very basic semantic versioning using the
   expected, but if the child documents exist, then they are additionally
   processed and validated. 
 
-`Z`
+[`Z`]{#patch}
 : **Patch version number** this version number will change if something that
   was previously broken was fixed, but no new features have been added. An
   example of this is in [`{sandpaper}` version
@@ -54,7 +54,7 @@ The workbench is built using very basic semantic versioning using the
   there were two bugfixes that affected links to setup page sections and 404
   page rendering that otherwise did not add any new features.
 
-`9000`
+[`9000`]{#dev}
 : **Development version indicator** this indicates that the version of
   {sandpaper} on GitHub is in development and not yet released. This indicator
   is always appended to the current release number and should be between 9000
@@ -78,6 +78,8 @@ When a package is ready for release we use the following checklist:
        up-to-date
  - [ ] Add NEWS for the changes in this version
  - [ ] commit, push changes, and create pull request
+ - [ ] check the pull request against the [workbench integration
+   test](https://github.com/carpentries/workbench-integration-test#readme)
  - [ ] Merge the pull request when checks pass
  - [ ] add new signed tag with the name "<package> X.Y.Z" and push
 
@@ -116,6 +118,62 @@ release.
 
 Once the relase is created on GitHub, then the package will be available on
 the R-Universe in about an hour or less. 
+
+
+## Release Timeline
+
+In the early days of The Workbench, the release process was ad-hoc because the
+number of users was low, but now that the entire community is using it, it is
+important to set expectations and properly communicate changes to the users.
+For [patch relases](#patch), these releases should continue to happen ad-hoc
+because, by definition, these releases only fix bugs and do not add new
+features.
+
+The release timelines are based on two assumptions:
+
+1. a M--F workweek (i.e. NEVER release on a Friday unless you like working on
+   the weekend)
+2. All lesson builds and updates happen every Tuesday at 00:00 UTC (packages for
+   R-based lessons are updated on the _first_ Tuesday)
+
+### Minor Feature Updates
+
+For releases that add new non-breaking features which bump the [minor
+version](#minor), it is important to alert the community a couple of days in
+advance of the release so they have a chance to give feedback before the
+release. Thus, I propose the following timeline:
+
+ 1. **Friday (drafting)**: Members of Workbench Maintainer Group draft
+    communications describing new features
+ 2. **Monday (communications)**: Communications describing new features sent to
+    relevant communities (maintainers/trainers/instructors, depending on
+    feature)
+ 3. **Wednesday (release)**: New version of Workbench package(s) released
+
+We release on Wednesday in order to give enough time for the communications to
+sink in _and_ give enough time for us to release patches to the release before
+all lessons get rebuilt. 
+
+
+### Breaking Changes
+
+If there are breaking changes, it is important to give the community enough time
+to adapt and to offer them a path forward to fix their workflows. Depending on
+how drastic the change is, it may be important to conduct beta testing to 
+ensure that the change doesn't contain any unforseen bugs and, importantly, that
+it _improves the workflow for the audience over doing nothing at all_.
+
+The Beta Phase of The Workbench is an extreme version of this, but it _is_
+important, because [major version changes have real-world
+consequences](https://github.com/dwinter/mmod/issues/2) that you want to avoid
+as much as possible.
+
+The release should still happen on a Wednesday, but the communications aspect
+should be timely, specific, targeted, and repeated. It may be that you have to
+communicate about the change one week, one month, or even one quarter ahead of
+the release. In a volunteer community, you will end up in situations where
+people are checked out for months at a time and will see everything changed, so
+please do take care with the communications and changes. 
 
 [{varnish}]: https://carpentries.github.io/varnish/
 [{pegboard}]: https://carpentries.github.io/pegboard/
