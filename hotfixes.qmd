@@ -1,0 +1,71 @@
+---
+title: "Releasing Hotfixes"
+---
+
+A hotfix is a bug fix for a situation where a bug has been found, but the main
+branch has new features that are not yet ready to be released.
+
+Take for example a situation where you want to introduce two new features into
+the project, so you create two branches for each of them. You finish the first
+and merge it into the main branch and you are still working on the second. Your
+Git graph might look something like this:
+
+
+```{mermaid}
+gitGraph
+    commit
+    commit tag: "0.14.0"
+    branch feature1
+    branch feature2
+    checkout main
+    checkout feature1
+    commit
+    commit
+    checkout main
+    merge feature1
+    checkout feature2
+    commit
+    commit
+    checkout main
+```
+
+
+Then, you get a report that something is broken and you need to fix it
+immediately. If you check out from the main branch you will grab `feature1` as
+well, which is not yet ready for production because you intended `feature2` to
+be released along side. In this case, you need to create a hotfix, and create
+the branch _from the last tag_:
+
+```sh
+git switch --detach 0.14.0 # checkout the tag
+git switch -c hotfix-branch # create a new branch
+# do some work
+git commit -m 'hotfix for nn'
+git push origin hotfix-branch
+```
+
+TBC
+
+```{mermaid}
+gitGraph
+    commit
+    commit tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-branch order: 9
+    checkout hotfix
+    commit
+    commit tag: "0.14.1"
+    checkout main
+    checkout feature1
+    commit
+    commit
+    checkout main
+    merge feature1
+    checkout feature2
+    commit
+    commit
+    checkout main
+    merge hotfix
+```
+

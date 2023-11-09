@@ -37,6 +37,7 @@ book:
     - part: "Package Distribution"
       chapters:
       - releases.qmd
+      - hotfixes.qmd
     - part: "Remote Deployment and Management"
       chapters:
       - remote/intro.qmd

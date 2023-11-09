@@ -71,9 +71,20 @@ The workbench is built using very basic semantic versioning using the
 
 ## Release Process
 
+::: {.callout-warning}
+
+### Non-urgent releases only
+
+This release process assumes that we have accumulated bugfixes and/or features
+in the `main` branch, which we are ready to release. If you have a bug that
+needs to be patched _immediately_ and you have new features in the main branch
+that are not yet released, then you should [create a hotfix](hotfixes) instead.
+
+:::
+
 When a package is ready for release we use the following checklist:
 
- - [ ] Create a new branch called `release-X.Y.Z`
+ - [ ] Create a new branch from `main` called `release-X.Y.Z`
  - [ ] Update version number in DESCRIPTION and check that the `Remotes:` is
        up-to-date
  - [ ] Add NEWS for the changes in this version
@@ -85,7 +96,7 @@ When a package is ready for release we use the following checklist:
 
       ```bash
       # example: create a signed (-s) tag for sandpaper 3.3.3
-      git tag -s 3.3.3 -m 'sandpaper 3.3.3'
+      git tag -s 3.3.3 -m '<short explanation of what changed>'
       git push --tags
       ```
  - [ ] create a release on github from the new tag
@@ -116,7 +127,7 @@ Selecting "Write using generated notes as a template" opens an editor and
 populates it with the pull requests that have been accepted since the last
 release.
 
-Once the relase is created on GitHub, then the package will be available on
+Once the release is created on GitHub, then the package will be available on
 the R-Universe in about an hour or less. 
 
 
