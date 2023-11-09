@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./remote/intro.html" rel="next">
+<link href="./hotfixes.html" rel="next">
 <link href="./varnish/intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -274,6 +274,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hotfixes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -288,13 +294,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remote/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remote/deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
       </ul>
@@ -302,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -412,9 +418,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="release-process" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="release-process"><span class="header-section-number">11.3</span> Release Process</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Non-urgent releases only
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This release process assumes that we have accumulated bugfixes and/or features in the <code>main</code> branch, which we are ready to release. If you have a bug that needs to be patched <em>immediately</em> and you have new features in the main branch that are not yet released, then you should <a href="hotfixes">create a hotfix</a> instead.</p>
+</div>
+</div>
 <p>When a package is ready for release we use the following checklist:</p>
 <ul class="task-list">
-<li><p><label><input type="checkbox">Create a new branch called <code>release-X.Y.Z</code></label></p></li>
+<li><p><label><input type="checkbox">Create a new branch from <code>main</code> called <code>release-X.Y.Z</code></label></p></li>
 <li><p><label><input type="checkbox">Update version number in DESCRIPTION and check that the <code>Remotes:</code> is up-to-date</label></p></li>
 <li><p><label><input type="checkbox">Add NEWS for the changes in this version</label></p></li>
 <li><p><label><input type="checkbox">commit, push changes, and create pull request</label></p></li>
@@ -422,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><label><input type="checkbox">Merge the pull request when checks pass</label></p></li>
 <li><p><label><input type="checkbox">add new signed tag with the name “<package> X.Y.Z” and push</package></label></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example: create a signed (-s) tag for sandpaper 3.3.3</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 3.3.3 <span class="at">-m</span> <span class="st">'sandpaper 3.3.3'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 3.3.3 <span class="at">-m</span> <span class="st">'&lt;short explanation of what changed&gt;'</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><label><input type="checkbox">create a release on github from the new tag</label></p></li>
 </ul>
@@ -447,7 +466,7 @@ Note
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; Write using generated notes as template</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   Leave blank</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Selecting “Write using generated notes as a template” opens an editor and populates it with the pull requests that have been accepted since the last release.</p>
-<p>Once the relase is created on GitHub, then the package will be available on the R-Universe in about an hour or less.</p>
+<p>Once the release is created on GitHub, then the package will be available on the R-Universe in about an hour or less.</p>
 </section>
 <section id="release-timeline" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="release-timeline"><span class="header-section-number">11.4</span> Release Timeline</h2>
@@ -875,8 +894,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./remote/intro.html" class="pagination-link" aria-label="<span class='chapter-number'>12</span>&nbsp; <span class='chapter-title'>Introduction</span>">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./hotfixes.html" class="pagination-link" aria-label="<span class='chapter-number'>12</span>&nbsp; <span class='chapter-title'>Releasing Hotfixes</span>">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
