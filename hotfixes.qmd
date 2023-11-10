@@ -17,20 +17,19 @@ Git graph might look something like this:
 
 ```{mermaid}
 gitGraph
-    commit
-    commit tag: "0.14.0"
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
     branch feature1
     branch feature2
     checkout main
     checkout feature1
-    commit
-    commit
+    commit id: "ijkl"
+    commit id: "mnop"
     checkout main
-    merge feature1
+    merge feature1 id: "gpne"
     checkout feature2
-    commit
-    commit
-    checkout main
+    commit id: "qrst"
+    commit id: "uvwx"
 ```
 
 
