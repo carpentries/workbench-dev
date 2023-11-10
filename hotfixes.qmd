@@ -3,7 +3,11 @@ title: "Releasing Hotfixes"
 ---
 
 A hotfix is a bug fix for a situation where a bug has been found, but the main
-branch has new features that are not yet ready to be released.
+branch has new features that are not yet ready to be released. This chapter will
+be a walkthrough of a scenario with a diagram of the status of the Git
+repository during each iteration. This was the process used in
+[carpentries/sandpaper#539](https://github.com/carpentries/sandpaper/pull/539)
+to resolve a bug in link processing.
 
 Take for example a situation where you want to introduce two new features into
 the project, so you create two branches for each of them. You finish the first
@@ -30,42 +34,168 @@ gitGraph
 ```
 
 
-Then, you get a report that something is broken and you need to fix it
-immediately. If you check out from the main branch you will grab `feature1` as
-well, which is not yet ready for production because you intended `feature2` to
-be released along side. In this case, you need to create a hotfix, and create
-the branch _from the last tag_:
+## Step 1: Create a Fix and Pull Request
+
+Then, you get a report (let's call it issue number 143) that something is broken
+and you need to fix it immediately. Normally, to fix bugs, you would check out a
+new bugfix branch from the `main` branch. Here's the catch: if you check out
+from the main branch you will grab `feature1` as well, which is not yet ready
+for production because you intended `feature2` to be released along side. In
+this case, you need to create a hotfix, and create the branch _from the last
+tag_:
 
 ```sh
 git switch --detach 0.14.0 # checkout the tag
-git switch -c hotfix-branch # create a new branch
+git switch -c hotfix-143 # create a new branch
 # do some work
-git commit -m 'hotfix for nn'
-git push origin hotfix-branch
+git commit -m 'hotfix for #143'
 ```
-
-TBC
 
 ```{mermaid}
 gitGraph
-    commit
-    commit tag: "0.14.0"
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
     branch feature1
     branch feature2
-    branch hotfix-branch order: 9
-    checkout hotfix
-    commit
-    commit tag: "0.14.1"
+    branch hotfix-143
     checkout main
     checkout feature1
-    commit
-    commit
+    commit id: "ijkl"
+    commit id: "mnop"
     checkout main
-    merge feature1
+    merge feature1 id: "gpne"
     checkout feature2
-    commit
-    commit
-    checkout main
-    merge hotfix
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
 ```
 
+
+Once you have made your hotfix (with a test of course, because we always make
+sure to verify our fixes), then you should push it up and open a pull request:
+
+```sh
+git push -u origin hotfix-143
+```
+
+## Step 2: Run Integration Test, Bump the Version and Add a Tag
+
+You should check that the hotfix does not break any existing tests AND you
+should check the [Workbench Integration
+Test](https://github.com/carpentries/workbench-integration-test#readme) with the
+pull request you just created and the repository that is reporting the error.
+
+Once you have confirmed that everything works as expected, the next step is to
+bump the version and add a tag. This tag will allow you to release the patch
+version.
+
+```sh
+nano DESCRIPTION # bump the patch version
+nano NEWS.md     # add a new section describing the bug fix
+git add DESCRIPTION NEWS.md
+git commit -m 'bump version to 0.14.1'
+git tag -s 0.14.1 -m 'hotfix for 143'
+git push
+git push --tags
+```
+
+
+```{mermaid}
+gitGraph
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-143
+    checkout main
+    checkout feature1
+    commit id: "ijkl"
+    commit id: "mnop"
+    checkout main
+    merge feature1 id: "gpne"
+    checkout feature2
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+    commit id: "CDEF" tag: "0.14.1"
+```
+
+At this point, the checks will not run on the pull request because there will be
+a conflict in the DESCRIPTION and NEWS.md files. This is okay. All you did was
+update the version numbers and add NEWS. The next step is to release the patch.
+
+## Step 3: Release the Patch
+
+You will release the patch using the same method as described in [the releases
+chapter](releases). You can either release on GitHub directly or via the GitHub
+CLI. Importantly, when you create the release, you should _create the release
+from the new tag_:
+
+```sh
+gh release create 0.14.1
+```
+
+## Step 4: Resolve Conflicts and Merge
+
+Now that you've created the release, you should resolve the conflicts in the
+DESCRIPTION and NEWS files and then merge it back into `main` (note: this will
+create two merge commits, but I'm only showing one in the diagram to make it
+cleaner):
+
+```{mermaid}
+gitGraph
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-143
+    checkout main
+    checkout feature1
+    commit id: "ijkl"
+    commit id: "mnop"
+    checkout main
+    merge feature1 id: "gpne"
+    checkout feature2
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+    commit id: "CDEF" tag: "0.14.1"
+    checkout main
+    merge hotfix-143 id: "DeFn"
+```
+
+
+Now you will have the patch in place for the released version _and_ the devel
+version of The Workbench, which means that you can continue to develop as
+normal and merge the next feature when you are ready:
+
+```{mermaid}
+gitGraph
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-143
+    checkout main
+    checkout feature1
+    commit id: "ijkl"
+    commit id: "mnop"
+    checkout main
+    merge feature1 id: "gpne"
+    checkout feature2
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+    commit id: "CDEF" tag: "0.14.1"
+    checkout main
+    merge hotfix-143 id: "DeFn"
+    checkout feature2
+    commit id: "GHIJ"
+    commit id: "KLMN"
+    checkout main
+    merge feature2 id: "FnNL"
+```
