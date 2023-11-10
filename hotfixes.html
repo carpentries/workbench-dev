@@ -349,7 +349,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#step-1-create-a-fix-and-pull-request" id="toc-step-1-create-a-fix-and-pull-request" class="nav-link active" data-scroll-target="#step-1-create-a-fix-and-pull-request"><span class="header-section-number">12.1</span> Step 1: Create a Fix and Pull Request</a></li>
+  <li><a href="#step-2-run-integration-test-bump-the-version-and-add-a-tag" id="toc-step-2-run-integration-test-bump-the-version-and-add-a-tag" class="nav-link" data-scroll-target="#step-2-run-integration-test-bump-the-version-and-add-a-tag"><span class="header-section-number">12.2</span> Step 2: Run Integration Test, Bump the Version and Add a Tag</a></li>
+  <li><a href="#step-3-release-the-patch" id="toc-step-3-release-the-patch" class="nav-link" data-scroll-target="#step-3-release-the-patch"><span class="header-section-number">12.3</span> Step 3: Release the Patch</a></li>
+  <li><a href="#step-4-resolve-conflicts-and-merge" id="toc-step-4-resolve-conflicts-and-merge" class="nav-link" data-scroll-target="#step-4-resolve-conflicts-and-merge"><span class="header-section-number">12.4</span> Step 4: Resolve Conflicts and Merge</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -373,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>A hotfix is a bug fix for a situation where a bug has been found, but the main branch has new features that are not yet ready to be released.</p>
+<p>A hotfix is a bug fix for a situation where a bug has been found, but the main branch has new features that are not yet ready to be released. This chapter will be a walkthrough of a scenario with a diagram of the status of the Git repository during each iteration. This was the process used in <a href="https://github.com/carpentries/sandpaper/pull/539">carpentries/sandpaper#539</a> to resolve a bug in link processing.</p>
 <p>Take for example a situation where you want to introduce two new features into the project, so you create two branches for each of them. You finish the first and merge it into the main branch and you are still working on the second. Your Git graph might look something like this:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -399,37 +408,149 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Then, you get a report that something is broken and you need to fix it immediately. If you check out from the main branch you will grab <code>feature1</code> as well, which is not yet ready for production because you intended <code>feature2</code> to be released along side. In this case, you need to create a hotfix, and create the branch <em>from the last tag</em>:</p>
+<section id="step-1-create-a-fix-and-pull-request" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="step-1-create-a-fix-and-pull-request"><span class="header-section-number">12.1</span> Step 1: Create a Fix and Pull Request</h2>
+<p>Then, you get a report (let’s call it issue number 143) that something is broken and you need to fix it immediately. Normally, to fix bugs, you would check out a new bugfix branch from the <code>main</code> branch. Here’s the catch: if you check out from the main branch you will grab <code>feature1</code> as well, which is not yet ready for production because you intended <code>feature2</code> to be released along side. In this case, you need to create a hotfix, and create the branch <em>from the last tag</em>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">--detach</span> 0.14.0 <span class="co"># checkout the tag</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> hotfix-branch <span class="co"># create a new branch</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> hotfix-143 <span class="co"># create a new branch</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># do some work</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'hotfix for nn'</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin hotfix-branch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>TBC</p>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'hotfix for #143'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <div>
 <pre class="mermaid mermaid-js">gitGraph
-    commit
-    commit tag: "0.14.0"
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
     branch feature1
     branch feature2
-    branch hotfix-branch order: 9
-    checkout hotfix
-    commit
-    commit tag: "0.14.1"
+    branch hotfix-143
     checkout main
     checkout feature1
-    commit
-    commit
+    commit id: "ijkl"
+    commit id: "mnop"
     checkout main
-    merge feature1
+    merge feature1 id: "gpne"
     checkout feature2
-    commit
-    commit
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>Once you have made your hotfix (with a test of course, because we always make sure to verify our fixes), then you should push it up and open a pull request:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin hotfix-143</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-2-run-integration-test-bump-the-version-and-add-a-tag" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="step-2-run-integration-test-bump-the-version-and-add-a-tag"><span class="header-section-number">12.2</span> Step 2: Run Integration Test, Bump the Version and Add a Tag</h2>
+<p>You should check that the hotfix does not break any existing tests AND you should check the <a href="https://github.com/carpentries/workbench-integration-test#readme">Workbench Integration Test</a> with the pull request you just created and the repository that is reporting the error.</p>
+<p>Once you have confirmed that everything works as expected, the next step is to bump the version and add a tag. This tag will allow you to release the patch version.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> DESCRIPTION <span class="co"># bump the patch version</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> NEWS.md     <span class="co"># add a new section describing the bug fix</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add DESCRIPTION NEWS.md</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'bump version to 0.14.1'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 0.14.1 <span class="at">-m</span> <span class="st">'hotfix for 143'</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">gitGraph
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-143
     checkout main
-    merge hotfix
+    checkout feature1
+    commit id: "ijkl"
+    commit id: "mnop"
+    checkout main
+    merge feature1 id: "gpne"
+    checkout feature2
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+    commit id: "CDEF" tag: "0.14.1"
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>At this point, the checks will not run on the pull request because there will be a conflict in the DESCRIPTION and NEWS.md files. This is okay. All you did was update the version numbers and add NEWS. The next step is to release the patch.</p>
+</section>
+<section id="step-3-release-the-patch" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="step-3-release-the-patch"><span class="header-section-number">12.3</span> Step 3: Release the Patch</h2>
+<p>You will release the patch using the same method as described in <a href="releases">the releases chapter</a>. You can either release on GitHub directly or via the GitHub CLI. Importantly, when you create the release, you should <em>create the release from the new tag</em>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create 0.14.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-4-resolve-conflicts-and-merge" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="step-4-resolve-conflicts-and-merge"><span class="header-section-number">12.4</span> Step 4: Resolve Conflicts and Merge</h2>
+<p>Now that you’ve created the release, you should resolve the conflicts in the DESCRIPTION and NEWS files and then merge it back into <code>main</code> (note: this will create two merge commits, but I’m only showing one in the diagram to make it cleaner):</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">gitGraph
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-143
+    checkout main
+    checkout feature1
+    commit id: "ijkl"
+    commit id: "mnop"
+    checkout main
+    merge feature1 id: "gpne"
+    checkout feature2
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+    commit id: "CDEF" tag: "0.14.1"
+    checkout main
+    merge hotfix-143 id: "DeFn"
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>Now you will have the patch in place for the released version <em>and</em> the devel version of The Workbench, which means that you can continue to develop as normal and merge the next feature when you are ready:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">gitGraph
+    commit id: "abcd"
+    commit id: "efgh" tag: "0.14.0"
+    branch feature1
+    branch feature2
+    branch hotfix-143
+    checkout main
+    checkout feature1
+    commit id: "ijkl"
+    commit id: "mnop"
+    checkout main
+    merge feature1 id: "gpne"
+    checkout feature2
+    commit id: "qrst"
+    commit id: "uvwx"
+    checkout hotfix-143
+    commit id: "yzAB"
+    commit id: "CDEF" tag: "0.14.1"
+    checkout main
+    merge hotfix-143 id: "DeFn"
+    checkout feature2
+    commit id: "GHIJ"
+    commit id: "KLMN"
+    checkout main
+    merge feature2 id: "FnNL"
 </pre>
 </div>
 </div>
@@ -437,6 +558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

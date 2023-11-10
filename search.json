@@ -469,11 +469,44 @@
     ]
   },
   {
-    "objectID": "hotfixes.html",
-    "href": "hotfixes.html",
+    "objectID": "hotfixes.html#step-1-create-a-fix-and-pull-request",
+    "href": "hotfixes.html#step-1-create-a-fix-and-pull-request",
     "title": "12  Releasing Hotfixes",
-    "section": "",
-    "text": "A hotfix is a bug fix for a situation where a bug has been found, but the main branch has new features that are not yet ready to be released.\nTake for example a situation where you want to introduce two new features into the project, so you create two branches for each of them. You finish the first and merge it into the main branch and you are still working on the second. Your Git graph might look something like this:\n\n\n\n\ngitGraph\n    commit\n    commit tag: \"0.14.0\"\n    branch feature1\n    branch feature2\n    checkout main\n    checkout feature1\n    commit\n    commit\n    checkout main\n    merge feature1\n    checkout feature2\n    commit\n    commit\n    checkout main\n\n\n\n\n\nThen, you get a report that something is broken and you need to fix it immediately. If you check out from the main branch you will grab feature1 as well, which is not yet ready for production because you intended feature2 to be released along side. In this case, you need to create a hotfix, and create the branch from the last tag:\ngit switch --detach 0.14.0 # checkout the tag\ngit switch -c hotfix-branch # create a new branch\n# do some work\ngit commit -m 'hotfix for nn'\ngit push origin hotfix-branch\nTBC\n\n\n\n\ngitGraph\n    commit\n    commit tag: \"0.14.0\"\n    branch feature1\n    branch feature2\n    branch hotfix-branch order: 9\n    checkout hotfix\n    commit\n    commit tag: \"0.14.1\"\n    checkout main\n    checkout feature1\n    commit\n    commit\n    checkout main\n    merge feature1\n    checkout feature2\n    commit\n    commit\n    checkout main\n    merge hotfix",
+    "section": "12.1 Step 1: Create a Fix and Pull Request",
+    "text": "12.1 Step 1: Create a Fix and Pull Request\nThen, you get a report (let’s call it issue number 143) that something is broken and you need to fix it immediately. Normally, to fix bugs, you would check out a new bugfix branch from the main branch. Here’s the catch: if you check out from the main branch you will grab feature1 as well, which is not yet ready for production because you intended feature2 to be released along side. In this case, you need to create a hotfix, and create the branch from the last tag:\ngit switch --detach 0.14.0 # checkout the tag\ngit switch -c hotfix-143 # create a new branch\n# do some work\ngit commit -m 'hotfix for #143'\n\n\n\n\ngitGraph\n    commit id: \"abcd\"\n    commit id: \"efgh\" tag: \"0.14.0\"\n    branch feature1\n    branch feature2\n    branch hotfix-143\n    checkout main\n    checkout feature1\n    commit id: \"ijkl\"\n    commit id: \"mnop\"\n    checkout main\n    merge feature1 id: \"gpne\"\n    checkout feature2\n    commit id: \"qrst\"\n    commit id: \"uvwx\"\n    checkout hotfix-143\n    commit id: \"yzAB\"\n\n\n\n\n\nOnce you have made your hotfix (with a test of course, because we always make sure to verify our fixes), then you should push it up and open a pull request:\ngit push -u origin hotfix-143",
+    "crumbs": [
+      "Package Distribution",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Releasing Hotfixes</span>"
+    ]
+  },
+  {
+    "objectID": "hotfixes.html#step-2-run-integration-test-bump-the-version-and-add-a-tag",
+    "href": "hotfixes.html#step-2-run-integration-test-bump-the-version-and-add-a-tag",
+    "title": "12  Releasing Hotfixes",
+    "section": "12.2 Step 2: Run Integration Test, Bump the Version and Add a Tag",
+    "text": "12.2 Step 2: Run Integration Test, Bump the Version and Add a Tag\nYou should check that the hotfix does not break any existing tests AND you should check the Workbench Integration Test with the pull request you just created and the repository that is reporting the error.\nOnce you have confirmed that everything works as expected, the next step is to bump the version and add a tag. This tag will allow you to release the patch version.\nnano DESCRIPTION # bump the patch version\nnano NEWS.md     # add a new section describing the bug fix\ngit add DESCRIPTION NEWS.md\ngit commit -m 'bump version to 0.14.1'\ngit tag -s 0.14.1 -m 'hotfix for 143'\ngit push\ngit push --tags\n\n\n\n\ngitGraph\n    commit id: \"abcd\"\n    commit id: \"efgh\" tag: \"0.14.0\"\n    branch feature1\n    branch feature2\n    branch hotfix-143\n    checkout main\n    checkout feature1\n    commit id: \"ijkl\"\n    commit id: \"mnop\"\n    checkout main\n    merge feature1 id: \"gpne\"\n    checkout feature2\n    commit id: \"qrst\"\n    commit id: \"uvwx\"\n    checkout hotfix-143\n    commit id: \"yzAB\"\n    commit id: \"CDEF\" tag: \"0.14.1\"\n\n\n\n\n\nAt this point, the checks will not run on the pull request because there will be a conflict in the DESCRIPTION and NEWS.md files. This is okay. All you did was update the version numbers and add NEWS. The next step is to release the patch.",
+    "crumbs": [
+      "Package Distribution",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Releasing Hotfixes</span>"
+    ]
+  },
+  {
+    "objectID": "hotfixes.html#step-3-release-the-patch",
+    "href": "hotfixes.html#step-3-release-the-patch",
+    "title": "12  Releasing Hotfixes",
+    "section": "12.3 Step 3: Release the Patch",
+    "text": "12.3 Step 3: Release the Patch\nYou will release the patch using the same method as described in the releases chapter. You can either release on GitHub directly or via the GitHub CLI. Importantly, when you create the release, you should create the release from the new tag:\ngh release create 0.14.1",
+    "crumbs": [
+      "Package Distribution",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Releasing Hotfixes</span>"
+    ]
+  },
+  {
+    "objectID": "hotfixes.html#step-4-resolve-conflicts-and-merge",
+    "href": "hotfixes.html#step-4-resolve-conflicts-and-merge",
+    "title": "12  Releasing Hotfixes",
+    "section": "12.4 Step 4: Resolve Conflicts and Merge",
+    "text": "12.4 Step 4: Resolve Conflicts and Merge\nNow that you’ve created the release, you should resolve the conflicts in the DESCRIPTION and NEWS files and then merge it back into main (note: this will create two merge commits, but I’m only showing one in the diagram to make it cleaner):\n\n\n\n\ngitGraph\n    commit id: \"abcd\"\n    commit id: \"efgh\" tag: \"0.14.0\"\n    branch feature1\n    branch feature2\n    branch hotfix-143\n    checkout main\n    checkout feature1\n    commit id: \"ijkl\"\n    commit id: \"mnop\"\n    checkout main\n    merge feature1 id: \"gpne\"\n    checkout feature2\n    commit id: \"qrst\"\n    commit id: \"uvwx\"\n    checkout hotfix-143\n    commit id: \"yzAB\"\n    commit id: \"CDEF\" tag: \"0.14.1\"\n    checkout main\n    merge hotfix-143 id: \"DeFn\"\n\n\n\n\n\nNow you will have the patch in place for the released version and the devel version of The Workbench, which means that you can continue to develop as normal and merge the next feature when you are ready:\n\n\n\n\ngitGraph\n    commit id: \"abcd\"\n    commit id: \"efgh\" tag: \"0.14.0\"\n    branch feature1\n    branch feature2\n    branch hotfix-143\n    checkout main\n    checkout feature1\n    commit id: \"ijkl\"\n    commit id: \"mnop\"\n    checkout main\n    merge feature1 id: \"gpne\"\n    checkout feature2\n    commit id: \"qrst\"\n    commit id: \"uvwx\"\n    checkout hotfix-143\n    commit id: \"yzAB\"\n    commit id: \"CDEF\" tag: \"0.14.1\"\n    checkout main\n    merge hotfix-143 id: \"DeFn\"\n    checkout feature2\n    commit id: \"GHIJ\"\n    commit id: \"KLMN\"\n    checkout main\n    merge feature2 id: \"FnNL\"",
     "crumbs": [
       "Package Distribution",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Releasing Hotfixes</span>"
