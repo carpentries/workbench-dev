@@ -1,0 +1,72 @@
+---
+title: "Pull Request Responders"
+---
+
+One feature of The Workbench is the pull request workflows that run
+automatically for each and every pull request. These checks will do the
+following:
+
+1. Confirm that the pull request is not invalid or spoofing another pull request
+   or doing something potentially malicious. 
+2. Check the lesson for any invalid markdown elements
+3. Rebuild the markdown outputs (not the site) in a safe environment and deploy
+   it to an orphan branch that will allow the lesson maintainer to audit the
+   changes brought in by the pull request (this is important for R Markdown
+   lessons).
+
+When the checks have finished, GitHub will add a comment to the pull request
+that informs the maintainer about what has changed.
+
+{{< include _pr-flow-graph.qmd >}}
+
+## Motivation
+
+Much of the motivation for the pull request audits can be found in the
+[Auditing Pull
+Requests](https://carpentries.github.io/sandpaper-docs/pull-request.html)
+episode in The Workbench documentation. 
+
+```{mermaid}
+flowchart TB
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    pr["Pull Request"]:::remote
+    receive["Receive Pull Request"]:::remote
+    validate["Check Valid PR"]:::local
+    branch["Create md-outputs-{PR}"]:::local
+    comment["Comment on Pull Request"]:::local
+    
+    review["Maintainer Review"]:::remote
+    
+    accept["Accepted"]:::normal
+    reject["Rejected"]:::notouch
+    deploy["Deploy"]:::local
+    destroy["Destroy md-outputs-{PR}"]:::local
+
+    pr --> receive;
+    receive --> validate;
+    validate -.->|"valid"| branch;
+    validate -.->|"invalid"| comment;
+    branch --> comment
+    comment --> review
+    review --> reject 
+    review --> accept 
+    accept --> deploy 
+    deploy ~~~ destroy
+    accept --> destroy 
+    reject --> destroy 
+
+```
+
+
+## Preflight Checks
+
+
+## Pull Request Checks
+
+## Clean up

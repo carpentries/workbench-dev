@@ -21,8 +21,6 @@ This allows people to update the lesson styling however they wish[^2] and while
 we _could_ include it in {sandpaper}, it's best kept separate so that people
 can update {varnish} without needing to update the entire tool suite.
 
-
-
 ## Design and Implementation Background
 
 The design for the frontend was [created by Emily de la Mettrie in

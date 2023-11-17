@@ -216,41 +216,7 @@ especially true of the `update-cache.yaml` workflow, which will update the
 {renv} lockfile. By passing it through the pull request process first, we can
 give the maintainers a way to audit the changes coming through. 
 
-```{mermaid}
-flowchart LR
-    subgraph PULL REQUEST
-    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
-    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
-    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
-    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
-    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
-    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
-
-    md-outputs[("md-outputs")]:::local
-    PR[\"pull request"\]:::remote
-    pr-preflight.yaml:::normal
-    pr-recieve.yaml(["pr-recieve.yaml"]):::normal
-    pr-comment.yaml:::normal
-    pr-close-signal.yaml:::normal
-    pr-post-remove-branch.yaml:::normal
-    md-outputs-PR[("md-outputs-PR#")]:::notouch
-    end
-
-    PR --> pr-preflight.yaml
-    pr-preflight.yaml -.->|"comments on"| PR
-    pr-preflight.yaml ~~~ pr-recieve.yaml
-    PR -->|"on maintainer approval"| pr-recieve.yaml
-    pr-recieve.yaml -.-|"uses"| md-outputs
-    pr-recieve.yaml -.->|"triggers"| pr-comment.yaml
-    pr-comment.yaml -.->|"creates"| md-outputs-PR
-    pr-comment.yaml -.->|"comments on"| PR
-    PR -.->|"on close"| pr-close-signal.yaml
-    pr-close-signal.yaml -.->|"triggers"| pr-post-remove-branch.yaml
-    pr-post-remove-branch.yaml -.->|"deletes"| md-outputs-PR
-
-```
-
-
+{{< include _pr-flow-graph.qmd >}}
 
 
 [GHW]: https://docs.github.com/en/actions/using-workflows/about-workflows

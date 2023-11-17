@@ -42,6 +42,7 @@ book:
       chapters:
       - remote/intro.qmd
       - remote/deploy.qmd
+      - remote/pull-request.qmd
     - summary.qmd
     - references.qmd
   appendices:
