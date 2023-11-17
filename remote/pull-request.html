@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 14&nbsp; Deployment</title>
+<title>Workbench Developer’s Guide - 15&nbsp; Pull Request Responders</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -65,8 +31,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../remote/pull-request.html" rel="next">
-<link href="../remote/intro.html" rel="prev">
+<link href="../summary.html" rel="next">
+<link href="../remote/deploy.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -102,6 +68,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../guide.scss">
@@ -116,7 +85,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/deploy.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/pull-request.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -299,13 +268,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link active">
+  <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../remote/pull-request.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/pull-request.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
   </div>
 </li>
@@ -356,25 +325,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#provisioning-r" id="toc-provisioning-r" class="nav-link active" data-scroll-target="#provisioning-r"><span class="header-section-number">14.1</span> Provisioning R</a></li>
-  <li><a href="#provisioning-pandoc" id="toc-provisioning-pandoc" class="nav-link" data-scroll-target="#provisioning-pandoc"><span class="header-section-number">14.2</span> Provisioning pandoc</a></li>
-  <li><a href="#sec-cache" id="toc-sec-cache" class="nav-link" data-scroll-target="#sec-cache"><span class="header-section-number">14.3</span> Caching</a>
-  <ul class="collapse">
-  <li><a href="#restoring-an-outdated-cache-with-restore-keys" id="toc-restoring-an-outdated-cache-with-restore-keys" class="nav-link" data-scroll-target="#restoring-an-outdated-cache-with-restore-keys"><span class="header-section-number">14.3.1</span> Restoring an outdated cache with <code>restore-keys</code></a></li>
-  <li><a href="#restoring-a-valid-cache-with-key" id="toc-restoring-a-valid-cache-with-key" class="nav-link" data-scroll-target="#restoring-a-valid-cache-with-key"><span class="header-section-number">14.3.2</span> Restoring a valid cache with <code>key</code></a></li>
-  </ul></li>
-  <li><a href="#sec-provision-workbench" id="toc-sec-provision-workbench" class="nav-link" data-scroll-target="#sec-provision-workbench"><span class="header-section-number">14.4</span> Provisioning The Workbench</a></li>
-  <li><a href="#sec-provision-renv" id="toc-sec-provision-renv" class="nav-link" data-scroll-target="#sec-provision-renv"><span class="header-section-number">14.5</span> Provisioning The Package Cache</a></li>
-  <li><a href="#a-bit-of-history" id="toc-a-bit-of-history" class="nav-link" data-scroll-target="#a-bit-of-history"><span class="header-section-number">14.6</span> A bit of History</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation"><span class="header-section-number">15.1</span> Motivation</a></li>
+  <li><a href="#preflight-checks" id="toc-preflight-checks" class="nav-link" data-scroll-target="#preflight-checks"><span class="header-section-number">15.2</span> Preflight Checks</a></li>
+  <li><a href="#pull-request-checks" id="toc-pull-request-checks" class="nav-link" data-scroll-target="#pull-request-checks"><span class="header-section-number">15.3</span> Pull Request Checks</a></li>
+  <li><a href="#clean-up" id="toc-clean-up" class="nav-link" data-scroll-target="#clean-up"><span class="header-section-number">15.4</span> Clean up</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/deploy.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../remote/intro.html">Remote Deployment and Management</a></li><li class="breadcrumb-item"><a href="../remote/pull-request.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></h1>
 </div>
 
 
@@ -391,151 +354,111 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>As we saw in <a href="intro.html">the previous chapter</a>, deployment of lesson content requires two things:</p>
+<p>One feature of The Workbench is the pull request workflows that run automatically for each and every pull request. These checks will do the following:</p>
 <ol type="1">
-<li>a system provisioned with R, pandoc, and Git that is capable of installing any R packages (including those that require compillation or external C libraries).</li>
-<li>access to a remote Git repository with the ability to create and push branches.</li>
+<li>Confirm that the pull request is not invalid or spoofing another pull request or doing something potentially malicious.</li>
+<li>Check the lesson for any invalid markdown elements</li>
+<li>Rebuild the markdown outputs (not the site) in a safe environment and deploy it to an orphan branch that will allow the lesson maintainer to audit the changes brought in by the pull request (this is important for R Markdown lessons).</li>
 </ol>
-<p>Point 2 is easily taken care of by any remote Git hosting service such as GitHub, GitLab, or GitTea. Point 1 is also fairly straightforward because many hosting services will be able to run Ubuntu or some other flavour of Linux<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The challenge is: how do you do this in a way that is reliable, up-to-date, and <em>fast</em>? When you consider the fact that some lessons will be using R Markdown to render content with an arbitrary set of packages and that those packages are not known until build time, this challenge becomes even more difficult.</p>
-<p>Whatever workflow is building the workbench needs to do these things, which are covered in the sections below:</p>
-<ol type="1">
-<li>provision R</li>
-<li>provision pandoc</li>
-<li>install and cache a Workbench installation</li>
-<li>install and cache the required packages for building markdown lessons</li>
-</ol>
-<section id="provisioning-r" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="provisioning-r"><span class="header-section-number">14.1</span> Provisioning R</h2>
-<p>We use the <a href="https://github.com/r-lib/actions/tree/v2-branch/setup-r">r-lib/actions/setup-r@v2</a> action to set up R’s environmental variables. The way we use it, it does not actually install R because R comes installed by default on GitHub’s <a href="https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md">Ubuntu runners</a> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, saving about a minute’s worth of installation time.</p>
-<p>Another alternative is to use containers from the <a href="https://rocker-project.org/">Rocker project</a> or the <a href="https://github.com/r-universe-org/base-image/tree/master">base image of the R-universe</a> if you want to work with Docker containers.</p>
-</section>
-<section id="provisioning-pandoc" class="level2" data-number="14.2">
-<h2 data-number="14.2" class="anchored" data-anchor-id="provisioning-pandoc"><span class="header-section-number">14.2</span> Provisioning pandoc</h2>
-<p>Again, we use r-lib for this task, with the <a href="https://github.com/r-lib/actions/tree/v2-branch/setup-pandoc">r-lib/actions/setup-pandoc@v2</a> action. Note: we use the default installation of pandoc, which is 2.19.2 as of this writing, and is expected to match the version of pandoc used in RStudio.</p>
-<p>Alternative ways to provision pandoc can be found in <a href="https://pandoc.org/installing.html">pandoc’s installation guide</a>.</p>
-</section>
-<section id="sec-cache" class="level2" data-number="14.3">
-<h2 data-number="14.3" class="anchored" data-anchor-id="sec-cache"><span class="header-section-number">14.3</span> Caching</h2>
-<p>In order to ensure that the process moves as rapidly as possible, we need to be able to cache the packages used in our workflow. This is a bit of a complex topic, but GitHub has written up a <a href="https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#using-contexts-to-create-cache-keys">guide for caching dependencies</a>. Effectively, our strategy for the cache is to ensure we can restore the packages that we have previously downloaded and (in the case of provisioning the workbench) installing only the updates we need. To do this, we need to define the folder to restore from and two keys:</p>
-<ol start="0" type="1">
-<li>Folder: path to the R package library used, which for a normal R installation is the <code>${R_LIBS_USER}</code> environment variable. For a {renv} cache, it will be in the <code>${RENV_PATHS_ROOT}</code> environment variable.</li>
-<li><code>key</code> a very specific key to restore a valid cache that can be used immediately</li>
-<li><code>restore-keys</code> a less-specific key to restore an invalid cache that might be able to be updated</li>
-</ol>
-<section id="restoring-an-outdated-cache-with-restore-keys" class="level3" data-number="14.3.1">
-<h3 data-number="14.3.1" class="anchored" data-anchor-id="restoring-an-outdated-cache-with-restore-keys"><span class="header-section-number">14.3.1</span> Restoring an outdated cache with <code>restore-keys</code></h3>
-<p>In the case of R packages, you need to be concerned about two things to restore a cache, valid or not:</p>
-<ol type="1">
-<li>The OS version</li>
-<li>The R version</li>
-</ol>
-<p>Remember that R packages in the libary <a href="https://r-pkgs.org/structure.html#sec-structure-binary">are built for the specific operating system</a> and thus, if the operating system changes, the cache cannot be recovered. Similarly, if the R version has changed, a package <em>may</em> work, but there is no guarantee that it <em>will</em> work and thus the cache cannot be recovered.</p>
-<p>Thus, when we define the prefix for the <code>restore-keys</code> and the <code>key</code>, we define it like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">restore-keys</span><span class="kw">:</span><span class="at"> ${{ os-version }}-${{ r-version }}-</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The important part of having the <code>restore-keys</code> is that, when it is hit, the cache will be updated when the workflow completes, thus recording the updates that were found.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<code>cache-version</code> key
+<p>When the checks have finished, GitHub will add a comment to the pull request that informs the maintainer about what has changed.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph PULL REQUEST
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    md-outputs[("md-outputs")]:::local
+    PR[\"pull request"\]:::remote
+    pr-preflight.yaml:::normal
+    pr-recieve.yaml(["pr-recieve.yaml"]):::normal
+    pr-comment.yaml:::normal
+    pr-close-signal.yaml:::normal
+    pr-post-remove-branch.yaml:::normal
+    md-outputs-PR[("md-outputs-PR#")]:::notouch
+    end
+
+    PR --&gt; pr-preflight.yaml
+    pr-preflight.yaml -.-&gt;|"comments on"| PR
+    pr-preflight.yaml ~~~ pr-recieve.yaml
+    PR --&gt;|"on maintainer approval"| pr-recieve.yaml
+    pr-recieve.yaml -.-|"uses"| md-outputs
+    pr-recieve.yaml -.-&gt;|"triggers"| pr-comment.yaml
+    pr-comment.yaml -.-&gt;|"creates"| md-outputs-PR
+    pr-comment.yaml -.-&gt;|"comments on"| PR
+    PR -.-&gt;|"on close"| pr-close-signal.yaml
+    pr-close-signal.yaml -.-&gt;|"triggers"| pr-post-remove-branch.yaml
+    pr-post-remove-branch.yaml -.-&gt;|"deletes"| md-outputs-PR
+
+</pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>You might see reference to a <code>$CACHE_VERSION</code> key in some of the workflows. This is an outdated feature that will be removed in the future. There are times when a cache becomes borked and it needs to be reset quickly. Sometime in 2022, GitHub added the ability for maintainers to delete a cache with a button click in the “actions” tab, so this became trivial.</p>
-<p>Before then, we had to rely on a trick that had maintainers register a <code>CACHE_VERSION</code> secret, which was recommended to set it to the date. This was tacked on to the end of the restore key so that if a cache needed to be reset, a maintainer could update the <code>CACHE_VERSION</code> secret and the cache would be invalidated completely.</p>
 </div>
 </div>
-</section>
-<section id="restoring-a-valid-cache-with-key" class="level3" data-number="14.3.2">
-<h3 data-number="14.3.2" class="anchored" data-anchor-id="restoring-a-valid-cache-with-key"><span class="header-section-number">14.3.2</span> Restoring a valid cache with <code>key</code></h3>
-<p>A valid cache can be restored and used immediately without needing to reinstall any resources. To determine the validity of a particular cache, it’s important to understand where your updates are coming from.</p>
-<section id="key-for-the-workbench" class="level4" data-number="14.3.2.1">
-<h4 data-number="14.3.2.1" class="anchored" data-anchor-id="key-for-the-workbench"><span class="header-section-number">14.3.2.1</span> <code>key</code> For The Workbench</h4>
-<p>In terms of The Workbench, you want to make sure you pull in any updates from the R-universe and CRAN, because they will have any bugfixes that we did not consider. In practise, the way we do this is by saving a file from the <a href="https://remotes.r-lib.org/reference/package_deps.html#value">output of <code>remotes::package_deps()</code></a>, which will get the recursive dependencies for The Workbench, check their package versions against the versions of the installed package and report which packages have updates available.</p>
-<p>However, you might be noticing something that is amiss: if you are checking for outdated packages before any packages are installed, then how does this help with invalidating the cache if you don’t know the package versions you have installed before you restore from the cache? The trick is that whenever you query the packages in this way, you are always comparing against a (near) empty R library, so the result will be the same across runs <em>if and only if</em> none of the packages have updated in the upstream repositories.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="motivation" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">15.1</span> Motivation</h2>
+<p>Much of the motivation for the pull request audits can be found in the <a href="https://carpentries.github.io/sandpaper-docs/pull-request.html">Auditing Pull Requests</a> episode in The Workbench documentation.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
+    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px
+    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px
+    classDef local fill:#FFC700,stroke:#333,stroke-width:1px
+    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px
+    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px
+
+    pr["Pull Request"]:::remote
+    receive["Receive Pull Request"]:::remote
+    validate["Check Valid PR"]:::local
+    branch["Create md-outputs-{PR}"]:::local
+    comment["Comment on Pull Request"]:::local
+    
+    review["Maintainer Review"]:::remote
+    
+    accept["Accepted"]:::normal
+    reject["Rejected"]:::notouch
+    deploy["Deploy"]:::local
+    destroy["Destroy md-outputs-{PR}"]:::local
+
+    pr --&gt; receive;
+    receive --&gt; validate;
+    validate -.-&gt;|"valid"| branch;
+    validate -.-&gt;|"invalid"| comment;
+    branch --&gt; comment
+    comment --&gt; review
+    review --&gt; reject 
+    review --&gt; accept 
+    accept --&gt; deploy 
+    deploy ~~~ destroy
+    accept --&gt; destroy 
+    reject --&gt; destroy 
+
+</pre>
 </div>
-<div class="callout-title-container flex-fill">
-Example: cowsay
 </div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For example, this is the output of checking for dependencies of the {cowsay} package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> deps <span class="ot">&lt;-</span> remotes<span class="sc">::</span><span class="fu">package_deps</span>(<span class="st">"cowsay"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> deps</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Needs update <span class="sc">-----------------------------</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> package  installed available is_cran remote</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> rmsfact  <span class="cn">NA</span>        <span class="dv">0</span>.<span class="fl">0.3</span>     <span class="cn">TRUE</span>    CRAN</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> fortunes <span class="cn">NA</span>        <span class="fl">1.5</span><span class="dv">-4</span>     <span class="cn">TRUE</span>    CRAN</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a> crayon   <span class="cn">NA</span>        <span class="dv">1</span>.<span class="fl">5.2</span>     <span class="cn">TRUE</span>    CRAN</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a> cowsay   <span class="cn">NA</span>        <span class="dv">0</span>.<span class="fl">8.2</span>     <span class="cn">TRUE</span>    CRAN</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>When the data frame is saved in the workspace and the file is hashed, it will produce the same hash across builds because the <code>installed</code> the only column that will vary will be the <code>available</code> column (unless “cowsay” changes dependencies).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Idea for the future
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>It might be possible for us to centralize this caching so that we run <code>remotes::package_deps("sandpaper")</code> <em>outside</em> of the workflow in <a href="https://files.carpentries.org" class="uri">https://files.carpentries.org</a> so that we can save a few seconds of time installing remotes and querying dependencies if the restore is successful.</p>
 </div>
 </div>
 </section>
-<section id="key-for-the-renv-package-cache" class="level4" data-number="14.3.2.2">
-<h4 data-number="14.3.2.2" class="anchored" data-anchor-id="key-for-the-renv-package-cache"><span class="header-section-number">14.3.2.2</span> <code>key</code> for the {renv} package cache</h4>
-<p>The goal of the {renv} package cache is only to reliably restore it for reproducibility (say that five times fast), thus, the only key that we need to validate the cache is the <code>renv/profiles/lesson-requirements/renv.lock</code> file itself. If the hash for that is identical across runs, then the hash is valid and we can restore the cache as usual.</p>
+<section id="preflight-checks" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="preflight-checks"><span class="header-section-number">15.2</span> Preflight Checks</h2>
 </section>
+<section id="pull-request-checks" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="pull-request-checks"><span class="header-section-number">15.3</span> Pull Request Checks</h2>
 </section>
-</section>
-<section id="sec-provision-workbench" class="level2" data-number="14.4">
-<h2 data-number="14.4" class="anchored" data-anchor-id="sec-provision-workbench"><span class="header-section-number">14.4</span> Provisioning The Workbench</h2>
-<p>The Workbench Packages are provisioned with the <a href="https://github.com/carpentries/actions/tree/main/setup-sandpaper#readme">carpentries/actions/setup-sandpaper@main</a> composite action.</p>
-<p>This workflow does the following:</p>
-<ol type="1">
-<li>Sets up environment variables and options to allow us to fetch from the R-universe and RSPM</li>
-<li>Fetches the <a href="https://carpentries.r-universe.dev/stats/sysdeps">system dependencies json record</a> from the R-universe and installs them <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</li>
-<li>Restores the Cache and Installs any missing/outdated dependencies</li>
-<li>Installs any custom versions of sandpaper/varnish</li>
-</ol>
-</section>
-<section id="sec-provision-renv" class="level2" data-number="14.5">
-<h2 data-number="14.5" class="anchored" data-anchor-id="sec-provision-renv"><span class="header-section-number">14.5</span> Provisioning The Package Cache</h2>
-<p>The {renv} package cache is provisioned with the <a href="https://github.com/carpentries/actions/blob/main/setup-lesson-deps#readme">carpentries/actions/setup-lesson-deps@main</a> composite action. This action relies on the <a href="https://carpentries.github.io/vise">{vise}</a> package to determine and install the system dependencies for the packages in the cache (e.g.&nbsp;it’s the reason why the spatial packages can be installed for the spatial lessons).</p>
-<p>This has the following steps and is run only if the <code>renv/</code> folder exists.</p>
-<ol type="1">
-<li>Sets up environment variables and options to allow us to fetch from the R-universe and RSPM</li>
-<li>Determine and install system dependencies from the lockfile<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
-<li>provision the packages with <code>sandpaper::manage_deps()</code></li>
-</ol>
-</section>
-<section id="a-bit-of-history" class="level2" data-number="14.6">
-<h2 data-number="14.6" class="anchored" data-anchor-id="a-bit-of-history"><span class="header-section-number">14.6</span> A bit of History</h2>
-<p>In theory, these can all be taken care of with a Docker container and, indeed, we have written a <code>Dockerfile</code> to do just this, piggybacking off of the <a href="https://github.com/r-universe-org/base-image/tree/master">R-universe base image</a>. You might be wondering: why don’t we use a Docker image to build the lessons? Why do we use the runners for GitHub Actions? When we initially built The Workbench, building R packages on Ubuntu <em>always</em> required compilation, so we used macOS runners so that we could get compiled packages most of the time. The key point here is <em>most</em> of the time.</p>
-<p>The release cycle of R packages on CRAN will release the source of the package first and build the binaries for macOS and Windows in the few days following. Importantly, these binaries would have the C libraries bundled with the packages that required them, so the installation would <em>just work</em>. During these few days, <a href="https://ropensci.org/blog/2023/08/01/r-universe-and-cran/#alt-cran">users will be prompted with a message</a> asking them if they would like to install the binary version or compile the latest source. However, on GitHub runners, the machine always defaulted to the latest version, so sometimes, just after a package updated, we would get issues where a package (e.g.&nbsp;<a href="https://cran.r-project.org/package=stringi">{stringi}</a>) would fail to compile because the proper C library was not installed. This was especially problematic for a situation where we needed to provision an arbitrary set of packages for R-based lessons.</p>
-<p>In November 2021, we officially switched our runners over to use Ubuntu with <a href="https://github.com/carpentries/actions/pull/31">carpentries/actions#31</a> and <a href="https://github.com/carpentries/sandpaper/pull/211">carpentries/sandpaper#211</a>. These allowed us to use the binary packages from the Posit Package Manger (previously RStudio Package Manager) to provision our builds <em>and</em> parse the necessary system dependencies.</p>
-<p>This code initially lived inside of the github workflow, but the code got complex enough that it was worthwhile to port it to a specific package, which eventually became <a href="https://carpentries.github.io/vise">{vise}</a>. This package was intended as a way to split off the {renv} system from {sandpaper} into its own package (akin to something like <a href="https://milesmcbain.r-universe.dev/capsule">{capsule}</a>, but I never had the bandwitdh to properly separate the {renv} components from the {sandpaper} components (though that may be easier now that the {flow} package exists for analysis of code pathways).</p>
+<section id="clean-up" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="clean-up"><span class="header-section-number">15.4</span> Clean up</h2>
 
 
 </section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Perhaps not RedHat or CentOS, which are notoriously strict about updating their C libraries.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>see <a href="https://github.com/carpentries/sandpaper/pull/279" class="uri">https://github.com/carpentries/sandpaper/pull/279</a> for information about how we found that out.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>See <a href="../flight-rules.html#sec-bioc-intro109">the ssl error of July 2023 for one consequence of this</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>At the moment, this is sort of complex because {remotes} package has not been updated on CRAN since 2021 and does not know about ubuntu 22.04, which is the version of runners that GitHub uses. We do this because installing from CRAN is faster.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</aside>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -937,13 +860,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../remote/intro.html" class="pagination-link  aria-label=" &lt;span="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="../remote/deploy.html" class="pagination-link  aria-label=" &lt;span="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../remote/pull-request.html" class="pagination-link" aria-label="<span class='chapter-number'>15</span>&nbsp; <span class='chapter-title'>Pull Request Responders</span>">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../summary.html" class="pagination-link" aria-label="<span class='chapter-number'>16</span>&nbsp; <span class='chapter-title'>Summary</span>">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -612,13 +612,57 @@
     ]
   },
   {
+    "objectID": "remote/pull-request.html#motivation",
+    "href": "remote/pull-request.html#motivation",
+    "title": "15  Pull Request Responders",
+    "section": "15.1 Motivation",
+    "text": "15.1 Motivation\nMuch of the motivation for the pull request audits can be found in the Auditing Pull Requests episode in The Workbench documentation.\n\n\n\n\nflowchart TB\n    classDef default color:#383838,fill:#FFF7F1,stroke-width:1px\n    classDef external color:#383838,fill:#E6EEF8,stroke-width:1px\n    classDef normal color:#081457,fill:#E3E6FC,stroke-width:1px\n    classDef local fill:#FFC700,stroke:#333,stroke-width:1px\n    classDef remote fill:#D2BDF2,stroke:#201434,stroke-width:1px\n    classDef notouch fill:#F99697,stroke:#A4050E,stroke-width:1px\n\n    pr[\"Pull Request\"]:::remote\n    receive[\"Receive Pull Request\"]:::remote\n    validate[\"Check Valid PR\"]:::local\n    branch[\"Create md-outputs-{PR}\"]:::local\n    comment[\"Comment on Pull Request\"]:::local\n    \n    review[\"Maintainer Review\"]:::remote\n    \n    accept[\"Accepted\"]:::normal\n    reject[\"Rejected\"]:::notouch\n    deploy[\"Deploy\"]:::local\n    destroy[\"Destroy md-outputs-{PR}\"]:::local\n\n    pr --&gt; receive;\n    receive --&gt; validate;\n    validate -.-&gt;|\"valid\"| branch;\n    validate -.-&gt;|\"invalid\"| comment;\n    branch --&gt; comment\n    comment --&gt; review\n    review --&gt; reject \n    review --&gt; accept \n    accept --&gt; deploy \n    deploy ~~~ destroy\n    accept --&gt; destroy \n    reject --&gt; destroy",
+    "crumbs": [
+      "Remote Deployment and Management",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Pull Request Responders</span>"
+    ]
+  },
+  {
+    "objectID": "remote/pull-request.html#preflight-checks",
+    "href": "remote/pull-request.html#preflight-checks",
+    "title": "15  Pull Request Responders",
+    "section": "15.2 Preflight Checks",
+    "text": "15.2 Preflight Checks",
+    "crumbs": [
+      "Remote Deployment and Management",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Pull Request Responders</span>"
+    ]
+  },
+  {
+    "objectID": "remote/pull-request.html#pull-request-checks",
+    "href": "remote/pull-request.html#pull-request-checks",
+    "title": "15  Pull Request Responders",
+    "section": "15.3 Pull Request Checks",
+    "text": "15.3 Pull Request Checks",
+    "crumbs": [
+      "Remote Deployment and Management",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Pull Request Responders</span>"
+    ]
+  },
+  {
+    "objectID": "remote/pull-request.html#clean-up",
+    "href": "remote/pull-request.html#clean-up",
+    "title": "15  Pull Request Responders",
+    "section": "15.4 Clean up",
+    "text": "15.4 Clean up",
+    "crumbs": [
+      "Remote Deployment and Management",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Pull Request Responders</span>"
+    ]
+  },
+  {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "15  Summary",
+    "title": "16  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever.",
     "crumbs": [
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Summary</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Summary</span>"
     ]
   },
   {
