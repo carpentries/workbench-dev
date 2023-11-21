@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.507">
+<meta name="generator" content="quarto-1.4.509">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -535,6 +535,7 @@ Working on Linux?
 <li>open RStudio and switch to the project for the package you are working on</li>
 <li>checkout a new branch for your feature/bug</li>
 <li><strong>load package</strong> via <code>devtools::load_all()</code> or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>L</kbd> ( use <kbd>cmd</kbd> on macOS) to load the package NAMESPACE</li>
+<li>(if needed) <strong>document</strong> (either via <code>devtools::document()</code> or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>D</kbd>)</li>
 <li><strong>run tests</strong> (either via <code>devtools::test()</code> or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>T</kbd> to run the entire test suite OR to test a single file, use the “run tests” button in a test file or run <code>testthat::test_local(filter = '[FILE SLUG]')</code></li>
 <li><strong>modify tests</strong> for new functionality/bug fix</li>
 <li><strong>add functionality/bug fix</strong> and move to 3 unless you are ready to push</li>
