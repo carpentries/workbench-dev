@@ -172,12 +172,13 @@ it passes the tests and we have confidence that it will not fail again.
 2. checkout a new branch for your feature/bug
 3. **load package** via `devtools::load_all()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>L</kbd> (
    use <kbd>cmd</kbd> on macOS) to load the package NAMESPACE
-4. **run tests** (either via `devtools::test()` or
+4. (if needed) **document** (either via `devtools::document()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>D</kbd>)
+5. **run tests** (either via `devtools::test()` or
    <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>T</kbd> to run the entire test suite
    OR to test a single file, use the "run tests" button in a test file or run
    `testthat::test_local(filter = '[FILE SLUG]')`
-5. **modify tests** for new functionality/bug fix
-6. **add functionality/bug fix** and move to 3 unless you are ready to push
-7. run check with `devtools::check()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>E</kbd>
+6. **modify tests** for new functionality/bug fix
+7. **add functionality/bug fix** and move to 3 unless you are ready to push
+8. run check with `devtools::check()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>E</kbd>
 
 
