@@ -1,0 +1,76 @@
+---
+title: "Building HTML"
+---
+
+## Introduction
+
+Building HTML in The Workbench is a process that is isolated from rendering
+R Markdown to Markdown. There are three general steps to building the HTML
+files:
+
+1. **render** the HTML using `pandoc` with our custom lua filters (which transform
+   our special fenced-divs and flattens relative links)
+2. **post-process** the HTML using {xml2} to further refine and translate
+   elements that we cannot achieve through Lua filters
+3. **apply {varnish} templates** by passing [global
+   variables](https://carpentries.github.io/sandpaper/dev/articles/data-flow.html)
+   and HTML to {pkgdown}.
+
+
+## Rendering HTML
+
+```{r}
+#| label: render-html
+#| echo: false
+#| eval: !expr Sys.getenv("CI", "false") != "true"
+#| cache: true
+toc <- Sys.time()
+flow::flow_view_deps(sandpaper:::render_html, out = "render-html.png")
+tic <- Sys.time()
+cat(paste("time elapsed:", format(tic - toc)))
+```
+
+![](render-html.png)
+
+## Post-processing with XML
+
+```{r}
+#| label: fix-nodes-uses
+#| echo: false
+#| eval: !expr Sys.getenv("CI", "false") != "true"
+#| cache: true
+toc <- Sys.time()
+flow::flow_view_uses(sandpaper:::fix_nodes, out = "fix-nodes-uses.png")
+tic <- Sys.time()
+cat(paste("time elapsed:", format(tic - toc)))
+```
+
+![](fix-nodes-uses.png)
+
+```{r}
+#| label: fix-nodes-deps
+#| echo: false
+#| eval: !expr Sys.getenv("CI", "false") != "true"
+#| cache: true
+toc <- Sys.time()
+flow::flow_view_deps(sandpaper:::fix_nodes, out = "fix-nodes-deps.png")
+tic <- Sys.time()
+cat(paste("time elapsed:", format(tic - toc)))
+```
+
+![](fix-nodes-deps.png)
+
+## Applying {varnish} templating
+
+```{r}
+#| label: render-page
+#| echo: false
+#| eval: !expr Sys.getenv("CI", "false") != "true"
+#| cache: true
+toc <- Sys.time()
+flow::flow_view_uses(pkgdown::render_page, "sandpaper", out = "build-html.png")
+tic <- Sys.time()
+cat(paste("time elapsed:", format(tic - toc)))
+```
+
+![](build-html.png)
