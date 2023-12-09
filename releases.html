@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.517">
+<meta name="generator" content="quarto-1.4.523">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 11&nbsp; Release Process for Workbench Packages</title>
+<title>Workbench Developer’s Guide - 12&nbsp; Release Process for Workbench Packages</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -97,6 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -116,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -223,6 +224,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sandpaper/building-html.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Building HTML</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -237,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -254,7 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -271,13 +278,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./releases.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./hotfixes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
   </div>
 </li>
       </ul>
@@ -294,19 +301,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remote/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remote/deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remote/pull-request.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
   </div>
 </li>
       </ul>
@@ -314,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -356,13 +363,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">11.1</span> Background</a></li>
-  <li><a href="#versioning" id="toc-versioning" class="nav-link" data-scroll-target="#versioning"><span class="header-section-number">11.2</span> Versioning</a></li>
-  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">11.3</span> Release Process</a></li>
-  <li><a href="#release-timeline" id="toc-release-timeline" class="nav-link" data-scroll-target="#release-timeline"><span class="header-section-number">11.4</span> Release Timeline</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">12.1</span> Background</a></li>
+  <li><a href="#versioning" id="toc-versioning" class="nav-link" data-scroll-target="#versioning"><span class="header-section-number">12.2</span> Versioning</a></li>
+  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">12.3</span> Release Process</a></li>
+  <li><a href="#release-timeline" id="toc-release-timeline" class="nav-link" data-scroll-target="#release-timeline"><span class="header-section-number">12.4</span> Release Timeline</a>
   <ul class="collapse">
-  <li><a href="#minor-feature-updates" id="toc-minor-feature-updates" class="nav-link" data-scroll-target="#minor-feature-updates"><span class="header-section-number">11.4.1</span> Minor Feature Updates</a></li>
-  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">11.4.2</span> Breaking Changes</a></li>
+  <li><a href="#minor-feature-updates" id="toc-minor-feature-updates" class="nav-link" data-scroll-target="#minor-feature-updates"><span class="header-section-number">12.4.1</span> Minor Feature Updates</a></li>
+  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">12.4.2</span> Breaking Changes</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -370,9 +377,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></h1>
 </div>
 
 
@@ -389,8 +396,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="background" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="background"><span class="header-section-number">11.1</span> Background</h2>
+<section id="background" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="background"><span class="header-section-number">12.1</span> Background</h2>
 <p>The workbench contains three main packages:</p>
 <ul>
 <li><a href="https://carpentries.github.io/sandpaper/">{sandpaper}</a>: user interface and workflow engine</li>
@@ -400,8 +407,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Each of these packages are available on the <a href="https://carpentries.r-universe.dev/">Carpentries R-Universe</a> and new versions are checked for hourly. This allows folks to get up-to-date versions of The Workbench packages built for their system without running out of GitHub API query attempts.</p>
 <p>In order to maintain quality, packages are only sent to the R-Universe if they have been formally released on GitHub (<a href="https://github.com/carpentries/universe/blob/0c330a1e8f0337de483144fece37c2710af6f4df/packages.json#L16-L33">as specified in the packages.json configuration file</a>). This allows us to incrementally add new experimental features without changing the stable deployments.</p>
 </section>
-<section id="versioning" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="versioning"><span class="header-section-number">11.2</span> Versioning</h2>
+<section id="versioning" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="versioning"><span class="header-section-number">12.2</span> Versioning</h2>
 <p>The workbench is built using very basic semantic versioning using the <code>X.Y.Z[.9000]</code> pattern.</p>
 <dl>
 <dt><span id="major"><code>X</code></span></dt>
@@ -422,8 +429,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </dd>
 </dl>
 </section>
-<section id="release-process" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="release-process"><span class="header-section-number">11.3</span> Release Process</h2>
+<section id="release-process" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="release-process"><span class="header-section-number">12.3</span> Release Process</h2>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -474,16 +481,16 @@ Note
 <p>Selecting “Write using generated notes as a template” opens an editor and populates it with the pull requests that have been accepted since the last release.</p>
 <p>Once the release is created on GitHub, then the package will be available on the R-Universe in about an hour or less.</p>
 </section>
-<section id="release-timeline" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="release-timeline"><span class="header-section-number">11.4</span> Release Timeline</h2>
+<section id="release-timeline" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="release-timeline"><span class="header-section-number">12.4</span> Release Timeline</h2>
 <p>In the early days of The Workbench, the release process was ad-hoc because the number of users was low, but now that the entire community is using it, it is important to set expectations and properly communicate changes to the users. For <a href="#patch">patch relases</a>, these releases should continue to happen ad-hoc because, by definition, these releases only fix bugs and do not add new features.</p>
 <p>The release timelines are based on two assumptions:</p>
 <ol type="1">
 <li>a M–F workweek (i.e.&nbsp;NEVER release on a Friday unless you like working on the weekend)</li>
 <li>All lesson builds and updates happen every Tuesday at 00:00 UTC (packages for R-based lessons are updated on the <em>first</em> Tuesday)</li>
 </ol>
-<section id="minor-feature-updates" class="level3" data-number="11.4.1">
-<h3 data-number="11.4.1" class="anchored" data-anchor-id="minor-feature-updates"><span class="header-section-number">11.4.1</span> Minor Feature Updates</h3>
+<section id="minor-feature-updates" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="minor-feature-updates"><span class="header-section-number">12.4.1</span> Minor Feature Updates</h3>
 <p>For releases that add new non-breaking features which bump the <a href="#minor">minor version</a>, it is important to alert the community a couple of days in advance of the release so they have a chance to give feedback before the release. Thus, I propose the following timeline:</p>
 <ol type="1">
 <li><strong>Friday (drafting)</strong>: Members of Workbench Maintainer Group draft communications describing new features</li>
@@ -492,8 +499,8 @@ Note
 </ol>
 <p>We release on Wednesday in order to give enough time for the communications to sink in <em>and</em> give enough time for us to release patches to the release before all lessons get rebuilt.</p>
 </section>
-<section id="breaking-changes" class="level3" data-number="11.4.2">
-<h3 data-number="11.4.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">11.4.2</span> Breaking Changes</h3>
+<section id="breaking-changes" class="level3" data-number="12.4.2">
+<h3 data-number="12.4.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">12.4.2</span> Breaking Changes</h3>
 <p>If there are breaking changes, it is important to give the community enough time to adapt and to offer them a path forward to fix their workflows. Depending on how drastic the change is, it may be important to conduct beta testing to ensure that the change doesn’t contain any unforseen bugs and, importantly, that it <em>improves the workflow for the audience over doing nothing at all</em>.</p>
 <p>The Beta Phase of The Workbench is an extreme version of this, but it <em>is</em> important, because <a href="https://github.com/dwinter/mmod/issues/2">major version changes have real-world consequences</a> that you want to avoid as much as possible.</p>
 <p>The release should still happen on a Wednesday, but the communications aspect should be timely, specific, targeted, and repeated. It may be that you have to communicate about the change one week, one month, or even one quarter ahead of the release. In a volunteer community, you will end up in situations where people are checked out for months at a time and will see everything changed, so please do take care with the communications and changes.</p>
@@ -903,12 +910,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./varnish/intro.html" class="pagination-link  aria-label=" &lt;span="" {varnish}="" package&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./hotfixes.html" class="pagination-link" aria-label="<span class='chapter-number'>12</span>&nbsp; <span class='chapter-title'>Releasing Hotfixes</span>">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./hotfixes.html" class="pagination-link" aria-label="<span class='chapter-number'>13</span>&nbsp; <span class='chapter-title'>Releasing Hotfixes</span>">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

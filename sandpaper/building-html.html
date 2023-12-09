@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide - 13&nbsp; Releasing Hotfixes</title>
+<title>Workbench Developer’s Guide - 9&nbsp; Building HTML</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,61 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./remote/intro.html" rel="next">
-<link href="./releases.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pegboard/intro.html" rel="next">
+<link href="../sandpaper/package-cache.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,12 +69,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="guide.scss">
+<link rel="stylesheet" href="../guide.scss">
 </head>
 
 <body class="nav-sidebar floating">
@@ -120,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./hotfixes.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/building-html.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Building HTML</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -135,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Workbench Developer’s Guide</a> 
+      <a href="../">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -155,25 +118,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -188,13 +151,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flow.html" class="sidebar-item-text sidebar-link">
+  <a href="../flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./features.html" class="sidebar-item-text sidebar-link">
+  <a href="../features.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></span></a>
   </div>
 </li>
@@ -211,25 +174,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/building-html.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/building-html.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Building HTML</span></span></a>
   </div>
 </li>
@@ -246,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -263,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -280,13 +243,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./releases.html" class="sidebar-item-text sidebar-link">
+  <a href="../releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hotfixes.html" class="sidebar-item-text sidebar-link active">
+  <a href="../hotfixes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
   </div>
 </li>
@@ -303,19 +266,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/deploy.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/pull-request.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/pull-request.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
   </div>
 </li>
@@ -323,13 +286,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+  <a href="../summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -344,13 +307,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sop.html" class="sidebar-item-text sidebar-link">
+  <a href="../sop.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flight-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="../flight-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span></a>
   </div>
 </li>
@@ -366,19 +329,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#step-1-create-a-fix-and-pull-request" id="toc-step-1-create-a-fix-and-pull-request" class="nav-link active" data-scroll-target="#step-1-create-a-fix-and-pull-request"><span class="header-section-number">13.1</span> Step 1: Create a Fix and Pull Request</a></li>
-  <li><a href="#step-2-run-integration-test-bump-the-version-and-add-a-tag" id="toc-step-2-run-integration-test-bump-the-version-and-add-a-tag" class="nav-link" data-scroll-target="#step-2-run-integration-test-bump-the-version-and-add-a-tag"><span class="header-section-number">13.2</span> Step 2: Run Integration Test, Bump the Version and Add a Tag</a></li>
-  <li><a href="#step-3-release-the-patch" id="toc-step-3-release-the-patch" class="nav-link" data-scroll-target="#step-3-release-the-patch"><span class="header-section-number">13.3</span> Step 3: Release the Patch</a></li>
-  <li><a href="#step-4-resolve-conflicts-and-merge" id="toc-step-4-resolve-conflicts-and-merge" class="nav-link" data-scroll-target="#step-4-resolve-conflicts-and-merge"><span class="header-section-number">13.4</span> Step 4: Resolve Conflicts and Merge</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">9.1</span> Introduction</a></li>
+  <li><a href="#rendering-html" id="toc-rendering-html" class="nav-link" data-scroll-target="#rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</a></li>
+  <li><a href="#post-processing-with-xml" id="toc-post-processing-with-xml" class="nav-link" data-scroll-target="#post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</a></li>
+  <li><a href="#applying-varnish-templating" id="toc-applying-varnish-templating" class="nav-link" data-scroll-target="#applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./hotfixes.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/building-html.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Building HTML</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Building HTML</span></h1>
 </div>
 
 
@@ -395,179 +358,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>A hotfix is a bug fix for a situation where a bug has been found, but the main branch has new features that are not yet ready to be released. This chapter will be a walkthrough of a scenario with a diagram of the status of the Git repository during each iteration. This was the process used in <a href="https://github.com/carpentries/sandpaper/pull/539">carpentries/sandpaper#539</a> to resolve a bug in link processing.</p>
-<p>Take for example a situation where you want to introduce two new features into the project, so you create two branches for each of them. You finish the first and merge it into the main branch and you are still working on the second. Your Git graph might look something like this:</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">gitGraph
-    commit id: "abcd"
-    commit id: "efgh" tag: "0.14.0"
-    branch feature1
-    branch feature2
-    checkout main
-    checkout feature1
-    commit id: "ijkl"
-    commit id: "mnop"
-    checkout main
-    merge feature1 id: "gpne"
-    checkout feature2
-    commit id: "qrst"
-    commit id: "uvwx"
-</pre>
-</div>
-</div>
-</div>
-</div>
-<section id="step-1-create-a-fix-and-pull-request" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="step-1-create-a-fix-and-pull-request"><span class="header-section-number">13.1</span> Step 1: Create a Fix and Pull Request</h2>
-<p>Then, you get a report (let’s call it issue number 143) that something is broken and you need to fix it immediately. Normally, to fix bugs, you would check out a new bugfix branch from the <code>main</code> branch. Here’s the catch: if you check out from the main branch you will grab <code>feature1</code> as well, which is not yet ready for production because you intended <code>feature2</code> to be released along side. In this case, you need to create a hotfix, and create the branch <em>from the last tag</em>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">--detach</span> 0.14.0 <span class="co"># checkout the tag</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> hotfix-143 <span class="co"># create a new branch</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># do some work</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'hotfix for #143'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">gitGraph
-    commit id: "abcd"
-    commit id: "efgh" tag: "0.14.0"
-    branch feature1
-    branch feature2
-    branch hotfix-143
-    checkout main
-    checkout feature1
-    commit id: "ijkl"
-    commit id: "mnop"
-    checkout main
-    merge feature1 id: "gpne"
-    checkout feature2
-    commit id: "qrst"
-    commit id: "uvwx"
-    checkout hotfix-143
-    commit id: "yzAB"
-</pre>
-</div>
-</div>
-</div>
-</div>
-<p>Once you have made your hotfix (with a test of course, because we always make sure to verify our fixes), then you should push it up and open a pull request:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin hotfix-143</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="introduction" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">9.1</span> Introduction</h2>
+<p>Building HTML in The Workbench is a process that is isolated from rendering R Markdown to Markdown. There are three general steps to building the HTML files:</p>
+<ol type="1">
+<li><strong>render</strong> the HTML using <code>pandoc</code> with our custom lua filters (which transform our special fenced-divs and flattens relative links)</li>
+<li><strong>post-process</strong> the HTML using {xml2} to further refine and translate elements that we cannot achieve through Lua filters</li>
+<li><strong>apply {varnish} templates</strong> by passing <a href="https://carpentries.github.io/sandpaper/dev/articles/data-flow.html">global variables</a> and HTML to {pkgdown}.</li>
+</ol>
 </section>
-<section id="step-2-run-integration-test-bump-the-version-and-add-a-tag" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="step-2-run-integration-test-bump-the-version-and-add-a-tag"><span class="header-section-number">13.2</span> Step 2: Run Integration Test, Bump the Version and Add a Tag</h2>
-<p>You should check that the hotfix does not break any existing tests AND you should check the <a href="https://github.com/carpentries/workbench-integration-test#readme">Workbench Integration Test</a> with the pull request you just created and the repository that is reporting the error.</p>
-<p>Once you have confirmed that everything works as expected, the next step is to bump the version and add a tag. This tag will allow you to release the patch version.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> DESCRIPTION <span class="co"># bump the patch version</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> NEWS.md     <span class="co"># add a new section describing the bug fix</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add DESCRIPTION NEWS.md</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'bump version to 0.14.1'</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 0.14.1 <span class="at">-m</span> <span class="st">'hotfix for 143'</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">gitGraph
-    commit id: "abcd"
-    commit id: "efgh" tag: "0.14.0"
-    branch feature1
-    branch feature2
-    branch hotfix-143
-    checkout main
-    checkout feature1
-    commit id: "ijkl"
-    commit id: "mnop"
-    checkout main
-    merge feature1 id: "gpne"
-    checkout feature2
-    commit id: "qrst"
-    commit id: "uvwx"
-    checkout hotfix-143
-    commit id: "yzAB"
-    commit id: "CDEF" tag: "0.14.1"
-</pre>
-</div>
-</div>
-</div>
-</div>
-<p>At this point, the checks will not run on the pull request because there will be a conflict in the DESCRIPTION and NEWS.md files. This is okay. All you did was update the version numbers and add NEWS. The next step is to release the patch.</p>
+<section id="rendering-html" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</h2>
+<p><img src="render-html.png" class="img-fluid"></p>
 </section>
-<section id="step-3-release-the-patch" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="step-3-release-the-patch"><span class="header-section-number">13.3</span> Step 3: Release the Patch</h2>
-<p>You will release the patch using the same method as described in <a href="releases">the releases chapter</a>. You can either release on GitHub directly or via the GitHub CLI. Importantly, when you create the release, you should <em>create the release from the new tag</em>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create 0.14.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="post-processing-with-xml" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</h2>
+<p><img src="fix-nodes-uses.png" class="img-fluid"></p>
+<p><img src="fix-nodes-deps.png" class="img-fluid"></p>
 </section>
-<section id="step-4-resolve-conflicts-and-merge" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="step-4-resolve-conflicts-and-merge"><span class="header-section-number">13.4</span> Step 4: Resolve Conflicts and Merge</h2>
-<p>Now that you’ve created the release, you should resolve the conflicts in the DESCRIPTION and NEWS files and then merge it back into <code>main</code> (note: this will create two merge commits, but I’m only showing one in the diagram to make it cleaner):</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">gitGraph
-    commit id: "abcd"
-    commit id: "efgh" tag: "0.14.0"
-    branch feature1
-    branch feature2
-    branch hotfix-143
-    checkout main
-    checkout feature1
-    commit id: "ijkl"
-    commit id: "mnop"
-    checkout main
-    merge feature1 id: "gpne"
-    checkout feature2
-    commit id: "qrst"
-    commit id: "uvwx"
-    checkout hotfix-143
-    commit id: "yzAB"
-    commit id: "CDEF" tag: "0.14.1"
-    checkout main
-    merge hotfix-143 id: "DeFn"
-</pre>
-</div>
-</div>
-</div>
-</div>
-<p>Now you will have the patch in place for the released version <em>and</em> the devel version of The Workbench, which means that you can continue to develop as normal and merge the next feature when you are ready:</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<div>
-<pre class="mermaid mermaid-js">gitGraph
-    commit id: "abcd"
-    commit id: "efgh" tag: "0.14.0"
-    branch feature1
-    branch feature2
-    branch hotfix-143
-    checkout main
-    checkout feature1
-    commit id: "ijkl"
-    commit id: "mnop"
-    checkout main
-    merge feature1 id: "gpne"
-    checkout feature2
-    commit id: "qrst"
-    commit id: "uvwx"
-    checkout hotfix-143
-    commit id: "yzAB"
-    commit id: "CDEF" tag: "0.14.1"
-    checkout main
-    merge hotfix-143 id: "DeFn"
-    checkout feature2
-    commit id: "GHIJ"
-    commit id: "KLMN"
-    checkout main
-    merge feature2 id: "FnNL"
-</pre>
-</div>
-</div>
-</div>
-</div>
+<section id="applying-varnish-templating" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</h2>
+<p><img src="build-html.png" class="img-fluid"></p>
 
 
 </section>
@@ -972,13 +783,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./releases.html" class="pagination-link  aria-label=" &lt;span="" process="" for="" workbench="" packages&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span>
+      <a href="../sandpaper/package-cache.html" class="pagination-link  aria-label=" &lt;span="" r="" package="" cache&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The R package cache</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./remote/intro.html" class="pagination-link" aria-label="<span class='chapter-number'>14</span>&nbsp; <span class='chapter-title'>Introduction</span>">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../pegboard/intro.html" class="pagination-link" aria-label="<span class='chapter-number'>10</span>&nbsp; <span class='chapter-title'>The {pegboard} package</span>">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
