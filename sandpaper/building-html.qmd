@@ -19,13 +19,19 @@ files:
 
 ## Rendering HTML
 
+The diagram for rendering html
+
 ```{r}
 #| label: render-html
 #| echo: false
 #| eval: !expr Sys.getenv("CI", "false") != "true"
+#| message: false
 #| cache: true
 toc <- Sys.time()
-flow::flow_view_deps(sandpaper:::render_html, out = "render-html.png")
+tmp <- "tmp.html"
+flow::flow_view_uses(sandpaper:::render_html, out = tmp)
+res <- webshot2::webshot(tmp, "render-html.png", zoom = 2)
+unlink(tmp)
 tic <- Sys.time()
 cat(paste("time elapsed:", format(tic - toc)))
 ```
@@ -34,27 +40,40 @@ cat(paste("time elapsed:", format(tic - toc)))
 
 ## Post-processing with XML
 
+All `fix_nodes()` calls occur before `build_html()`
+
 ```{r}
 #| label: fix-nodes-uses
 #| echo: false
 #| eval: !expr Sys.getenv("CI", "false") != "true"
+#| message: false
 #| cache: true
 toc <- Sys.time()
-flow::flow_view_uses(sandpaper:::fix_nodes, out = "fix-nodes-uses.png")
+tmp <- "tmp.html"
+flow::flow_view_uses(sandpaper:::fix_nodes, out = tmp)
+res <- webshot2::webshot(tmp, "fix-nodes-uses.png", zoom = 2)
+unlink(tmp)
 tic <- Sys.time()
 cat(paste("time elapsed:", format(tic - toc)))
 ```
 
 ![](fix-nodes-uses.png)
 
+`fix_nodes()` will call XML manipulating functions.
+
+
 ```{r}
 #| label: fix-nodes-deps
 #| echo: false
 #| eval: !expr Sys.getenv("CI", "false") != "true"
+#| message: false
 #| cache: true
 toc <- Sys.time()
-flow::flow_view_deps(sandpaper:::fix_nodes, out = "fix-nodes-deps.png")
+tmp <- "tmp.html"
+flow::flow_view_deps(sandpaper:::fix_nodes, out = tmp, show_imports = "none")
+res <- webshot2::webshot(tmp, "fix-nodes-deps.png", zoom = 2)
 tic <- Sys.time()
+unlink(tmp)
 cat(paste("time elapsed:", format(tic - toc)))
 ```
 
@@ -62,15 +81,21 @@ cat(paste("time elapsed:", format(tic - toc)))
 
 ## Applying {varnish} templating
 
+All HTML files get funneled into `pkgdown::render_page()` through `build_html()`
+
+
 ```{r}
 #| label: render-page
 #| echo: false
 #| eval: !expr Sys.getenv("CI", "false") != "true"
 #| cache: true
 toc <- Sys.time()
-flow::flow_view_uses(pkgdown::render_page, "sandpaper", out = "build-html.png")
+tmp <- "tmp.html"
+flow::flow_view_uses(pkgdown::render_page, "sandpaper", out = tmp)
+res <- webshot2::webshot(tmp, "render-page.png", zoom = 2)
+unlink(tmp)
 tic <- Sys.time()
 cat(paste("time elapsed:", format(tic - toc)))
 ```
 
-![](build-html.png)
+![](render-page.png)
