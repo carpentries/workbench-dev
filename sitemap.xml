@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://carpentries.github.io/workbench-dev/index.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/intro.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/setup.html</loc>
-    <lastmod>2023-12-11T17:44:25.352Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.678Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/testing.html</loc>
-    <lastmod>2023-12-11T17:44:25.352Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.678Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/flow.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/features.html</loc>
-    <lastmod>2023-12-11T17:44:25.336Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/intro.html</loc>
-    <lastmod>2023-12-11T17:44:25.348Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.674Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/testing.html</loc>
-    <lastmod>2023-12-11T17:44:25.352Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.678Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/package-cache.html</loc>
-    <lastmod>2023-12-11T17:44:25.348Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.674Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/building-html.html</loc>
-    <lastmod>2023-12-11T17:44:25.348Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.674Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/pegboard/intro.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/varnish/intro.html</loc>
-    <lastmod>2023-12-11T17:44:25.352Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.678Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/releases.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/hotfixes.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/remote/intro.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.666Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/remote/deploy.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.666Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/remote/pull-request.html</loc>
-    <lastmod>2023-12-11T17:44:25.344Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.670Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/summary.html</loc>
-    <lastmod>2023-12-11T17:44:25.352Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.678Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/references.html</loc>
-    <lastmod>2023-12-11T17:44:25.340Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sop.html</loc>
-    <lastmod>2023-12-11T17:44:25.352Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.678Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/flight-rules.html</loc>
-    <lastmod>2023-12-11T17:44:25.336Z</lastmod>
+    <lastmod>2023-12-11T19:26:34.662Z</lastmod>
   </url>
 </urlset>

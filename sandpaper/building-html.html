@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,7 +103,12 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../guide.scss">
 </head>
@@ -330,7 +369,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">9.1</span> Introduction</a></li>
-  <li><a href="#rendering-html" id="toc-rendering-html" class="nav-link" data-scroll-target="#rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</a></li>
+  <li><a href="#rendering-html" id="toc-rendering-html" class="nav-link" data-scroll-target="#rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</a>
+  <ul class="collapse">
+  <li><a href="#working-with-the-output" id="toc-working-with-the-output" class="nav-link" data-scroll-target="#working-with-the-output"><span class="header-section-number">9.2.1</span> Working with the Output</a></li>
+  </ul></li>
   <li><a href="#post-processing-with-xml" id="toc-post-processing-with-xml" class="nav-link" data-scroll-target="#post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</a></li>
   <li><a href="#applying-varnish-templating" id="toc-applying-varnish-templating" class="nav-link" data-scroll-target="#applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</a></li>
   </ul>
@@ -360,17 +402,85 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">9.1</span> Introduction</h2>
-<p>Building HTML in The Workbench is a process that is isolated from rendering R Markdown to Markdown. There are three general steps to building the HTML files:</p>
+<p>Building HTML in The Workbench is a process that is isolated from rendering R <em>Markdown</em> to <em>Markdown</em>. There are three general steps to building the HTML files:</p>
 <ol type="1">
 <li><strong>render</strong> the HTML using <code>pandoc</code> with our custom lua filters (which transform our special fenced-divs and flattens relative links)</li>
-<li><strong>post-process</strong> the HTML using {xml2} to further refine and translate elements that we cannot achieve through Lua filters</li>
-<li><strong>apply {varnish} templates</strong> by passing <a href="https://carpentries.github.io/sandpaper/dev/articles/data-flow.html">global variables</a> and HTML to {pkgdown}.</li>
+<li><strong>post-process</strong> the HTML using {xml2} to further refine and translate elements that we cannot achieve through Lua filters. It is here that we do things like adding heading anchors, removing instructor notes for learner view, etc.</li>
+<li><strong>apply {varnish} templates</strong> by passing <a href="https://carpentries.github.io/sandpaper/dev/articles/data-flow.html">global variables</a> and HTML to {pkgdown}. This is where the metadata and most of the translations are applied.</li>
 </ol>
 </section>
 <section id="rendering-html" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</h2>
-<p>The diagram for rendering html</p>
+<p>The first step of the pipeline is to render the HTML from <em>Markdown</em> (in the <code>site/built</code> folder) using pandoc with our custom lua filters. This is entirely encapsulated within the function <a href="https://carpentries.github.io/sandpaper/reference/render_html.html"><code>render_html()</code></a>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    IN["site/built/FILE.md"]
+    TMP["/tmp/tempfile.html"]
+    OUT[/"R Object"\]
+    pandoc{{"pandoc"}}
+    LUA["sandpaper/../lesson.lua"]
+
+    IN --&gt; pandoc --&gt; TMP
+    TMP --&gt;|"readLines()"| OUT
+    LUA --&gt;|"construct_pandoc_args()"| pandoc
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p><code>render_html()</code> is called by all of the pages which <strong>need to render content from markdown</strong>:</p>
 <p><img src="render-html.png" class="img-fluid"></p>
+<p>The HTML that is rendered from <code>render_html()</code> is not standalone and expected to be insert into the <code>&lt;main&gt;</code> tags of <a href="https://jerryjones.dev/2018/01/30/basic-html-boilerplate-structure/">HTML boilderplate</a>. Luckily, <code>render_html()</code> <em>is</em> a standalone function. This means that you do not need to prepare anything other than a document for it to render. Here’s an example rendering basic <em>Markdown</em> to HTML as a character string. Let’s say we had a single markdown document that just showed:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>I can write in **Markdown** and $<span class="sc">\\</span>LaTeX$ :joy_cat:</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When rendered, it would look like this:</p>
+<blockquote class="blockquote">
+<p>I can write in <strong>Markdown</strong> and <span class="math inline">\(\\LaTeX\)</span> <span class="emoji" data-emoji="joy_cat">😹</span></p>
+</blockquote>
+<p>To test the rendering, we can create a temporary file on the fly and use <code>render_html()</code> to render it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="st">"I can write in **Markdown** and $</span><span class="sc">\\</span><span class="st">LaTeX$ :joy_cat:"</span>, tmp)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>html_text <span class="ot">&lt;-</span> sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>html_text</code> variable contains a string of length 1 that contains the rendered HTML from the markdown.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>I can write in <span class="dt">&lt;</span><span class="kw">strong</span><span class="dt">&gt;</span>Markdown<span class="dt">&lt;/</span><span class="kw">strong</span><span class="dt">&gt;</span> and <span class="dt">&lt;</span><span class="kw">span</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">class</span><span class="op">=</span><span class="st">"math inline"</span><span class="dt">&gt;</span>\(\LaTeX\)<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span> <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"emoji"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">data-emoji</span><span class="op">=</span><span class="st">"joy_cat"</span><span class="dt">&gt;</span>😹<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="working-with-the-output" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="working-with-the-output"><span class="header-section-number">9.2.1</span> Working with the Output</h3>
+<p>for all of the functions that use <code>render_html()</code> you will find this general pipeline: <code>file_path |&gt; render_html() |&gt; xml2::read_html()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>html_text <span class="ot">&lt;-</span> <span class="fu">render_html</span>(file_path)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (html_text <span class="sc">==</span> <span class="st">""</span>) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  html <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(<span class="st">"&lt;p&gt;&lt;/p&gt;"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  html <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(html_text)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can then use it to explore and manipulate the elements using good ol’ XPath synatax <span class="emoji" data-emoji="cowboy_hat_face">🤠</span> Yee haw!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## {html_document}
+## &lt;html&gt;
+## [1] &lt;body&gt;&lt;p&gt;I can write in &lt;strong&gt;Markdown&lt;/strong&gt; and &lt;span class="math i ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, <span class="st">".//p/strong"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;strong&gt;Markdown&lt;/strong&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, <span class="st">".//p/span[@class='emoji']"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;span class="emoji" data-emoji="joy_cat"&gt;😹&lt;/span&gt;</code></pre>
+</div>
+</div>
+<p>From here, the nodes get sent to <code>fix_nodes()</code> so that they can be post-processed.</p>
+</section>
 </section>
 <section id="post-processing-with-xml" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</h2>
