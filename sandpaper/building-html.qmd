@@ -123,6 +123,21 @@ if (html_text == "") {
 You can then use it to explore and manipulate the elements using good ol' XPath
 synatax :cowboy_hat_face: Yee haw!
 
+::: {.callout-tip}
+
+#### :hand: Wait just a rootin' tootin' minute!
+
+ - :weary: We have HTML, why are we using XML to parse it? 
+ - :cowboy_hat_face: Well, pardner, just like cowpolk can rustle up cows, sheep,
+   goats, and even cats, XPath is a language that can be used to rustle up ANY
+   sort of pointy-syntax markup like HTML, XML, SVG, and even
+   [CSL](https://en.wikipedia.org/wiki/Citation_Style_Language). 
+ - :astonished: That's a good point!
+ - :cowboy_hat_face: Fastest pun in the West!
+ - :wink:
+:::
+
+
 ```{r}
 #| label: xpath-mf
 #| comment: '##'
@@ -131,12 +146,66 @@ xml2::xml_find_all(html, ".//p/strong")
 xml2::xml_find_all(html, ".//p/span[@class='emoji']")
 ```
 
+The HTML can also be _copied_ by converting it to a character and re-reading it
+as XML (yes, this is legitimately the fastest way to do this).
+
+::: {.callout-note}
+
+See [the {pegboard} intro to XML about the memory of XML
+objects](https://carpentries.github.io/pegboard/articles/intro-xml.html#the-memory-of-xml-objects)
+for a reason _why_ you want to copy XML documents this way.
+
+:::
+
+```{r}
+html2 <- xml2::read_html(as.character(html))
+```
+
+
 From here, the nodes get sent to `fix_nodes()` so that they can be
 post-processed. 
 
-## Post-processing with XML
+## Post-processing with XPath
 
-All `fix_nodes()` calls occur before `build_html()`
+Before the HTML can be passed to the template, it needs to be tweaked a bit.
+There are two reasons why we would need to tweak the HTML:
+
+ - We want to add a feature that is not supported in pandoc (or at least older
+   versions)
+ - We need to structurally rearrange pandoc defaults to match our template
+
+
+For example, our callouts are structured like this:
+
+```html
+<div id="title" class="callout discussion">
+  <div class="callout-square">
+    <!-- symbol -->
+  </div>
+  <div id="title" class="callout-inner">
+    <h3 class="callout-title">
+      TITLE<a class="anchor" aria-label="anchor" href=#title"></a>
+    </h3>
+    <div class="callout-content">
+
+    CONTENT
+
+    </div>
+  </div>
+</div>
+```
+
+When it comes out of pandoc, it looks like this:
+
+```{r}
+#| label: pandoc-callout
+tmp <- tempfile()
+writeLines("::: discussion\n\n## TITLE\n\n:::", tmp)
+writeLines(sandpaper:::render_html(tmp))
+```
+
+
+
 
 ```{r}
 #| label: fix-nodes-uses
