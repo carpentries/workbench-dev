@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#working-with-the-output" id="toc-working-with-the-output" class="nav-link" data-scroll-target="#working-with-the-output"><span class="header-section-number">9.2.1</span> Working with the Output</a></li>
   </ul></li>
-  <li><a href="#post-processing-with-xml" id="toc-post-processing-with-xml" class="nav-link" data-scroll-target="#post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</a></li>
+  <li><a href="#post-processing-with-xpath" id="toc-post-processing-with-xpath" class="nav-link" data-scroll-target="#post-processing-with-xpath"><span class="header-section-number">9.3</span> Post-processing with XPath</a></li>
   <li><a href="#applying-varnish-templating" id="toc-applying-varnish-templating" class="nav-link" data-scroll-target="#applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</a></li>
   </ul>
 </nav>
@@ -461,6 +461,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can then use it to explore and manipulate the elements using good ol’ XPath synatax <span class="emoji" data-emoji="cowboy_hat_face">🤠</span> Yee haw!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="emoji" data-emoji="hand">✋</span> Wait just a rootin’ tootin’ minute!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><span class="emoji" data-emoji="weary">😩</span> We have HTML, why are we using XML to parse it?</li>
+<li><span class="emoji" data-emoji="cowboy_hat_face">🤠</span> Well, pardner, just like cowpolk can rustle up cows, sheep, goats, and even cats, XPath is a language that can be used to rustle up ANY sort of pointy-syntax markup like HTML, XML, SVG, and even <a href="https://en.wikipedia.org/wiki/Citation_Style_Language">CSL</a>.</li>
+<li><span class="emoji" data-emoji="astonished">😲</span> That’s a good point!</li>
+<li><span class="emoji" data-emoji="cowboy_hat_face">🤠</span> Fastest pun in the West!</li>
+<li><span class="emoji" data-emoji="wink">😉</span></li>
+</ul>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -479,12 +498,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ## [1] &lt;span class="emoji" data-emoji="joy_cat"&gt;😹&lt;/span&gt;</code></pre>
 </div>
 </div>
+<p>The HTML can also be <em>copied</em> by converting it to a character and re-reading it as XML (yes, this is legitimately the fastest way to do this).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <a href="https://carpentries.github.io/pegboard/articles/intro-xml.html#the-memory-of-xml-objects">the {pegboard} intro to XML about the memory of XML objects</a> for a reason <em>why</em> you want to copy XML documents this way.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>html2 <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(<span class="fu">as.character</span>(html))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>From here, the nodes get sent to <code>fix_nodes()</code> so that they can be post-processed.</p>
 </section>
 </section>
-<section id="post-processing-with-xml" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</h2>
-<p>All <code>fix_nodes()</code> calls occur before <code>build_html()</code></p>
+<section id="post-processing-with-xpath" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="post-processing-with-xpath"><span class="header-section-number">9.3</span> Post-processing with XPath</h2>
+<p>Before the HTML can be passed to the template, it needs to be tweaked a bit. There are two reasons why we would need to tweak the HTML:</p>
+<ul>
+<li>We want to add a feature that is not supported in pandoc (or at least older versions)</li>
+<li>We need to structurally rearrange pandoc defaults to match our template</li>
+</ul>
+<p>For example, our callouts are structured like this:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">"title"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"callout discussion"</span><span class="dt">&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"callout-square"</span><span class="dt">&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- symbol --&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> id</span><span class="op">=</span><span class="st">"title"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"callout-inner"</span><span class="dt">&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">h3</span><span class="ot"> class</span><span class="op">=</span><span class="st">"callout-title"</span><span class="dt">&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      TITLE<span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> class</span><span class="op">=</span><span class="st">"anchor"</span><span class="ot"> aria-label</span><span class="op">=</span><span class="st">"anchor"</span><span class="ot"> href</span><span class="op">=</span><span class="st">#title</span><span class="er">"</span><span class="dt">&gt;&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"callout-content"</span><span class="dt">&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    CONTENT</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When it comes out of pandoc, it looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="st">"::: discussion</span><span class="sc">\n\n</span><span class="st">## TITLE</span><span class="sc">\n\n</span><span class="st">:::"</span>, tmp)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;div id="discussion1" class="callout discussion"&gt;
+&lt;div class="callout-square"&gt;
+&lt;i class='callout-icon' data-feather='message-circle'&gt;&lt;/i&gt;
+&lt;/div&gt;
+&lt;div id="title" class="section level3 callout-title callout-inner"&gt;
+&lt;h3 class="callout-title"&gt;TITLE&lt;/h3&gt;
+&lt;div class="callout-content"&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</div>
+</div>
 <p><img src="fix-nodes-uses.png" class="img-fluid"></p>
 <p><code>fix_nodes()</code> will call XML manipulating functions.</p>
 <p><img src="fix-nodes-deps.png" class="img-fluid"></p>
