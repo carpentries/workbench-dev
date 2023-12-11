@@ -1,25 +1,49 @@
 ---
 title: "Building HTML"
+from: markdown+emoji
 ---
 
 ## Introduction
 
 Building HTML in The Workbench is a process that is isolated from rendering
-R Markdown to Markdown. There are three general steps to building the HTML
+R *Markdown* to *Markdown*. There are three general steps to building the HTML
 files:
 
 1. **render** the HTML using `pandoc` with our custom lua filters (which transform
    our special fenced-divs and flattens relative links)
 2. **post-process** the HTML using {xml2} to further refine and translate
-   elements that we cannot achieve through Lua filters
+   elements that we cannot achieve through Lua filters. It is here that we do
+   things like adding heading anchors, removing instructor notes for learner
+   view, etc.
 3. **apply {varnish} templates** by passing [global
    variables](https://carpentries.github.io/sandpaper/dev/articles/data-flow.html)
-   and HTML to {pkgdown}.
-
+   and HTML to {pkgdown}. This is where the metadata and most of the
+   translations are applied. 
 
 ## Rendering HTML
 
-The diagram for rendering html
+The first step of the pipeline is to render the HTML from *Markdown* (in the
+`site/built` folder) using pandoc with our custom lua filters. This is entirely
+encapsulated within the function
+[`render_html()`](https://carpentries.github.io/sandpaper/reference/render_html.html):
+
+```{mermaid}
+flowchart TB
+    IN["site/built/FILE.md"]
+    TMP["/tmp/tempfile.html"]
+    OUT[/"R Object"\]
+    pandoc{{"pandoc"}}
+    LUA["sandpaper/../lesson.lua"]
+
+    IN --> pandoc --> TMP
+    TMP -->|"readLines()"| OUT
+    LUA -->|"construct_pandoc_args()"| pandoc
+```
+
+
+`render_html()` is called by all of the pages which **need to render content
+from markdown**:
+
 
 ```{r}
 #| label: render-html
@@ -37,6 +61,78 @@ cat(paste("time elapsed:", format(tic - toc)))
 ```
 
 ![](render-html.png)
+
+The HTML that is rendered from `render_html()` is not standalone and expected to
+be insert into the `<main>` tags of [HTML
+boilderplate](https://jerryjones.dev/2018/01/30/basic-html-boilerplate-structure/).
+Luckily, `render_html()` _is_ a standalone function. This means that you do not
+need to prepare anything other than a document for it to render. Here's an
+example rendering basic *Markdown* to HTML as a character string. Let's say we
+had a single markdown document that just showed:
+
+```markdown
+I can write in **Markdown** and $\\LaTeX$ :joy_cat:
+```
+
+When rendered, it would look like this:
+
+
+> I can write in **Markdown** and $\\LaTeX$ :joy_cat:
+
+To test the rendering, we can create a temporary file on the fly and use
+`render_html()` to render it.
+
+```{r}
+#| label: render-show
+#| eval: false
+tmp <- tempfile()
+writeLines("I can write in **Markdown** and $\\LaTeX$ :joy_cat:", tmp)
+html_text <- sandpaper:::render_html(tmp)
+```
+
+The `html_text` variable contains a string of length 1 that contains the
+rendered HTML from the markdown. 
+
+```{r}
+#| label: render-simple
+#| echo: false
+#| results: 'asis'
+tmp <- tempfile()
+writeLines("I can write in **Markdown** and $\\LaTeX$ :joy_cat:", tmp)
+html_text <- sandpaper:::render_html(tmp)
+html <- xml2::read_html(html_text)
+writeLines(c("```html", html_text, "```"))
+```
+
+### Working with the Output
+
+for all of the functions that use `render_html()` you will find this general
+pipeline: `file_path |> render_html() |> xml2::read_html()`. 
+
+```{r}
+#| label: render-html-practical-demo
+#| eval: false
+html_text <- render_html(file_path)
+if (html_text == "") {
+  html <- xml2::read_html("<p></p>")
+} else {
+  html <- xml2::read_html(html_text)
+}
+```
+
+You can then use it to explore and manipulate the elements using good ol' XPath
+synatax :cowboy_hat_face: Yee haw!
+
+```{r}
+#| label: xpath-mf
+#| comment: '##'
+print(html)
+xml2::xml_find_all(html, ".//p/strong")
+xml2::xml_find_all(html, ".//p/span[@class='emoji']")
+```
+
+From here, the nodes get sent to `fix_nodes()` so that they can be
+post-processed. 
 
 ## Post-processing with XML
 
