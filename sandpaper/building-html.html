@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.523">
+<meta name="generator" content="quarto-1.4.525">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -369,16 +369,20 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="rendering-html" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</h2>
+<p>The diagram for rendering html</p>
 <p><img src="render-html.png" class="img-fluid"></p>
 </section>
 <section id="post-processing-with-xml" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="post-processing-with-xml"><span class="header-section-number">9.3</span> Post-processing with XML</h2>
+<p>All <code>fix_nodes()</code> calls occur before <code>build_html()</code></p>
 <p><img src="fix-nodes-uses.png" class="img-fluid"></p>
+<p><code>fix_nodes()</code> will call XML manipulating functions.</p>
 <p><img src="fix-nodes-deps.png" class="img-fluid"></p>
 </section>
 <section id="applying-varnish-templating" class="level2" data-number="9.4">
 <h2 data-number="9.4" class="anchored" data-anchor-id="applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</h2>
-<p><img src="build-html.png" class="img-fluid"></p>
+<p>All HTML files get funneled into <code>pkgdown::render_page()</code> through <code>build_html()</code></p>
+<p><img src="render-page.png" class="img-fluid"></p>
 
 
 </section>

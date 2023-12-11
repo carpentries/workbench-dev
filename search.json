@@ -407,7 +407,7 @@
     "href": "sandpaper/building-html.html#rendering-html",
     "title": "9  Building HTML",
     "section": "9.2 Rendering HTML",
-    "text": "9.2 Rendering HTML",
+    "text": "9.2 Rendering HTML\nThe diagram for rendering html",
     "crumbs": [
       "{sandpaper} User Interface",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Building HTML</span>"
@@ -418,7 +418,7 @@
     "href": "sandpaper/building-html.html#post-processing-with-xml",
     "title": "9  Building HTML",
     "section": "9.3 Post-processing with XML",
-    "text": "9.3 Post-processing with XML",
+    "text": "9.3 Post-processing with XML\nAll fix_nodes() calls occur before build_html()\n\nfix_nodes() will call XML manipulating functions.",
     "crumbs": [
       "{sandpaper} User Interface",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Building HTML</span>"
@@ -429,7 +429,7 @@
     "href": "sandpaper/building-html.html#applying-varnish-templating",
     "title": "9  Building HTML",
     "section": "9.4 Applying {varnish} templating",
-    "text": "9.4 Applying {varnish} templating",
+    "text": "9.4 Applying {varnish} templating\nAll HTML files get funneled into pkgdown::render_page() through build_html()",
     "crumbs": [
       "{sandpaper} User Interface",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Building HTML</span>"
