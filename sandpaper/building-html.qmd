@@ -175,37 +175,9 @@ There are two reasons why we would need to tweak the HTML:
  - We need to structurally rearrange pandoc defaults to match our template
 
 
-For example, our callouts are structured like this:
-
-```html
-<div id="title" class="callout discussion">
-  <div class="callout-square">
-    <!-- symbol -->
-  </div>
-  <div id="title" class="callout-inner">
-    <h3 class="callout-title">
-      TITLE<a class="anchor" aria-label="anchor" href=#title"></a>
-    </h3>
-    <div class="callout-content">
-
-    CONTENT
-
-    </div>
-  </div>
-</div>
-```
-
-When it comes out of pandoc, it looks like this:
-
-```{r}
-#| label: pandoc-callout
-tmp <- tempfile()
-writeLines("::: discussion\n\n## TITLE\n\n:::", tmp)
-writeLines(sandpaper:::render_html(tmp))
-```
-
-
-
+To do this, we read in the HTML with `xml2::read_html()` and then manipulate it
+using the sandpaper internal function `fix_nodes()`, which is called by the
+following functions:
 
 ```{r}
 #| label: fix-nodes-uses
@@ -224,7 +196,8 @@ cat(paste("time elapsed:", format(tic - toc)))
 
 ![](fix-nodes-uses.png)
 
-`fix_nodes()` will call XML manipulating functions.
+
+In turn, `fix_nodes()` will call this cascade of XML manipulating functions:
 
 
 ```{r}
@@ -243,6 +216,188 @@ cat(paste("time elapsed:", format(tic - toc)))
 ```
 
 ![](fix-nodes-deps.png)
+
+
+I will show the effects of each of these funtions one by one, but first, here's
+a couple of functions that will help me demonstrate so I don't have to keep
+retyping an copying/pasting:
+
+```{r}
+#| label: post-process-tango
+render_and_parse <- function(txt) {
+  tmp <- tempfile()
+  writeLines(txt, tmp)
+  return(xml2::read_html(sandpaper:::render_html(tmp)))
+}
+
+print_html <- function(html, xpath = ".//body/*") {
+  writeLines(as.character(xml2::xml_find_all(html, xpath)))
+}
+```
+
+
+### Translation of Overview Card
+
+The Overview card is produced by the Lua filter, combining the `objectives` and
+`questions` fenced divs into one entity:
+
+```{r}
+#| label: overview-show
+ovr <- "
+::: objectives
+
+- one
+
+:::
+::: questions
+
+- one?
+
+:::"
+
+render_and_parse(ovr) |> 
+  print_html()
+```
+
+The _only_ purpose for `translate_overview()` is to translate the entities for
+this card into different languages, so if we use it in an English context,
+nothing happens, but if we use it in a _Japanese_ context, the the translation
+appears:
+
+```{r}
+#| label: translate-overview
+withr::with_language("ja", {
+  render_and_parse(ovr) |> 
+    sandpaper:::translate_overview() |> 
+    print_html()
+})
+```
+
+### Headings
+
+Headings in The Workbench need a couple of things done:
+
+0. The parent div needs to be a `<section>` tag
+1. They need [anchor
+   links](https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/)
+   added to the headings (we took ours from {pkdown})
+2. The section element needed to be a `section-heading` class and there needed
+   to be an `<hr>` element underneath the `<h2>` tags.
+
+Behold!
+
+```{r}
+#| label: fix-headings
+heads <- "
+## Heading 2 {#i-am-a-section-link}
+
+### Heading 3 
+
+This is in a section, but it's not a section
+
+## Heading 2
+
+This is a new section
+"
+render_and_parse(heads) |> print_html()
+render_and_parse(heads) |> sandpaper:::fix_headings() |> print_html()
+```
+
+
+### Accordions
+
+The only thing that happens with accordions is that they get translated:
+
+```{r}
+#| label: fix-accordions
+accord <- "
+::: instructor
+
+drink water
+
+:::
+"
+render_and_parse(accord) |> print_html(".//h3/text()")
+withr::with_language("ja", {
+  render_and_parse(accord) |> 
+    sandpaper:::fix_accordions() |> 
+    print_html(".//h3/text()")
+})
+```
+
+### Callouts
+
+Callouts need to have translations applied and ids adjusted:
+
+```{r}
+#| label: fix-callouts
+keyps <- "
+::: keypoints
+
+ - hydrate
+
+:::"
+render_and_parse(keyps) |> print_html()
+render_and_parse(keyps) |> sandpaper:::fix_callouts() |> print_html()
+```
+
+The translations are also applied:
+
+```{r}
+#| label: fix-callouts-too
+withr::with_language("ja", {
+  render_and_parse(keyps) |> 
+    sandpaper:::fix_callouts() |> 
+    print_html(".//h3/text()")
+})
+```
+
+### Codeblocks
+
+Codeblocks have a phantom H3 attached
+
+````{r}
+#| label: fix-codeblocks
+codes <- "
+```r
+cat('mouse')
+```"
+render_and_parse(codes) |> print_html()
+render_and_parse(codes) |> sandpaper:::fix_codeblocks() |> print_html()
+````
+
+### Figures
+
+Figures need semantic HTML `<figure>`, not `<div>` and lone images with no
+captions should still be figures.
+
+```{r}
+#| label: fix-figures
+figs <- "
+![](lone-img.png){alt='tumbleweed'}
+
+![Just Sayin', Breakfast Plums, So Cold](papa-eating-plums.png){alt='an empty icebox, plums gone'}
+"
+render_and_parse(figs) |> print_html()
+render_and_parse(figs) |> sandpaper:::fix_figures() |> print_html()
+```
+
+### Setup Link
+
+When someone writes the link to `setup.html`, it needs to be transmogrified to
+be `index.html#setup`
+
+```{r}
+#| label: fix-setup
+stp <- "
+[setup](../learners/setup.html) 
+
+with [macOS](../learners/setup.html#macos)"
+
+render_and_parse(stp) |> print_html()
+render_and_parse(stp) |> sandpaper:::fix_setup_link() |> print_html()
+```
+
 
 ## Applying {varnish} templating
 
