@@ -45,9 +45,9 @@ jobs:
           packages: |
             any::devtools
             any::pandoc
-            any::sandpaper
-            any::pegboard
-            any::varnish
+            github::carpentries/sandpaper
+            github::carpentries/pegboard
+            github::carpentries/varnish
             any::withr
             any::sessioninfo
             any::flow
