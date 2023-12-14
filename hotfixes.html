@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.526">
+<meta name="generator" content="quarto-1.4.527">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -397,9 +397,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>A hotfix is a bug fix for a situation where a bug has been found, but the main branch has new features that are not yet ready to be released. This chapter will be a walkthrough of a scenario with a diagram of the status of the Git repository during each iteration. This was the process used in <a href="https://github.com/carpentries/sandpaper/pull/539">carpentries/sandpaper#539</a> to resolve a bug in link processing.</p>
 <p>Take for example a situation where you want to introduce two new features into the project, so you create two branches for each of them. You finish the first and merge it into the main branch and you are still working on the second. Your Git graph might look something like this:</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">gitGraph
     commit id: "abcd"
@@ -417,6 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     commit id: "uvwx"
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -427,9 +429,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> hotfix-143 <span class="co"># create a new branch</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># do some work</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'hotfix for #143'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">gitGraph
     commit id: "abcd"
@@ -450,6 +453,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     commit id: "yzAB"
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -467,9 +471,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 0.14.1 <span class="at">-m</span> <span class="st">'hotfix for 143'</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">gitGraph
     commit id: "abcd"
@@ -491,6 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     commit id: "CDEF" tag: "0.14.1"
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -504,9 +510,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-4-resolve-conflicts-and-merge" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="step-4-resolve-conflicts-and-merge"><span class="header-section-number">13.4</span> Step 4: Resolve Conflicts and Merge</h2>
 <p>Now that you’ve created the release, you should resolve the conflicts in the DESCRIPTION and NEWS files and then merge it back into <code>main</code> (note: this will create two merge commits, but I’m only showing one in the diagram to make it cleaner):</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">gitGraph
     commit id: "abcd"
@@ -530,13 +537,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     merge hotfix-143 id: "DeFn"
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
 <p>Now you will have the patch in place for the released version <em>and</em> the devel version of The Workbench, which means that you can continue to develop as normal and merge the next feature when you are ready:</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">gitGraph
     commit id: "abcd"
@@ -565,6 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     merge feature2 id: "FnNL"
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -701,27 +711,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -736,10 +725,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -748,7 +741,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
       return note.innerHTML;
     }
   }

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.526">
+<meta name="generator" content="quarto-1.4.527">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -408,9 +408,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-philosophy" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="sec-philosophy"><span class="header-section-number">14.1</span> Philosophy</h2>
 <p>The Workbench was built to be platform-independent, so that you could continue to deploy its features without relying on specific features of GitHub. We use the exact same two step process of building the markdown and then passing that to the HTML renderer, with a twist. The core deployment function in the workbench is <a href="https://carpentries.github.io/sandpaper/reference/ci_deploy.html"><code>sandpaper:::ci_deploy()</code></a>, which will deploy the rendered markdown and the HTML to separate <em>orphan branches</em> in the Git repository that are mapped as <em>git worktrees</em> to the <code>site/built</code> and <code>site/docs</code> folders during the build process. In each step, when the build is successful, the results are pushed to the respective worktree before moving to the next step. When the process is done (regardless of outcome), the worktrees are torn down gracefully.</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
     classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
@@ -456,6 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     BUILDSITE --&gt; SITE
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -527,9 +529,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>These <a href="https://github.com/carpentries/sandpaper/tree/main/inst/workflows#readme">workflows are individually documented in the sandpaper repository</a></p>
 <p>These workflows are interrelated and have different triggers. Below are a set of diagrams that disambiguates these relationships. First up are the workflows that are run on a schedule <strong>and on demand</strong>. Note that the update workflows will only push to a branch if any updates exist, otherwise, they will exit silently.</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
     classDef default color:#383838,fill:#FFF7F1,stroke-width:1px
@@ -573,13 +576,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
 <p>Notice how <strong>none of the workflows push to main</strong>. The update workflows will push to the <code>update/*</code> branches and then create a pull request. It’s common to find workflows that will perform updates and then immediately push to the default branch (which is the case for the lesson-transition workflow), but it’s important to remember that a workflow that does <em>automatic</em> updates prevents the maintainers from critically inspecting the changes to the components. This is especially true of the <code>update-cache.yaml</code> workflow, which will update the {renv} lockfile. By passing it through the pull request process first, we can give the maintainers a way to audit the changes coming through.</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
     subgraph PULL REQUEST
@@ -614,6 +619,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -768,27 +774,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -803,10 +788,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -815,7 +804,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
       return note.innerHTML;
     }
   }

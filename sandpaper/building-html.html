@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.526">
+<meta name="generator" content="quarto-1.4.527">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -109,6 +109,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../guide.scss">
 </head>
@@ -375,15 +402,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#post-processing-with-xpath" id="toc-post-processing-with-xpath" class="nav-link" data-scroll-target="#post-processing-with-xpath"><span class="header-section-number">9.3</span> Post-processing with XPath</a>
   <ul class="collapse">
-  <li><a href="#translation-of-overview-card" id="toc-translation-of-overview-card" class="nav-link" data-scroll-target="#translation-of-overview-card"><span class="header-section-number">9.3.1</span> Translation of Overview Card</a></li>
-  <li><a href="#headings" id="toc-headings" class="nav-link" data-scroll-target="#headings"><span class="header-section-number">9.3.2</span> Headings</a></li>
-  <li><a href="#accordions" id="toc-accordions" class="nav-link" data-scroll-target="#accordions"><span class="header-section-number">9.3.3</span> Accordions</a></li>
-  <li><a href="#callouts" id="toc-callouts" class="nav-link" data-scroll-target="#callouts"><span class="header-section-number">9.3.4</span> Callouts</a></li>
-  <li><a href="#codeblocks" id="toc-codeblocks" class="nav-link" data-scroll-target="#codeblocks"><span class="header-section-number">9.3.5</span> Codeblocks</a></li>
-  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures"><span class="header-section-number">9.3.6</span> Figures</a></li>
-  <li><a href="#setup-link" id="toc-setup-link" class="nav-link" data-scroll-target="#setup-link"><span class="header-section-number">9.3.7</span> Setup Link</a></li>
+  <li><a href="#translate_overview" id="toc-translate_overview" class="nav-link" data-scroll-target="#translate_overview"><span class="header-section-number">9.3.1</span> <code>translate_overview()</code></a></li>
+  <li><a href="#fix_headings" id="toc-fix_headings" class="nav-link" data-scroll-target="#fix_headings"><span class="header-section-number">9.3.2</span> <code>fix_headings()</code></a></li>
+  <li><a href="#fix_accordions" id="toc-fix_accordions" class="nav-link" data-scroll-target="#fix_accordions"><span class="header-section-number">9.3.3</span> <code>fix_accordions()</code></a></li>
+  <li><a href="#fix_callouts" id="toc-fix_callouts" class="nav-link" data-scroll-target="#fix_callouts"><span class="header-section-number">9.3.4</span> <code>fix_callouts()</code></a></li>
+  <li><a href="#fix_codeblocks" id="toc-fix_codeblocks" class="nav-link" data-scroll-target="#fix_codeblocks"><span class="header-section-number">9.3.5</span> <code>fix_codeblocks()</code></a></li>
+  <li><a href="#fix_figures" id="toc-fix_figures" class="nav-link" data-scroll-target="#fix_figures"><span class="header-section-number">9.3.6</span> <code>fix_figures()</code></a></li>
+  <li><a href="#fix_setup_link" id="toc-fix_setup_link" class="nav-link" data-scroll-target="#fix_setup_link"><span class="header-section-number">9.3.7</span> <code>fix_setup_link()</code></a></li>
   </ul></li>
-  <li><a href="#applying-varnish-templating" id="toc-applying-varnish-templating" class="nav-link" data-scroll-target="#applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</a></li>
+  <li><a href="#applying-varnish-templating-with-pkgdownrender_page" id="toc-applying-varnish-templating-with-pkgdownrender_page" class="nav-link" data-scroll-target="#applying-varnish-templating-with-pkgdownrender_page"><span class="header-section-number">9.4</span> Applying {varnish} templating with <code>pkgdown::render_page()</code></a></li>
   </ul>
 </nav>
     </div>
@@ -421,9 +448,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="rendering-html" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="rendering-html"><span class="header-section-number">9.2</span> Rendering HTML</h2>
 <p>The first step of the pipeline is to render the HTML from <em>Markdown</em> (in the <code>site/built</code> folder) using pandoc with our custom lua filters. This is entirely encapsulated within the function <a href="https://carpentries.github.io/sandpaper/reference/render_html.html"><code>render_html()</code></a>:</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
     IN["site/built/FILE.md"]
@@ -437,11 +465,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     LUA --&gt;|"construct_pandoc_args()"| pandoc
 </pre>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
 <p><code>render_html()</code> is called by all of the pages which <strong>need to render content from markdown</strong>:</p>
-<p><img src="render-html.png" class="img-fluid"></p>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="render-html.png" class="img-fluid figure-img" alt="call tree leading to render_html showing that all function calls originate from build_site"></p>
+<figcaption><code>render_html()</code> generates HTML from Markdown files</figcaption>
+</figure>
+</div>
 <p>The HTML that is rendered from <code>render_html()</code> is not standalone and expected to be insert into the <code>&lt;main&gt;</code> tags of <a href="https://jerryjones.dev/2018/01/30/basic-html-boilerplate-structure/">HTML boilderplate</a>. Luckily, <code>render_html()</code> <em>is</em> a standalone function. This means that you do not need to prepare anything other than a document for it to render. Here’s an example rendering basic <em>Markdown</em> to HTML as a character string. Let’s say we had a single markdown document that just showed:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>I can write in **Markdown** and $<span class="sc">\\</span>LaTeX$ :joy_cat:</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When rendered, it would look like this:</p>
@@ -535,39 +569,68 @@ Note
 <li>We need to structurally rearrange pandoc defaults to match our template</li>
 </ul>
 <p>To do this, we read in the HTML with <code>xml2::read_html()</code> and then manipulate it using the sandpaper internal function <code>fix_nodes()</code>, which is called by the following functions:</p>
-<p><img src="fix-nodes-uses.png" class="img-fluid"></p>
-<p>In turn, <code>fix_nodes()</code> will call this cascade of XML manipulating functions:</p>
-<p><img src="fix-nodes-deps.png" class="img-fluid"></p>
-<p>I will show the effects of each of these funtions one by one, but first, here’s a couple of functions that will help me demonstrate so I don’t have to keep retyping an copying/pasting:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>render_and_parse <span class="ot">&lt;-</span> <span class="cf">function</span>(txt) {</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(txt, tmp)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(xml2<span class="sc">::</span><span class="fu">read_html</span>(sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp)))</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>print_html <span class="ot">&lt;-</span> <span class="cf">function</span>(html, <span class="at">xpath =</span> <span class="st">".//body/*"</span>) {</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(<span class="fu">as.character</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, xpath)))</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fix-nodes-uses.png" class="img-fluid figure-img" alt="call tree leading to fix_nodes showing that all function calls originate from build_site"></p>
+<figcaption><code>fix_nodes()</code> depends on <code>build_site()</code></figcaption>
+</figure>
 </div>
-<section id="translation-of-overview-card" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="translation-of-overview-card"><span class="header-section-number">9.3.1</span> Translation of Overview Card</h3>
+<p>In turn, <code>fix_nodes()</code> will call this cascade of XML manipulating functions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">:::</span>fix_nodes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (nodes = NULL) 
+{
+    if (length(nodes) == 0) 
+        return(nodes)
+    translate_overview(nodes)
+    fix_headings(nodes)
+    fix_accordions(nodes)
+    fix_callouts(nodes)
+    fix_codeblocks(nodes)
+    fix_figures(nodes)
+    fix_setup_link(nodes)
+}
+&lt;bytecode: 0x56256092f6b8&gt;
+&lt;environment: namespace:sandpaper&gt;</code></pre>
+</div>
+</div>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fix-nodes-deps.png" class="img-fluid figure-img" alt="graph showing three levels of dependencies for fix_nodes(). The second level functions generally start with get and add. The third level functions are translation functions."></p>
+<figcaption>Call tree for <code>fix_nodes()</code></figcaption>
+</figure>
+</div>
+<p>I will show the effects of each of these functions one by one, but first, here’s a couple of functions that will help me demonstrate so I don’t have to keep retyping an copying/pasting:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>render_and_parse <span class="ot">&lt;-</span> <span class="cf">function</span>(txt) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(txt, tmp)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(xml2<span class="sc">::</span><span class="fu">read_html</span>(sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp)))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>print_html <span class="ot">&lt;-</span> <span class="cf">function</span>(html, <span class="at">xpath =</span> <span class="st">".//body/*"</span>) {</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(<span class="fu">as.character</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, xpath)))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="translate_overview" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="translate_overview"><span class="header-section-number">9.3.1</span> <code>translate_overview()</code></h3>
 <p>The Overview card is produced by the Lua filter, combining the <code>objectives</code> and <code>questions</code> fenced divs into one entity:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: objectives</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">- one</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">::: questions</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">- one?</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">:::"</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(ovr) <span class="sc">|&gt;</span> </span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: objectives</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">- one</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="st">::: questions</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="st">- one?</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="st">:::"</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(ovr) <span class="sc">|&gt;</span> </span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="overview card"&gt;
 &lt;h2 class="card-header"&gt;Overview&lt;/h2&gt;
@@ -598,11 +661,11 @@ Note
 </div>
 <p>The <em>only</em> purpose for <code>translate_overview()</code> is to translate the entities for this card into different languages, so if we use it in an English context, nothing happens, but if we use it in a <em>Japanese</em> context, the the translation appears:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(ovr) <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">translate_overview</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>()</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(ovr) <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">translate_overview</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="overview card"&gt;
 &lt;h2 class="card-header"&gt;概要&lt;/h2&gt;
@@ -632,8 +695,8 @@ Note
 </div>
 </div>
 </section>
-<section id="headings" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="headings"><span class="header-section-number">9.3.2</span> Headings</h3>
+<section id="fix_headings" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="fix_headings"><span class="header-section-number">9.3.2</span> <code>fix_headings()</code></h3>
 <p>Headings in The Workbench need a couple of things done:</p>
 <ol start="0" type="1">
 <li>The parent div needs to be a <code>&lt;section&gt;</code> tag</li>
@@ -642,18 +705,18 @@ Note
 </ol>
 <p>Behold!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>heads <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">## Heading 2 {#i-am-a-section-link}</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">### Heading 3 </span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">This is in a section, but it's not a section</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">## Heading 2</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="st">This is a new section</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>heads <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">## Heading 2 {#i-am-a-section-link}</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">### Heading 3 </span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">This is in a section, but it's not a section</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">## Heading 2</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">This is a new section</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div id="i-am-a-section-link" class="section level2"&gt;
 &lt;h2&gt;Heading 2&lt;/h2&gt;
@@ -667,7 +730,7 @@ Note
 &lt;p&gt;This is a new section&lt;/p&gt;
 &lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_headings</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_headings</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;section id="i-am-a-section-link"&gt;
 &lt;h2 class="section-heading"&gt;Heading 2&lt;a class="anchor" aria-label="anchor" href="#i-am-a-section-link"&gt;&lt;/a&gt;
@@ -687,18 +750,18 @@ Note
 </div>
 </div>
 </section>
-<section id="accordions" class="level3" data-number="9.3.3">
-<h3 data-number="9.3.3" class="anchored" data-anchor-id="accordions"><span class="header-section-number">9.3.3</span> Accordions</h3>
+<section id="fix_accordions" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="fix_accordions"><span class="header-section-number">9.3.3</span> <code>fix_accordions()</code></h3>
 <p>The only thing that happens with accordions is that they get translated:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>accord <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: instructor</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="st">drink water</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>accord <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: instructor</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="st">drink water</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   
@@ -706,28 +769,28 @@ Note
   Instructor Note
   </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">fix_accordions</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">fix_accordions</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 インストラクター用メモ</code></pre>
 </div>
 </div>
 </section>
-<section id="callouts" class="level3" data-number="9.3.4">
-<h3 data-number="9.3.4" class="anchored" data-anchor-id="callouts"><span class="header-section-number">9.3.4</span> Callouts</h3>
+<section id="fix_callouts" class="level3" data-number="9.3.4">
+<h3 data-number="9.3.4" class="anchored" data-anchor-id="fix_callouts"><span class="header-section-number">9.3.4</span> <code>fix_callouts()</code></h3>
 <p>Callouts need to have translations applied and ids adjusted:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>keyps <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: keypoints</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="st"> - hydrate</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::"</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>keyps <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: keypoints</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="st"> - hydrate</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::"</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div id="keypoints1" class="callout keypoints"&gt;
 &lt;div class="callout-square"&gt;
@@ -743,7 +806,7 @@ Note
 &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div id="keypoints1" class="callout keypoints"&gt;
 &lt;div class="callout-square"&gt;
@@ -763,29 +826,29 @@ Note
 </div>
 <p>The translations are also applied:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>まとめ</code></pre>
 </div>
 </div>
 </section>
-<section id="codeblocks" class="level3" data-number="9.3.5">
-<h3 data-number="9.3.5" class="anchored" data-anchor-id="codeblocks"><span class="header-section-number">9.3.5</span> Codeblocks</h3>
+<section id="fix_codeblocks" class="level3" data-number="9.3.5">
+<h3 data-number="9.3.5" class="anchored" data-anchor-id="fix_codeblocks"><span class="header-section-number">9.3.5</span> <code>fix_codeblocks()</code></h3>
 <p>Codeblocks have a phantom H3 attached</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="st">```r</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="st">cat('mouse')</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="st">```"</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="st">```r</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="st">cat('mouse')</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="st">```"</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode r"&gt;&lt;code class="sourceCode r"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;cat&lt;/span&gt;(&lt;span class="st"&gt;'mouse'&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_codeblocks</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_codeblocks</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="codewrapper sourceCode" id="cb1"&gt;
 &lt;h3 class="code-label"&gt;R&lt;i aria-hidden="true" data-feather="chevron-left"&gt;&lt;/i&gt;&lt;i aria-hidden="true" data-feather="chevron-right"&gt;&lt;/i&gt;
@@ -795,23 +858,23 @@ Note
 </div>
 </div>
 </section>
-<section id="figures" class="level3" data-number="9.3.6">
-<h3 data-number="9.3.6" class="anchored" data-anchor-id="figures"><span class="header-section-number">9.3.6</span> Figures</h3>
+<section id="fix_figures" class="level3" data-number="9.3.6">
+<h3 data-number="9.3.6" class="anchored" data-anchor-id="fix_figures"><span class="header-section-number">9.3.6</span> <code>fix_figures()</code></h3>
 <p>Figures need semantic HTML <code>&lt;figure&gt;</code>, not <code>&lt;div&gt;</code> and lone images with no captions should still be figures.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>figs <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="st">![](lone-img.png){alt='tumbleweed'}</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="st">![Just Sayin', Breakfast Plums, So Cold](papa-eating-plums.png){alt='an empty icebox, plums gone'}</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>figs <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="st">![](lone-img.png){alt='tumbleweed'}</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="st">![Just Sayin', Breakfast Plums, So Cold](papa-eating-plums.png){alt='an empty icebox, plums gone'}</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;img src="lone-img.png" alt="tumbleweed"&gt;&lt;/p&gt;
 &lt;div class="figure"&gt;
 &lt;img src="papa-eating-plums.png" alt="an empty icebox, plums gone"&gt;&lt;p class="caption"&gt;Just Sayin’, Breakfast Plums, So Cold&lt;/p&gt;
 &lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_figures</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_figures</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;figure&gt;&lt;img src="lone-img.png" alt="tumbleweed" class="figure mx-auto d-block"&gt;&lt;/figure&gt;
 &lt;figure&gt;
@@ -820,21 +883,21 @@ Note
 </div>
 </div>
 </section>
-<section id="setup-link" class="level3" data-number="9.3.7">
-<h3 data-number="9.3.7" class="anchored" data-anchor-id="setup-link"><span class="header-section-number">9.3.7</span> Setup Link</h3>
+<section id="fix_setup_link" class="level3" data-number="9.3.7">
+<h3 data-number="9.3.7" class="anchored" data-anchor-id="fix_setup_link"><span class="header-section-number">9.3.7</span> <code>fix_setup_link()</code></h3>
 <p>When someone writes the link to <code>setup.html</code>, it needs to be transmogrified to be <code>index.html#setup</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>stp <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="st">[setup](../learners/setup.html) </span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">with [macOS](../learners/setup.html#macos)"</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>stp <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="st">[setup](../learners/setup.html) </span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">with [macOS](../learners/setup.html#macos)"</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;a href="setup.html"&gt;setup&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;with &lt;a href="setup.html#macos"&gt;macOS&lt;/a&gt;&lt;/p&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_setup_link</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_setup_link</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;a href="index.html#setup"&gt;setup&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;with &lt;a href="index.html#macos"&gt;macOS&lt;/a&gt;&lt;/p&gt;</code></pre>
@@ -842,13 +905,38 @@ Note
 </div>
 </section>
 </section>
-<section id="applying-varnish-templating" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="applying-varnish-templating"><span class="header-section-number">9.4</span> Applying {varnish} templating</h2>
-<p>All HTML files get funneled into <code>pkgdown::render_page()</code> through <code>build_html()</code></p>
-<p><img src="render-page.png" class="img-fluid"></p>
+<section id="applying-varnish-templating-with-pkgdownrender_page" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="applying-varnish-templating-with-pkgdownrender_page"><span class="header-section-number">9.4</span> Applying {varnish} templating with <code>pkgdown::render_page()</code></h2>
+<p>All HTML files get funneled into <code>pkgdown::render_page()</code> through <code>build_html()</code>, which in turn is ultimately called by <code>build_site()</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Want to change the HTML engine?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If we were to change the templating engine (e.g.&nbsp;Quarto, Hugo, or (ugh) Jekyll<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>), <em>this is the place to change it</em>. Of course, it will not be ‘easy’, but it will be <em>possible</em>.</p>
+</div>
+</div>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="render-page.png" class="img-fluid figure-img" alt="call tree leading to the pkgdown function render_page. This shows that build_html calls render_page and all functions that lead to build_html are ultimately called from build_site."></p>
+<figcaption><code>pkgdown::render_page()</code> is the last stop from <code>build_site()</code></figcaption>
+</figure>
+</div>
+<p>What you can see from the diagram, this function is the <em>last step</em> in the line to generate a website. As mentioned earlier, this will <a href="https://carpentries.github.io/sandpaper/dev/articles/data-flow.html#an-introduction-to-varnish"><strong>apply {varnish} templates</strong></a> to the HTML generated by <a href="#rendering-html"><code>render_html()</code></a> and modified by <a href="#post-processing-with-xpath"><code>fix_nodes()</code></a>. These templates contain mustache template variables that need to be filled in with variables passed through the <code>data</code> argument in <code>pkgdown::render_page()</code>. These variables are generated when <code>build_lesson()</code> is called and are derived from both the <code>config.yaml</code> and episode metadata. Thus, it is important to read the <a href="https://carpentries.github.io/sandpaper/articles/data-flow.html">Data Flow from Source to Website</a> vignette in {sandpaper} to understand how the flow works.</p>
 
 
 </section>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Actually, one of the strengths of Jekyll is its ability to template websites by stitching together HTML. Just please, never expect anyone else to be able to render markdown with it or build from it locally.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -979,27 +1067,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -1014,10 +1081,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1026,7 +1097,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
       return note.innerHTML;
     }
   }
