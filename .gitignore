@@ -3,4 +3,5 @@
 _book/*
 _site/*
 */*_cache/*
+*/*_files/*
 *_cache/*
