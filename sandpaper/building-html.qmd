@@ -20,6 +20,67 @@ files:
    and HTML to {pkgdown}. This is where the metadata and most of the
    translations are applied. 
 
+### Page types in The Workbench
+
+There are generally three kinds of pages that occur in The Workbench: single
+content pages where the HTML is directly generated from the Markdown, combined
+pages where two or more Markdown files contribute to the page content, and
+aggregate pages where the HTML is collected from specific sections of the single
+content pages after they have been rendered.
+
+#### Single Content Pages
+
+These pages are generated directly from Markdown content and are going to be in
+the `episodes/`, `instructors/`, and `learners/` folders. There are special
+exceptions that are used for combined pages and aggregate pages.
+
+#### Combined Pages
+
+Combined pages are rendered to HTML and then concatenated together.
+
+##### `index.md` and `learners/setup.md`
+
+These form `/index.html` aka the home page where the sidebar shows the sections of the setup document.
+
+| source   | section | anchor |
+| -------- | ------- | -------|
+| `index.md` | index   | `#`    |
+| `learners/setup.md` | setup | `#setup` |
+
+The instructor view is similar, except it includes a schedule before the setup:
+
+| source   | section | anchor |
+| -------- | ------- | -------|
+| `index.md` | index   | `#`    |
+| `episodes/*` | schedule | `#schedule` |
+| `learners/setup.md` | setup | `#setup` |
+
+
+##### `profiles/*`
+
+All the profiles pages are concatenated into a single page called `/profiles.html`.
+
+
+##### `instructors/instructor-notes.md` and `episodes/*`
+
+The instructor notes (global and inline) are in a page called `/instructor/instructor-notes.html` The instructor notes are a special kind of combination that adds the in-line instructor notes to the end of the `instructor-notes.md` file. The in-line instructor notes start at the section with the anchor `#aggregate-instructor-notes` with subsections that have the anchor of the episode filenames. 
+
+
+#### Aggregate Pages
+
+##### All in one page
+
+This is at `/aio.html` and is a concatenation of the schedule. Each episode will be in a section with the ID `aio-<file-slug>`. An episode file named `introduction.md` will have the address `/aio.html#aio-introduction` in the aio page. Note: the aio prefix is to prevent a clash with the ID.
+
+##### Keypoints
+
+This is at `/key-points.html`. The key points of each episode is extracted and placed into sections with the ID of `<file-slug>`. An episode file name `introduction.md` will have the address `/key-points.html#introduction`.
+
+##### Images
+
+This is at `/instructor/images.html` and contains a concatenation of all the images in the lesson, printing the alt-text for each image if it exists. 
+
+
 ## Rendering HTML
 
 The first step of the pipeline is to render the HTML from *Markdown* (in the
