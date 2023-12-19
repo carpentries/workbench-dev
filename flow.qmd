@@ -54,6 +54,7 @@ mostly duplicated across episodes with small tweaks for each episode:
  - metadata in JSON-LD format
  - sidebar
  - extras menu for learner and instructor views
+ - translations of menu elements defined in {varnish}
 
 ## `build_markdown()` {#build-markdown}
 
@@ -181,8 +182,10 @@ programmatically manipulate tags in the HTML without resorting to using regular
 expressions.
 
 In this part, we update links, images, headings, structure that we could not
-fix using lua filters. We then use the information from the episode to complete
-the global menu variable with links to the second level headings in the episode.
+fix using lua filters. We also apply translations to some of the menu elements
+that are not templated in {varnish}. We then use the information from the
+episode to complete the global menu variable with links to the second level
+headings in the episode.
 
 ```{mermaid}
 sequenceDiagram
@@ -216,6 +219,16 @@ because in R, functions will normally return a copy of the data, but when
 working with an XML document parsed by {xml2}, the data is modified _in place_.
 
 It allows us to do neat things, but there is a learning curve associated.
+
+I have written hopefully helpful handbooks (guides) on 
+
+ - [working with XML
+   data](https://carpentries.github.io/pegboard/articles/intro-xml.html), 
+ - [working with the Lesson
+   object](https://carpentries.github.io/pegboard/articles/intro-lesson.html)
+   and
+ - [working with the Episode
+   object](https://carpentries.github.io/pegboard/articles/intro-episode.html)
 
 :::
 

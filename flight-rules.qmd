@@ -158,6 +158,115 @@ might be the only one).
 
 ### Aross Packages {#sec-across}
 
+Some features require manipulation across packages. Most often, this will mean
+a feature that is needed between {sandpaper} (user interface) and {varnish}
+(templates). To a rarer extent would you need features bewteen {sandpaper} and
+{pegboard}. You would almost never need a feature between {pegboard} and
+{varnish}. 
+
+#### Order of Operations
+
+Features across packages require a bit of extra care because you are dealing
+with two moving targets. Remember that it's not impossible to change features
+spanning packages in a backwards-compatible manner. If you are worried that
+something will break, I will remind you that not only do we have unit tests, 
+but we also have [The Workbench integration
+tests](https://github.com/carpentries/workbench-integration-test) that allows us
+to test development versions of The Workbench across a variety of lessons. On
+top of that, you have [the ability to set the versions of The
+Workbench](https://carpentries.github.io/sandpaper/reference/set_config.html#custom-engines)
+used to build any given lesson. With these three tools, you should be able to
+address any issue that arises from a multi-package feature/issue.
+
+This section talks about the order of operations in testing and release, which
+can be boiled down to these general rules:
+
+ 1. **Always test {sandpaper} against the development version** of the other
+    package
+ 2. **Release the dependent package first.** Unless you have [made breaking
+    changes](https://carpentries.github.io/varnish/news/index.html#varnish-100-2023-12-13),
+    {varnish} and {pegboard} should be released _before_ {sandpaper}.
+
+With that, here are scattered details of the order of operations for developing
+features for two packages.
+
+Make sure to use the `Remotes` field in the {sandpaper} DESCRIPTION file to
+ensure that you are testing against the correct version of whatever other
+package you are using. That is, if you are testing `feature-a` in {sandpaper}
+and there is a companion `feature-a` branch in {varnish}, you want to specify
+`Remotes: carpentries/varnish@feature-a` in the `DESCRIPTION` file for
+{sandpaper}. This will not only allow the unit tests to work against the correct
+version of the dependent package, but it will also allow the integration tests
+and user tests to work.
+
+In general, when you are creating a feature across two packages you will want to
+ensure the following:
+
+ - [ ] there is an issue open in the workbench repository
+ - [ ] the branch names for each feature are identical (or nearly so)
+ - [ ] the pull request for {sandpaper} sets the `Remotes`
+ - [ ] the dependent package is released _before_ sandpaper.
+
+#### Examples
+
+##### Adding DOI badge for peer reviewed lessons {.unnumbered}
+
+Replace {pkg} with the first letter of the package the issue occurs in and
+{num} with the issue number
+
+###### s535v97 Situation {.unnumbered}
+
+ - Issue: [carpentries/sandpaper#535](https://github.com/carpentries/sandpaper/pull/525), [carpentries/varnish#97](https://github.com/carpentries/varnish/pull/97)
+ - Resolver: tobyhodges, zkamvar
+ - Type: Local
+ - OS: NA
+ - Package: {sandpaper}, {varnish}
+
+###### s535v97 Diagnosis {.unnumbered}
+
+In [carpentries/workbench#67](https://github.com/carpentries/workbench/issues/67) and [carpentries/varnish#40](https://github.com/carpentries/varnish/issues/40), [Toby Hodges](https://github.com/tobyhodges) had pointed out that while we had badges for lessons in pre-alpha, alpha, and beta phases of development, we did not yet have a badge for a published lesson with a DOI. 
+
+In the former infrastructure, we had indicated these statuses by adding a banner
+to the top of the lesson. This banner would take up extra room at the top of the
+lesson, so we changed it to a badge since we had room next to the logo. In this
+case, Toby was asking if we could add a `doi` key to the `config.yaml` that
+would allow the badge to be displayed on the website.
+
+
+###### s535v97 Solution {.unnumbered}
+
+Toby had opened two pull requests on 2023-10-30:
+
+ - [carpentries/sandpaper#535](https://github.com/carpentries/sandpaper/pull/535)
+   where he modified the `inst/templates/pkgdown-yaml-template.txt` and
+   `create_pkgdown_yaml()` to include a `doi` element.
+ - [carpentries/varnish#97](https://github.com/carpentries/varnish/pull/97)
+   where he added HTML to the header that would insert a stylized DOI badge
+
+On 2023-11-10, Zhian Kamvar [added a catch for full URL of a DOI vs the raw DOI
+itself](https://github.com/carpentries/sandpaper/pull/535/commits/a8579c78349522cb6fbd484c02d16325d1d34bcc) in {sandpaper} and determined that the contribution to {varnish} needed a couple of extra tweaks before being merged.
+
+{varnish} was merged at 11:43AM and {sandpaper} was merged at 11:47AM
+
+###### s535v97 Alternative Solution {.unnumbered}
+
+One of the tools that Toby had used was passing data through
+`create_pkgdown_yaml()`. It could have been done without that function and just
+passed through `initialize_metadata()` or something similar. For details on how
+data flows from {sandpaper} to {varnish}, read [Data Flow from Source to
+Website](https://carpentries.github.io/sandpaper/articles/data-flow.html) in the
+{sandpaper} documentation.
+
+It's important to understand _why_ Zhian used `create_pkgdown_yaml()` in the
+first place: to get {pkgdown} to recognise the `site/` folder as a package so he
+could hijack {pkgdown}'s machinery to provision a website. When he first
+started, he did not realize that he could pass any number of data elements
+directly to the {varnish} templates (as is done through the global variable
+caches), so everything was written to `site/_pkgdown.yaml`. This was cumbersome
+because it involves the IO for the pkgdown template file, the config file, and
+the resulting pkgdown yaml. It was much easier to load the config file via
+`initialize_metadata()` and use that to carry the configuration items. 
+
 
 ## Upstream R Packages {#sec-upstream}
 
