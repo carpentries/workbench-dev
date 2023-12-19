@@ -424,6 +424,7 @@ ul.task-list li input[type="checkbox"] {
 <li>metadata in JSON-LD format</li>
 <li>sidebar</li>
 <li>extras menu for learner and instructor views</li>
+<li>translations of menu elements defined in {varnish}</li>
 </ul>
 </section>
 <section id="build-markdown" class="level2" data-number="4.4">
@@ -524,7 +525,7 @@ Package Cache and Reproducibility
 <section id="flow-tweaks" class="level3" data-number="4.5.2">
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="flow-tweaks"><span class="header-section-number">4.5.2</span> Processing HTML</h3>
 <p>The HTML needs to be tweaked because the output from pandoc, even with our lua filters, still needs some modification. We tweak the content by first converting the HTML into an Abstract Syntax Tree (AST). This allows us to programmatically manipulate tags in the HTML without resorting to using regular expressions.</p>
-<p>In this part, we update links, images, headings, structure that we could not fix using lua filters. We then use the information from the episode to complete the global menu variable with links to the second level headings in the episode.</p>
+<p>In this part, we update links, images, headings, structure that we could not fix using lua filters. We also apply translations to some of the menu elements that are not templated in {varnish}. We then use the information from the episode to complete the global menu variable with links to the second level headings in the episode.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -568,6 +569,12 @@ Working With XML
 <div class="callout-body-container callout-body">
 <p>Working with XML data is perhaps one of the strangest experiences for an R user because in R, functions will normally return a copy of the data, but when working with an XML document parsed by {xml2}, the data is modified <em>in place</em>.</p>
 <p>It allows us to do neat things, but there is a learning curve associated.</p>
+<p>I have written hopefully helpful handbooks (guides) on</p>
+<ul>
+<li><a href="https://carpentries.github.io/pegboard/articles/intro-xml.html">working with XML data</a>,</li>
+<li><a href="https://carpentries.github.io/pegboard/articles/intro-lesson.html">working with the Lesson object</a> and</li>
+<li><a href="https://carpentries.github.io/pegboard/articles/intro-episode.html">working with the Episode object</a></li>
+</ul>
 </div>
 </div>
 </section>

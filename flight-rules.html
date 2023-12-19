@@ -370,7 +370,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#multi-function-issues" id="toc-multi-function-issues" class="nav-link" data-scroll-target="#multi-function-issues"><span class="header-section-number">B.1.1.2</span> Multi-Function Issues</a></li>
   <li><a href="#test-failures-with-no-user-impact" id="toc-test-failures-with-no-user-impact" class="nav-link" data-scroll-target="#test-failures-with-no-user-impact"><span class="header-section-number">B.1.1.3</span> Test Failures With No User Impact</a></li>
   </ul></li>
-  <li><a href="#sec-across" id="toc-sec-across" class="nav-link" data-scroll-target="#sec-across"><span class="header-section-number">B.1.2</span> Aross Packages</a></li>
+  <li><a href="#sec-across" id="toc-sec-across" class="nav-link" data-scroll-target="#sec-across"><span class="header-section-number">B.1.2</span> Aross Packages</a>
+  <ul class="collapse">
+  <li><a href="#order-of-operations" id="toc-order-of-operations" class="nav-link" data-scroll-target="#order-of-operations"><span class="header-section-number">B.1.2.1</span> Order of Operations</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">B.1.2.2</span> Examples</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#sec-upstream" id="toc-sec-upstream" class="nav-link" data-scroll-target="#sec-upstream"><span class="header-section-number">B.2</span> Upstream R Packages</a>
   <ul>
@@ -523,6 +527,62 @@ Replace {pkg} with the first letter of the package the issue occurs in and
 </section>
 <section id="sec-across" class="level3" data-number="B.1.2">
 <h3 data-number="B.1.2" class="anchored" data-anchor-id="sec-across"><span class="header-section-number">B.1.2</span> Aross Packages</h3>
+<p>Some features require manipulation across packages. Most often, this will mean a feature that is needed between {sandpaper} (user interface) and {varnish} (templates). To a rarer extent would you need features bewteen {sandpaper} and {pegboard}. You would almost never need a feature between {pegboard} and {varnish}.</p>
+<section id="order-of-operations" class="level4" data-number="B.1.2.1">
+<h4 data-number="B.1.2.1" class="anchored" data-anchor-id="order-of-operations"><span class="header-section-number">B.1.2.1</span> Order of Operations</h4>
+<p>Features across packages require a bit of extra care because you are dealing with two moving targets. Remember that it’s not impossible to change features spanning packages in a backwards-compatible manner. If you are worried that something will break, I will remind you that not only do we have unit tests, but we also have <a href="https://github.com/carpentries/workbench-integration-test">The Workbench integration tests</a> that allows us to test development versions of The Workbench across a variety of lessons. On top of that, you have <a href="https://carpentries.github.io/sandpaper/reference/set_config.html#custom-engines">the ability to set the versions of The Workbench</a> used to build any given lesson. With these three tools, you should be able to address any issue that arises from a multi-package feature/issue.</p>
+<p>This section talks about the order of operations in testing and release, which can be boiled down to these general rules:</p>
+<ol type="1">
+<li><strong>Always test {sandpaper} against the development version</strong> of the other package</li>
+<li><strong>Release the dependent package first.</strong> Unless you have <a href="https://carpentries.github.io/varnish/news/index.html#varnish-100-2023-12-13">made breaking changes</a>, {varnish} and {pegboard} should be released <em>before</em> {sandpaper}.</li>
+</ol>
+<p>With that, here are scattered details of the order of operations for developing features for two packages.</p>
+<p>Make sure to use the <code>Remotes</code> field in the {sandpaper} DESCRIPTION file to ensure that you are testing against the correct version of whatever other package you are using. That is, if you are testing <code>feature-a</code> in {sandpaper} and there is a companion <code>feature-a</code> branch in {varnish}, you want to specify <code>Remotes: carpentries/varnish@feature-a</code> in the <code>DESCRIPTION</code> file for {sandpaper}. This will not only allow the unit tests to work against the correct version of the dependent package, but it will also allow the integration tests and user tests to work.</p>
+<p>In general, when you are creating a feature across two packages you will want to ensure the following:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">there is an issue open in the workbench repository</label></li>
+<li><label><input type="checkbox">the branch names for each feature are identical (or nearly so)</label></li>
+<li><label><input type="checkbox">the pull request for {sandpaper} sets the <code>Remotes</code></label></li>
+<li><label><input type="checkbox">the dependent package is released <em>before</em> sandpaper.</label></li>
+</ul>
+</section>
+<section id="examples" class="level4" data-number="B.1.2.2">
+<h4 data-number="B.1.2.2" class="anchored" data-anchor-id="examples"><span class="header-section-number">B.1.2.2</span> Examples</h4>
+<section id="adding-doi-badge-for-peer-reviewed-lessons" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="adding-doi-badge-for-peer-reviewed-lessons">Adding DOI badge for peer reviewed lessons</h5>
+<p>Replace {pkg} with the first letter of the package the issue occurs in and {num} with the issue number</p>
+<section id="s535v97-situation" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s535v97-situation">s535v97 Situation</h6>
+<ul>
+<li>Issue: <a href="https://github.com/carpentries/sandpaper/pull/525">carpentries/sandpaper#535</a>, <a href="https://github.com/carpentries/varnish/pull/97">carpentries/varnish#97</a></li>
+<li>Resolver: tobyhodges, zkamvar</li>
+<li>Type: Local</li>
+<li>OS: NA</li>
+<li>Package: {sandpaper}, {varnish}</li>
+</ul>
+</section>
+<section id="s535v97-diagnosis" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s535v97-diagnosis">s535v97 Diagnosis</h6>
+<p>In <a href="https://github.com/carpentries/workbench/issues/67">carpentries/workbench#67</a> and <a href="https://github.com/carpentries/varnish/issues/40">carpentries/varnish#40</a>, <a href="https://github.com/tobyhodges">Toby Hodges</a> had pointed out that while we had badges for lessons in pre-alpha, alpha, and beta phases of development, we did not yet have a badge for a published lesson with a DOI.</p>
+<p>In the former infrastructure, we had indicated these statuses by adding a banner to the top of the lesson. This banner would take up extra room at the top of the lesson, so we changed it to a badge since we had room next to the logo. In this case, Toby was asking if we could add a <code>doi</code> key to the <code>config.yaml</code> that would allow the badge to be displayed on the website.</p>
+</section>
+<section id="s535v97-solution" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s535v97-solution">s535v97 Solution</h6>
+<p>Toby had opened two pull requests on 2023-10-30:</p>
+<ul>
+<li><a href="https://github.com/carpentries/sandpaper/pull/535">carpentries/sandpaper#535</a> where he modified the <code>inst/templates/pkgdown-yaml-template.txt</code> and <code>create_pkgdown_yaml()</code> to include a <code>doi</code> element.</li>
+<li><a href="https://github.com/carpentries/varnish/pull/97">carpentries/varnish#97</a> where he added HTML to the header that would insert a stylized DOI badge</li>
+</ul>
+<p>On 2023-11-10, Zhian Kamvar <a href="https://github.com/carpentries/sandpaper/pull/535/commits/a8579c78349522cb6fbd484c02d16325d1d34bcc">added a catch for full URL of a DOI vs the raw DOI itself</a> in {sandpaper} and determined that the contribution to {varnish} needed a couple of extra tweaks before being merged.</p>
+<p>{varnish} was merged at 11:43AM and {sandpaper} was merged at 11:47AM</p>
+</section>
+<section id="s535v97-alternative-solution" class="level6 unnumbered">
+<h6 class="unnumbered anchored" data-anchor-id="s535v97-alternative-solution">s535v97 Alternative Solution</h6>
+<p>One of the tools that Toby had used was passing data through <code>create_pkgdown_yaml()</code>. It could have been done without that function and just passed through <code>initialize_metadata()</code> or something similar. For details on how data flows from {sandpaper} to {varnish}, read <a href="https://carpentries.github.io/sandpaper/articles/data-flow.html">Data Flow from Source to Website</a> in the {sandpaper} documentation.</p>
+<p>It’s important to understand <em>why</em> Zhian used <code>create_pkgdown_yaml()</code> in the first place: to get {pkgdown} to recognise the <code>site/</code> folder as a package so he could hijack {pkgdown}’s machinery to provision a website. When he first started, he did not realize that he could pass any number of data elements directly to the {varnish} templates (as is done through the global variable caches), so everything was written to <code>site/_pkgdown.yaml</code>. This was cumbersome because it involves the IO for the pkgdown template file, the config file, and the resulting pkgdown yaml. It was much easier to load the config file via <code>initialize_metadata()</code> and use that to carry the configuration items.</p>
+</section>
+</section>
+</section>
 </section>
 </section>
 <section id="sec-upstream" class="level2" data-number="B.2">
