@@ -6,11 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zhian N. Kamvar">
-<meta name="dcterms.date" content="2023-12-31">
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>Workbench Developer’s Guide</title>
+<title>Workbench Developer’s Guide - 8&nbsp; The global state in {sandpaper}</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,46 +21,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../sandpaper/package-cache.html" rel="next">
+<link href="../sandpaper/testing.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -92,7 +105,7 @@ div.csl-indent {
 }</script>
 
 
-<link rel="stylesheet" href="guide.scss">
+<link rel="stylesheet" href="../guide.scss">
 </head>
 
 <body class="nav-sidebar floating">
@@ -104,7 +117,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/global-state.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The global state in {sandpaper}</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -119,7 +132,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Workbench Developer’s Guide</a> 
+      <a href="../">Workbench Developer’s Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/carpentries/workbench-dev/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
@@ -139,25 +152,25 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
@@ -172,13 +185,13 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flow.html" class="sidebar-item-text sidebar-link">
+  <a href="../flow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./features.html" class="sidebar-item-text sidebar-link">
+  <a href="../features.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></span></a>
   </div>
 </li>
@@ -195,31 +208,31 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/global-state.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/global-state.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The global state in {sandpaper}</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sandpaper/building-html.html" class="sidebar-item-text sidebar-link">
+  <a href="../sandpaper/building-html.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Building HTML</span></span></a>
   </div>
 </li>
@@ -236,7 +249,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pegboard/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
@@ -253,7 +266,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./varnish/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
@@ -270,13 +283,13 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./releases.html" class="sidebar-item-text sidebar-link">
+  <a href="../releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hotfixes.html" class="sidebar-item-text sidebar-link">
+  <a href="../hotfixes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
   </div>
 </li>
@@ -293,19 +306,19 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/deploy.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote/pull-request.html" class="sidebar-item-text sidebar-link">
+  <a href="../remote/pull-request.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
   </div>
 </li>
@@ -313,13 +326,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+  <a href="../summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -334,13 +347,13 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sop.html" class="sidebar-item-text sidebar-link">
+  <a href="../sop.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Standard Operating Procedures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flight-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="../flight-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Examples and Flight Rules</span></span></a>
   </div>
 </li>
@@ -356,40 +369,28 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#when-sandpaper-is-loaded" id="toc-when-sandpaper-is-loaded" class="nav-link active" data-scroll-target="#when-sandpaper-is-loaded"><span class="header-section-number">8.1</span> When <code>{sandpaper}</code> is loaded</a></li>
+  <li><a href="#building-the-lesson" id="toc-building-the-lesson" class="nav-link" data-scroll-target="#building-the-lesson"><span class="header-section-number">8.2</span> Building the lesson</a>
+  <ul class="collapse">
+  <li><a href="#step-1-set-an-anchor" id="toc-step-1-set-an-anchor" class="nav-link" data-scroll-target="#step-1-set-an-anchor"><span class="header-section-number">8.2.1</span> Step 1: set an anchor</a></li>
+  <li><a href="#step-2-validate-and-setup-global-variables" id="toc-step-2-validate-and-setup-global-variables" class="nav-link" data-scroll-target="#step-2-validate-and-setup-global-variables"><span class="header-section-number">8.2.2</span> Step 2: Validate and setup global variables</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/global-state.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The global state in {sandpaper}</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Workbench Developer’s Guide</h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The global state in {sandpaper}</span></h1>
 </div>
 
-<div>
-  <div class="description">
-    <p>Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.</p>
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Zhian N. Kamvar </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">December 31, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -399,44 +400,123 @@ div.csl-indent {
 </header>
 
 
+<section id="when-sandpaper-is-loaded" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="when-sandpaper-is-loaded"><span class="header-section-number">8.1</span> When <code>{sandpaper}</code> is loaded</h2>
+<p>When {sandpaper} is loaded (either by attatchment with <code>library()</code> or invocation with <code>::</code>, <a href="https://r-pkgs.org/dependencies-mindset-background.html#sec-dependencies-attach-vs-load">a function called <code>.onLoad()</code></a> (which lives in <a href="https://github.com/carpentries/sandpaper/blob/HEAD/R/zzz.R"><code>R/zzz.R</code></a>) is evaluated:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">:::</span>.onLoad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (libname, pkgname) 
+{
+    ns &lt;- asNamespace(pkgname)
+    delayedAssign("GITIGNORED", gitignore_items(), eval.env = ns, 
+        assign.env = ns)
+    op &lt;- getOption("sandpaper.use_renv")
+    if (is.null(op)) {
+        try_use_renv()
+    }
+    establish_translation_vars()
+    invisible()
+}
+&lt;bytecode: 0x55a1da97ddd0&gt;
+&lt;environment: namespace:sandpaper&gt;</code></pre>
+</div>
+</div>
+<p>This does a few things:</p>
+<ol type="1">
+<li><p>establishes a <code>GITIGNORED</code> vector that is used to check the .gitignore file to validate that we are working in a lesson that The Workbench can work with.</p>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GITIGNORED.png" class="img-fluid figure-img" alt="call tree from the `create_` functions and `build_lesson()` leading to `check_lesson()` through to `GITIGNORED`"></p>
+<figcaption><code>GITIGNORED</code> is a list of items required to be in the lesson’s <code>.gitignore</code></figcaption>
+</figure>
+</div></li>
+<li><p>attempts to determine if the user has provided consent to use {renv} with <code>try_use_renv()</code>. This will set the internal <code>sandpaper.use_renv</code> environment variable.</p></li>
+<li><p>The <code>establish_translation_vars()</code> will establish the internal list of translation strings inside the internal environment called <code>these$translations</code> for use with <code>set_language()</code>, which can be fetched with the <code>tr_src()</code>, and <code>tr_get()</code> functions. See <a href="https://carpentries.github.io/sandpaper/reference/translations.html"><code>establish_translation_vars()</code></a> for details</p></li>
+</ol>
+</section>
+<section id="building-the-lesson" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="building-the-lesson"><span class="header-section-number">8.2</span> Building the lesson</h2>
+<p>All functions that build a lesson go through <code>build_lesson()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">::</span>build_lesson</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (path = ".", rebuild = FALSE, quiet = !interactive(), 
+    preview = TRUE, override = list()) 
+{
+    check_pandoc()
+    slugpath &lt;- get_build_slug(path, quiet = quiet)
+    slug &lt;- slugpath$slug
+    path &lt;- slugpath$path
+    on.exit({
+        reset_build_paths()
+    })
+    validate_lesson(path, quiet = quiet)
+    built &lt;- build_markdown(path = path, rebuild = rebuild, quiet = quiet, 
+        slug = slug)
+    build_site(path = path, quiet = quiet, preview = preview, 
+        override = override, slug = slug, built = built)
+}
+&lt;bytecode: 0x55a1df22ba30&gt;
+&lt;environment: namespace:sandpaper&gt;</code></pre>
+</div>
+</div>
+<section id="step-1-set-an-anchor" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="step-1-set-an-anchor"><span class="header-section-number">8.2.1</span> Step 1: set an anchor</h3>
+<p>Because all of the lesson functions need to understand where the lesson exists on the file system, we want to record the root path while a lesson is being deployed. When <code>build_lesson()</code> is run, it calls the <code>set_source_path()</code> function, which records the root of the lesson (as determined by the presence of an “episodes” directory, OR a “site” directory, OR a “learners” directory, OR an “instructors” directory, OR a “profiles” directory) in a global envioronment called <code>.build_paths$source</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">:::</span>set_source_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (path) 
+{
+    .build_paths$source &lt;- root_path(path) %||% .build_paths$source
+    invisible(.build_paths$source)
+}
+&lt;bytecode: 0x55a1dd41d258&gt;
+&lt;environment: namespace:sandpaper&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>time elapsed: 8.66442 secs</code></pre>
+</div>
+</div>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="set-source-path.png" class="img-fluid figure-img" alt="call tree from build functions leading to set_source_path()"></p>
+<figcaption><code>set_source_path()</code> establishes the root of the lesson</figcaption>
+</figure>
+</div>
+<p>When the function exits, the <code>reset_build_paths()</code> function is called to reset the build path to NULL so that it could be used for a new lesson.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">:::</span>reset_build_paths</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function () 
+{
+    .build_paths$source &lt;- NULL
+}
+&lt;bytecode: 0x55a1ddc65c40&gt;
+&lt;environment: namespace:sandpaper&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>time elapsed: 1.131467 secs</code></pre>
+</div>
+</div>
+<div class="img-fluid quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="reset-build-paths.png" class="img-fluid figure-img" alt="call tree from build functions leading to reset_build_paths()"></p>
+<figcaption><code>reset_build_paths()</code> establishes the root of the lesson</figcaption>
+</figure>
+</div>
+</section>
+<section id="step-2-validate-and-setup-global-variables" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="step-2-validate-and-setup-global-variables"><span class="header-section-number">8.2.2</span> Step 2: Validate and setup global variables</h3>
+<p>When <code>validate_lesson()</code> is called, it kicks off a cascade that stores lesson-specific variables and strings for {varnish} into the language of the lesson. This process is described in <a href="https://carpentries.github.io/sandpaper/articles/data-flow.html#example">The Data Flow vingette for {sandpaper}</a></p>
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1><p><img src="images/cover.jpg" title="Workbench Developer's Guide" class="quarto-cover-image img-fluid"></p>
-<p>The Carpentries Workbench is a open-source and portable lesson infrastructure built with the <a href="https://r-project.org">R programming language</a>. Despite it being built in R, contributors do not need to know any R in order to use it to build reliable, stylish, and accessible lessons.</p>
-<p>This book serves as development documentation for The Carpentries Workbench. It was written between June and December 2023 primarily to orient new developers and contributors to The Workbench ecosystem.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Under Construction 🚧
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The content for this site is still being written! Please check back if what you are looking for does not exist or, open an issue at <a href="https://github.com/carpentries/workbench-dev/issues/" class="uri">https://github.com/carpentries/workbench-dev/issues/</a> to request it!</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Prerequisite
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This book assumes familiarity with R Package Development. If you are unfamiliar, please read <a href="https://r-pkgs.org/">R Packages (2e)</a> <span class="citation" data-cites="rpkgs">(<a href="references.html#ref-rpkgs" role="doc-biblioref">Wickham and Bryan 2023</a>)</span>.</p>
-</div>
-</div>
 
-
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-rpkgs" class="csl-entry" role="listitem">
-Wickham, Hadley, and Jennifer Bryan. 2023. <span>“<span>R</span> Packages (2e).”</span> <a href="https://r-pkgs.org/" class="uri">https://r-pkgs.org/</a>.
-</div>
-</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -824,10 +904,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../sandpaper/testing.html" class="pagination-link  aria-label=" &lt;span="" {sandpaper}&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="<span class='chapter-number'>1</span>&nbsp; <span class='chapter-title'>Introduction</span>">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../sandpaper/package-cache.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>The R package cache</span>">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The R package cache</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
