@@ -34,8 +34,11 @@ In short, this is the process:
 
 ### Test Helpers {#helpers}
 
-Sandpaper has three test helpers that handle some of the more tedious
+Sandpaper has a few test helpers that handle some of the more tedious
 side-effects of testing.
+
+[`helper-child.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-child.R)
+: Sets up an episode that contains a child document for testing. 
 
 [`helper-hash.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-hash.R)
 : Expectation `expect_hashed()` that an episode file MD5 sum (expected) matches
@@ -50,6 +53,12 @@ side-effects of testing.
   [`expect_snapshot()`](https://testthat.r-lib.org/reference/expect_snapshot.html)
   and will mask the temporary directory path so that the snapshot does not
   continuously invalidate on every run.
+
+[`helper-translate.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-translate.R)
+: Defines three expectations to test translations: `expect_set_translated()`,
+  `expect_title_translated()` and `expect_h1_translated()`. All are documented
+  in the helper file and in [`test-utils-translate.R`](https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/test-utils-translate.R)
+
 
 ### Setup Script {#setup-script}
 
