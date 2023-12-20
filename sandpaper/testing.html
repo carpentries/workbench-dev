@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.532">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -386,8 +386,12 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <section id="helpers" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="helpers"><span class="header-section-number">7.2.1</span> Test Helpers</h3>
-<p>Sandpaper has three test helpers that handle some of the more tedious side-effects of testing.</p>
+<p>Sandpaper has a few test helpers that handle some of the more tedious side-effects of testing.</p>
 <dl>
+<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-child.R"><code>helper-child.R</code></a></dt>
+<dd>
+Sets up an episode that contains a child document for testing.
+</dd>
 <dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-hash.R"><code>helper-hash.R</code></a></dt>
 <dd>
 Expectation <code>expect_hashed()</code> that an episode file MD5 sum (expected) matches the MD5 sum (actual) we recorded in the <code>site/built/md5sum.txt</code> database.
@@ -399,6 +403,10 @@ Provides an output string that demonstrates a screen output of a file being proc
 <dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-snap-transform.R"><code>helper-snap-transform.R</code></a></dt>
 <dd>
 A function that is passed to the transform parameter of <a href="https://testthat.r-lib.org/reference/expect_snapshot.html"><code>expect_snapshot()</code></a> and will mask the temporary directory path so that the snapshot does not continuously invalidate on every run.
+</dd>
+<dt><a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/helper-translate.R"><code>helper-translate.R</code></a></dt>
+<dd>
+Defines three expectations to test translations: <code>expect_set_translated()</code>, <code>expect_title_translated()</code> and <code>expect_h1_translated()</code>. All are documented in the helper file and in <a href="https://github.com/carpentries/sandpaper/blob/HEAD/tests/testthat/test-utils-translate.R"><code>test-utils-translate.R</code></a>
 </dd>
 </dl>
 </section>
