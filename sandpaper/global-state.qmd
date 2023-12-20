@@ -1,0 +1,126 @@
+---
+title: "The global state in {sandpaper}"
+---
+
+## When `{sandpaper}` is loaded
+
+When {sandpaper} is loaded (either by attatchment with `library()` or invocation
+with `::`, [a function called
+`.onLoad()`](https://r-pkgs.org/dependencies-mindset-background.html#sec-dependencies-attach-vs-load)
+(which lives in
+[`R/zzz.R`](https://github.com/carpentries/sandpaper/blob/HEAD/R/zzz.R)) is
+evaluated:
+
+```{r onload}
+sandpaper:::.onLoad
+```
+
+This does a few things:
+
+1. establishes a `GITIGNORED` vector that is used to check the .gitignore file
+   to validate that we are working in a lesson that The Workbench can work with.
+
+   ```{r}
+   #| label: GITIGNORED
+   #| echo: false
+   #| eval: !expr Sys.getenv("CI", "false") != "true"
+   #| message: false
+   #| cache: true
+   toc <- Sys.time()
+   tmp <- "tmp.html"
+   flow::flow_view_uses("sandpaper:::GITIGNORED", pkg = "sandpaper", out = tmp)
+   res <- webshot2::webshot(tmp, "GITIGNORED.png", zoom = 2)
+   unlink(tmp)
+   tic <- Sys.time()
+   cat(paste("time elapsed:", format(tic - toc)))
+   ```
+ 
+   ![`GITIGNORED` is a list of items required to be in the lesson's `.gitignore`
+   ](GITIGNORED.png){fig-alt="call tree from the `create_` functions and
+   `build_lesson()` leading to `check_lesson()` through to `GITIGNORED`"}
+2. attempts to determine if the user has provided consent to use {renv} with
+   `try_use_renv()`. This will set the internal `sandpaper.use_renv` environment
+   variable.
+3. The `establish_translation_vars()` will establish the internal list of
+   translation strings inside the internal environment called
+   `these$translations`  for use with `set_language()`, which can be fetched
+   with the `tr_src()`, and `tr_get()` functions. See
+   [`establish_translation_vars()`](https://carpentries.github.io/sandpaper/reference/translations.html)
+   for details
+
+## Building the lesson
+
+All functions that build a lesson go through `build_lesson()`:
+
+```{r build-lesson}
+sandpaper::build_lesson
+```
+
+### Step 1: set an anchor
+
+Because all of the lesson functions need to understand where the lesson exists
+on the file system, we want to record the root path while a lesson is being
+deployed. When `build_lesson()` is run, it calls the `set_source_path()`
+function, which records the root of the lesson (as determined by the presence of
+an "episodes" directory, OR a "site" directory, OR a "learners" directory, OR an
+"instructors" directory, OR a "profiles" directory) in a global envioronment
+called `.build_paths$source`:
+
+```{r set-source-path}
+sandpaper:::set_source_path
+```
+
+```{r}
+#| label: set-source-path-flow 
+#| echo: false
+#| eval: !expr Sys.getenv("ci", "false") != "true"
+#| message: false
+#| cache: true
+toc <- Sys.time()
+tmp <- "tmp.html"
+flow::flow_view_uses("sandpaper:::set_source_path", pkg = "sandpaper", out = tmp)
+res <- webshot2::webshot(tmp, "set-source-path.png", zoom = 2)
+unlink(tmp)
+tic <- Sys.time()
+cat(paste("time elapsed:", format(tic - toc)))
+```
+
+![`set_source_path()` establishes the root of the lesson
+](set-source-path.png){fig-alt="call tree from build functions leading to
+set_source_path()"}
+
+
+When the function exits, the `reset_build_paths()` function is called to reset
+the build path to NULL so that it could be used for a new lesson.
+
+
+```{r reset-build-paths}
+sandpaper:::reset_build_paths
+```
+
+```{r}
+#| label: reset-build-path-flow 
+#| echo: false
+#| eval: !expr Sys.getenv("ci", "false") != "true"
+#| message: false
+#| cache: true
+toc <- Sys.time()
+tmp <- "tmp.html"
+flow::flow_view_uses("sandpaper:::reset_build_paths", pkg = "sandpaper", out = tmp)
+res <- webshot2::webshot(tmp, "reset-build-paths.png", zoom = 2)
+unlink(tmp)
+tic <- Sys.time()
+cat(paste("time elapsed:", format(tic - toc)))
+```
+
+![`reset_build_paths()` establishes the root of the lesson
+](reset-build-paths.png){fig-alt="call tree from build functions leading to
+reset_build_paths()"}
+
+
+### Step 2: Validate and setup global variables
+
+When `validate_lesson()` is called, it kicks off a cascade that stores
+lesson-specific variables and strings for {varnish} into the language of the
+lesson. This process is described in [The Data Flow vingette for
+{sandpaper}](https://carpentries.github.io/sandpaper/articles/data-flow.html#example)

@@ -25,6 +25,7 @@ book:
       chapters:
       - sandpaper/intro.qmd
       - sandpaper/testing.qmd
+      - sandpaper/global-state.qmd
       - sandpaper/package-cache.qmd
       - sandpaper/building-html.qmd
     - part: "{pegboard} Validation and Parsing"
