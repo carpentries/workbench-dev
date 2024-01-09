@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.533">
+<meta name="generator" content="quarto-1.4.537">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -566,7 +566,7 @@ window.Quarto = {
 </div>
 </div>
 <p><code>render_html()</code> is called by all of the pages which <strong>need to render content from markdown</strong>:</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="render-html.png" class="img-fluid figure-img" alt="call tree leading to render_html showing that all function calls originate from build_site"></p>
 <figcaption><code>render_html()</code> generates HTML from Markdown files</figcaption>
@@ -665,7 +665,7 @@ Note
 <li>We need to structurally rearrange pandoc defaults to match our template</li>
 </ul>
 <p>To do this, we read in the HTML with <code>xml2::read_html()</code> and then manipulate it using the sandpaper internal function <code>fix_nodes()</code>, which is called by the following functions:</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="fix-nodes-uses.png" class="img-fluid figure-img" alt="call tree leading to fix_nodes showing that all function calls originate from build_site"></p>
 <figcaption><code>fix_nodes()</code> depends on <code>build_site()</code></figcaption>
@@ -687,11 +687,11 @@ Note
     fix_figures(nodes)
     fix_setup_link(nodes)
 }
-&lt;bytecode: 0x55676e8eecf0&gt;
+&lt;bytecode: 0x564042a6ba58&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="fix-nodes-deps.png" class="img-fluid figure-img" alt="graph showing three levels of dependencies for fix_nodes(). The second level functions generally start with get and add. The third level functions are translation functions."></p>
 <figcaption>Call tree for <code>fix_nodes()</code></figcaption>
@@ -1017,7 +1017,7 @@ Want to change the HTML engine?
 <p>If we were to change the templating engine (e.g.&nbsp;Quarto, Hugo, or (ugh) Jekyll<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>), <em>this is the place to change it</em>. Of course, it will not be ‘easy’, but it will be <em>possible</em>.</p>
 </div>
 </div>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="render-page.png" class="img-fluid figure-img" alt="call tree leading to the pkgdown function render_page. This shows that build_html calls render_page and all functions that lead to build_html are ultimately called from build_site."></p>
 <figcaption><code>pkgdown::render_page()</code> is the last stop from <code>build_site()</code></figcaption>
