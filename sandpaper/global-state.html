@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.537">
+<meta name="generator" content="quarto-1.4.548">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -418,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     establish_translation_vars()
     invisible()
 }
-&lt;bytecode: 0x55bc0112a890&gt;
+&lt;bytecode: 0x55f504071a48&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     build_site(path = path, quiet = quiet, preview = preview, 
         override = override, slug = slug, built = built)
 }
-&lt;bytecode: 0x55bc059d8d08&gt;
+&lt;bytecode: 0x55f50813c4b0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -472,13 +472,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     .build_paths$source &lt;- root_path(path) %||% .build_paths$source
     invisible(.build_paths$source)
 }
-&lt;bytecode: 0x55bc03bcc520&gt;
+&lt;bytecode: 0x55f509694ad0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 2.347786 secs</code></pre>
+<pre><code>time elapsed: 12.06604 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -495,13 +495,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 {
     .build_paths$source &lt;- NULL
 }
-&lt;bytecode: 0x55bc04412ea8&gt;
+&lt;bytecode: 0x55f506b9ec28&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 1.115491 secs</code></pre>
+<pre><code>time elapsed: 1.126535 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -681,7 +681,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
