@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.21">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -568,7 +568,7 @@ window.Quarto = {
 <p><code>render_html()</code> is called by all of the pages which <strong>need to render content from markdown</strong>:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="render-html.png" class="img-fluid figure-img" alt="call tree leading to render_html showing that all function calls originate from build_site"></p>
+<p><img src="render-html.png" class="img-fluid figure-img"></p>
 <figcaption><code>render_html()</code> generates HTML from Markdown files</figcaption>
 </figure>
 </div>
@@ -667,7 +667,7 @@ Note
 <p>To do this, we read in the HTML with <code>xml2::read_html()</code> and then manipulate it using the sandpaper internal function <code>fix_nodes()</code>, which is called by the following functions:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="fix-nodes-uses.png" class="img-fluid figure-img" alt="call tree leading to fix_nodes showing that all function calls originate from build_site"></p>
+<p><img src="fix-nodes-uses.png" class="img-fluid figure-img"></p>
 <figcaption><code>fix_nodes()</code> depends on <code>build_site()</code></figcaption>
 </figure>
 </div>
@@ -687,13 +687,13 @@ Note
     fix_figures(nodes)
     fix_setup_link(nodes)
 }
-&lt;bytecode: 0x5625ec4a6a58&gt;
+&lt;bytecode: 0x55641bbb6fa8&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="fix-nodes-deps.png" class="img-fluid figure-img" alt="graph showing three levels of dependencies for fix_nodes(). The second level functions generally start with get and add. The third level functions are translation functions."></p>
+<p><img src="fix-nodes-deps.png" class="img-fluid figure-img"></p>
 <figcaption>Call tree for <code>fix_nodes()</code></figcaption>
 </figure>
 </div>
@@ -942,14 +942,14 @@ Instructor Note</code></pre>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="st">```"</span></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode r"&gt;&lt;code class="sourceCode r"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;cat&lt;/span&gt;(&lt;span class="st"&gt;'mouse'&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</code></pre>
+<pre><code>&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode r"&gt;&lt;code class="sourceCode r"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;cat&lt;/span&gt;(&lt;span class="st"&gt;'mouse'&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_codeblocks</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="codewrapper sourceCode" id="cb1"&gt;
 &lt;h3 class="code-label"&gt;R&lt;i aria-hidden="true" data-feather="chevron-left"&gt;&lt;/i&gt;&lt;i aria-hidden="true" data-feather="chevron-right"&gt;&lt;/i&gt;
 &lt;/h3&gt;
-&lt;pre class="sourceCode r" tabindex="0"&gt;&lt;code class="sourceCode r"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" aria-hidden="true" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;cat&lt;/span&gt;(&lt;span class="st"&gt;'mouse'&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class="sourceCode r" tabindex="0"&gt;&lt;code class="sourceCode r"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;cat&lt;/span&gt;(&lt;span class="st"&gt;'mouse'&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;</code></pre>
 </div>
 </div>
@@ -966,15 +966,15 @@ Instructor Note</code></pre>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;img src="lone-img.png" alt="tumbleweed"&gt;&lt;/p&gt;
-&lt;div class="figure"&gt;
-&lt;img src="papa-eating-plums.png" alt="an empty icebox, plums gone"&gt;&lt;p class="caption"&gt;Just Sayin’, Breakfast Plums, So Cold&lt;/p&gt;
+&lt;div class="float"&gt;
+&lt;img src="papa-eating-plums.png" alt="an empty icebox, plums gone"&gt;&lt;div class="figcaption"&gt;Just Sayin’, Breakfast Plums, So Cold&lt;/div&gt;
 &lt;/div&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_figures</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;figure&gt;&lt;img src="lone-img.png" alt="tumbleweed" class="figure mx-auto d-block"&gt;&lt;/figure&gt;
 &lt;figure&gt;
-&lt;img src="papa-eating-plums.png" alt="an empty icebox, plums gone" class="figure mx-auto d-block"&gt;&lt;figcaption&gt;Just Sayin’, Breakfast Plums, So Cold&lt;/figcaption&gt;
+&lt;img src="papa-eating-plums.png" alt="an empty icebox, plums gone" class="figure mx-auto d-block"&gt;&lt;div class="figcaption"&gt;Just Sayin’, Breakfast Plums, So Cold&lt;/div&gt;
 &lt;/figure&gt;</code></pre>
 </div>
 </div>
@@ -1019,7 +1019,7 @@ Want to change the HTML engine?
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="render-page.png" class="img-fluid figure-img" alt="call tree leading to the pkgdown function render_page. This shows that build_html calls render_page and all functions that lead to build_html are ultimately called from build_site."></p>
+<p><img src="render-page.png" class="img-fluid figure-img"></p>
 <figcaption><code>pkgdown::render_page()</code> is the last stop from <code>build_site()</code></figcaption>
 </figure>
 </div>
