@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.23">
+<meta name="generator" content="quarto-1.5.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -418,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     establish_translation_vars()
     invisible()
 }
-&lt;bytecode: 0x562a66df4578&gt;
+&lt;bytecode: 0x55b9c34ddb48&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     build_site(path = path, quiet = quiet, preview = preview, 
         override = override, slug = slug, built = built)
 }
-&lt;bytecode: 0x562a6a1a3d08&gt;
+&lt;bytecode: 0x55b9c688cf60&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -472,13 +472,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     .build_paths$source &lt;- root_path(path) %||% .build_paths$source
     invisible(.build_paths$source)
 }
-&lt;bytecode: 0x562a68389af0&gt;
+&lt;bytecode: 0x55b9c4c62e20&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 9.965519 secs</code></pre>
+<pre><code>time elapsed: 13.35334 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -495,13 +495,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 {
     .build_paths$source &lt;- NULL
 }
-&lt;bytecode: 0x562a68c2fb10&gt;
+&lt;bytecode: 0x55b9c5327678&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 1.148182 secs</code></pre>
+<pre><code>time elapsed: 1.13122 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -606,7 +606,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
