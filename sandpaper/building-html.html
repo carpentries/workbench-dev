@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.26">
+<meta name="generator" content="quarto-1.5.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -568,7 +568,7 @@ window.Quarto = {
 <p><code>render_html()</code> is called by all of the pages which <strong>need to render content from markdown</strong>:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="render-html.png" class="img-fluid figure-img"></p>
+<p><img src="render-html.png" class="img-fluid figure-img" alt="call tree leading to render_html showing that all function calls originate from build_site"></p>
 <figcaption><code>render_html()</code> generates HTML from Markdown files</figcaption>
 </figure>
 </div>
@@ -667,7 +667,7 @@ Note
 <p>To do this, we read in the HTML with <code>xml2::read_html()</code> and then manipulate it using the sandpaper internal function <code>fix_nodes()</code>, which is called by the following functions:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="fix-nodes-uses.png" class="img-fluid figure-img"></p>
+<p><img src="fix-nodes-uses.png" class="img-fluid figure-img" alt="call tree leading to fix_nodes showing that all function calls originate from build_site"></p>
 <figcaption><code>fix_nodes()</code> depends on <code>build_site()</code></figcaption>
 </figure>
 </div>
@@ -687,13 +687,13 @@ Note
     fix_figures(nodes)
     fix_setup_link(nodes)
 }
-&lt;bytecode: 0x56171f3f9c68&gt;
+&lt;bytecode: 0x55dc0946d2b8&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="fix-nodes-deps.png" class="img-fluid figure-img"></p>
+<p><img src="fix-nodes-deps.png" class="img-fluid figure-img" alt="graph showing three levels of dependencies for fix_nodes(). The second level functions generally start with get and add. The third level functions are translation functions."></p>
 <figcaption>Call tree for <code>fix_nodes()</code></figcaption>
 </figure>
 </div>
@@ -1019,7 +1019,7 @@ Want to change the HTML engine?
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="render-page.png" class="img-fluid figure-img"></p>
+<p><img src="render-page.png" class="img-fluid figure-img" alt="call tree leading to the pkgdown function render_page. This shows that build_html calls render_page and all functions that lead to build_html are ultimately called from build_site."></p>
 <figcaption><code>pkgdown::render_page()</code> is the last stop from <code>build_site()</code></figcaption>
 </figure>
 </div>

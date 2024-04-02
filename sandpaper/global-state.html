@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.26">
+<meta name="generator" content="quarto-1.5.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -418,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     establish_translation_vars()
     invisible()
 }
-&lt;bytecode: 0x5611ea613d08&gt;
+&lt;bytecode: 0x563314f0dd18&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -427,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>establishes a <code>GITIGNORED</code> vector that is used to check the .gitignore file to validate that we are working in a lesson that The Workbench can work with.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="GITIGNORED.png" class="img-fluid figure-img"></p>
+<p><img src="GITIGNORED.png" class="img-fluid figure-img" alt="call tree from the `create_` functions and `build_lesson()` leading to `check_lesson()` through to `GITIGNORED`"></p>
 <figcaption><code>GITIGNORED</code> is a list of items required to be in the lesson’s <code>.gitignore</code></figcaption>
 </figure>
 </div></li>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     build_site(path = path, quiet = quiet, preview = preview, 
         override = override, slug = slug, built = built)
 }
-&lt;bytecode: 0x5611ed9c8488&gt;
+&lt;bytecode: 0x5633182c2ff0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -472,18 +472,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     .build_paths$source &lt;- root_path(path) %||% .build_paths$source
     invisible(.build_paths$source)
 }
-&lt;bytecode: 0x5611ebb55788&gt;
+&lt;bytecode: 0x5633139682f0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 6.763278 secs</code></pre>
+<pre><code>time elapsed: 2.17458 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="set-source-path.png" class="img-fluid figure-img"></p>
+<p><img src="set-source-path.png" class="img-fluid figure-img" alt="call tree from build functions leading to set_source_path()"></p>
 <figcaption><code>set_source_path()</code> establishes the root of the lesson</figcaption>
 </figure>
 </div>
@@ -495,18 +495,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 {
     .build_paths$source &lt;- NULL
 }
-&lt;bytecode: 0x5611ec44c150&gt;
+&lt;bytecode: 0x563316d46658&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 1.124472 secs</code></pre>
+<pre><code>time elapsed: 1.100827 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="reset-build-paths.png" class="img-fluid figure-img"></p>
+<p><img src="reset-build-paths.png" class="img-fluid figure-img" alt="call tree from build functions leading to reset_build_paths()"></p>
 <figcaption><code>reset_build_paths()</code> establishes the root of the lesson</figcaption>
 </figure>
 </div>
