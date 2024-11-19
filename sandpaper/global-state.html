@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.33">
+<meta name="generator" content="quarto-1.6.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,10 +72,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-01c78b5cd655e4cd89133cf59d535862.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fc220835a7b99020535e2e3a79d1d864.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-52267d870f217a66dbfd24a6d5e99412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -418,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     establish_translation_vars()
     invisible()
 }
-&lt;bytecode: 0x5567f6f01958&gt;
+&lt;bytecode: 0x5600efbc48b8&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     build_site(path = path, quiet = quiet, preview = preview, 
         override = override, slug = slug, built = built)
 }
-&lt;bytecode: 0x5567fad2b008&gt;
+&lt;bytecode: 0x5600f39eeda0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -472,13 +472,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     .build_paths$source &lt;- root_path(path) %||% .build_paths$source
     invisible(.build_paths$source)
 }
-&lt;bytecode: 0x5567f90628e0&gt;
+&lt;bytecode: 0x5600f1d28ef0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 11.04602 secs</code></pre>
+<pre><code>time elapsed: 2.156072 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -495,13 +495,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 {
     .build_paths$source &lt;- NULL
 }
-&lt;bytecode: 0x5567f990dd78&gt;
+&lt;bytecode: 0x5600f25d1d78&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>time elapsed: 1.096219 secs</code></pre>
+<pre><code>time elapsed: 1.088229 secs</code></pre>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -602,8 +602,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -714,7 +712,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
