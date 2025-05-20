@@ -22,10 +22,16 @@ file](https://github.com/carpentries/universe/blob/0c330a1e8f0337de483144fece37c
 This allows us to incrementally add new experimental features without changing
 the stable deployments.
 
+These packages are also compiled into [a Docker image][dockerhub] that are used in
+GitHub Actions within many lesson repositories, providing a consistent route to
+building lessons via Continuous Integration (CI). This Docker image can also
+be used locally.
+
+
 ## Versioning
 
 The workbench is built using very basic semantic versioning using the
-`X.Y.Z[.9000]` pattern. 
+`X.Y.Z[.9000]` pattern.
 
 [`X`]{#major}
 : **Major version number** this version number will change if there are
@@ -44,7 +50,7 @@ The workbench is built using very basic semantic versioning using the
   of this is `{pegboard}` version 0.7.0 introduced processing of child
   documents. If the lesson has no child documents, then it is processed as
   expected, but if the child documents exist, then they are additionally
-  processed and validated. 
+  processed and validated.
 
 [`Z`]{#patch}
 : **Patch version number** this version number will change if something that
@@ -104,13 +110,14 @@ When a package is ready for release we use the following checklist:
 
 ::: {.callout-note}
 
-Zhian likes to create tags via the command line because he has set up his git
-configuration to use [a gpg signature](https://www.garrickadenbuie.com/blog/signed-verified-git-commits-keybase-rstudio/#fnref3)
-so the tags and the releases are both verified.
+Creating tags via the command line is recommended via the `gh` tools.
+It is also recommended that your Git configuration is set up to use
+[a gpg signature](https://www.garrickadenbuie.com/blog/signed-verified-git-commits-keybase-rstudio/#fnref3)
+so that all commits, tags and releases are verified.
 
 :::
 
-The last two items can be achieved in a single step with the [github
+Adding a tag and release can be achieved in a single step with the [github
 cli](https://cli.github.com/) with the command `gh release create X.Y.Z` for
 the version number
 
@@ -128,24 +135,24 @@ populates it with the pull requests that have been accepted since the last
 release.
 
 Once the release is created on GitHub, then the package will be available on
-the R-Universe in about an hour or less. 
+the R-Universe in about an hour or less.
+
+The newly released packages will be incorporated into a Docker image via the
+[workbench-docker](https://github.com/carpentries/workbench-docker) repository.
 
 
-## Release Timeline
+## Workbench Release Schedule
 
-In the early days of The Workbench, the release process was ad-hoc because the
-number of users was low, but now that the entire community is using it, it is
-important to set expectations and properly communicate changes to the users.
-For [patch relases](#patch), these releases should continue to happen ad-hoc
-because, by definition, these releases only fix bugs and do not add new
-features.
+As the Workbench is maintained by a small team, the release process is largely
+ad-hoc. The capacity of the team to handle issues, fix bugs, and deploy new code
+is limited.
 
-The release timelines are based on two assumptions:
+However, any release timelines are based on two assumptions:
 
-1. a M--F workweek (i.e. NEVER release on a Friday unless you like working on
-   the weekend)
-2. All lesson builds and updates happen every Tuesday at 00:00 UTC (packages for
-   R-based lessons are updated on the _first_ Tuesday)
+1. For non-hotfix releases, these will always happen Monday to Thursday
+   inclusive. Feature releases will never happen on a Friday.
+2. For hotfix releases where critical functionality needs to be restored,
+   these may happen at any time.
 
 ### Minor Feature Updates
 
@@ -163,14 +170,13 @@ release. Thus, I propose the following timeline:
 
 We release on Wednesday in order to give enough time for the communications to
 sink in _and_ give enough time for us to release patches to the release before
-all lessons get rebuilt. 
-
+all lessons get rebuilt.
 
 ### Breaking Changes
 
 If there are breaking changes, it is important to give the community enough time
 to adapt and to offer them a path forward to fix their workflows. Depending on
-how drastic the change is, it may be important to conduct beta testing to 
+how drastic the change is, it may be important to conduct beta testing to
 ensure that the change doesn't contain any unforseen bugs and, importantly, that
 it _improves the workflow for the audience over doing nothing at all_.
 
@@ -184,9 +190,22 @@ should be timely, specific, targeted, and repeated. It may be that you have to
 communicate about the change one week, one month, or even one quarter ahead of
 the release. In a volunteer community, you will end up in situations where
 people are checked out for months at a time and will see everything changed, so
-please do take care with the communications and changes. 
+please do take care with the communications and changes.
+
+
+## GitHub Action Schedule
+
+Lesson repositories that use the Workbench workflows in GitHub Actions
+will be largely automatically managed.
+
+All lesson builds and updates happen every Tuesday at 00:00 UTC.
+
+Lessons that use R packages for R-based lessons are updated only on the
+_first_ Tuesday of each month.
+
 
 [{varnish}]: https://carpentries.github.io/varnish/
 [{pegboard}]: https://carpentries.github.io/pegboard/
 [{sandpaper}]: https://carpentries.github.io/sandpaper/
 [r-universe]: https://carpentries.r-universe.dev/
+[dockerhub]: https://hub.docker.com/r/carpentries/workbench-docker

@@ -2,15 +2,15 @@
 
 
 The Carpentries Workbench is a open-source and portable lesson infrastructure
-built with the [R programming language](https://r-project.org). Despite it
-being built in R, contributors do not need to know any R in order to use it to
-build reliable, stylish, and accessible lessons.
+built with the [R programming language](https://r-project.org). Contributors
+do not need to know any R in order to use it to build reliable, stylish, and
+accessible lessons.
 
 This book serves as development documentation for The Carpentries Workbench.
-It was written between June and December 2023 primarily to orient new developers
-and contributors to The Workbench ecosystem. It was written in conjunction with
-ongoing development, training, and maintenance of The Carpentries Workbench and
-thus should be considered in a draft state.
+It was written primarily to orient new developers and contributors to The
+Workbench ecosystem. It was written in conjunction with ongoing development,
+training, and maintenance of The Carpentries Workbench and thus should be
+considered in a draft state.
 
 :::{.callout-note}
 
@@ -20,6 +20,3 @@ This book assumes familiarity with R Package Development. If you are unfamiliar,
 please read [R Packages (2e)](https://r-pkgs.org/) [@rpkgs].
 
 :::
-
-
-

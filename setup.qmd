@@ -2,7 +2,13 @@
 title: "System Setup"
 ---
 
-## Software Tools
+## Summary
+
+This documentation covers the "manual" install of Workbench packages and
+dependencies. For those interested in using Docker to manage their Workbench
+environments, please see the [docker][docker.html] documentation.
+
+## Software Requirements
 
 Development of Workbench components requires the same toolchain for working on
 lessons:
@@ -29,7 +35,7 @@ writeLines(system2(c("git", "--version"), stdout = TRUE))
 ## R Packages
 
 Once you have these installed, make sure to install ALL of the dependencies for
-the workbench:
+the Workbench:
 
 ```{.r}
 install.packages(c("sandpaper", "pegboard", "varnish", "tinkr"),
@@ -43,21 +49,21 @@ install.packages(c("sandpaper", "pegboard", "varnish", "tinkr"),
 
 If you are on Linux, you will run into a couple of fun aspects that you may
 already be familiar with, especially if you have ever tried to install
-bioinformatic software:
+bioinformatics software:
 
 1. having to also install some extra C libraries (which are akin to R packages,
    but for C), such as the `xslt` library.
 2. having to build all packages from source
 
-You can find detailed instructions in [The Sandpaper Setup 
-Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2), 
+You can find detailed instructions in [The Sandpaper Setup
+Guide](https://carpentries.github.io/sandpaper-docs/#infrastructure-r-packages-2),
 but the relevant commands are below.
 
 ### System Dependencies {-}
 
-Here is the gist **for Ubuntu Users to get system dependencies set up.** Use
+We support Debian and Debian-based distributions (Ubuntu, Mint, etc). Use
 [The Carpentries R-Universe](https://carpentries.r-universe.dev) API to get all
-of the system dependencies. Here's how to do that via CURL:
+of the system dependencies. To do this via CURL:
 
 ```bash
 curl https://carpentries.r-universe.dev/stats/sysdeps 2> /dev/null | jq -r '.headers[0] | select(. != null)'
@@ -73,11 +79,7 @@ sudo apt-get install -y \
 
 ### Binary Packages {-}
 
-To get binary packages for your system, I will admit that it's _slightly
-confusing_ because they bury the [instructions for registering your system to
-use binaries in the _admin_
-pages](https://packagemanager.posit.co/__docs__/admin/serving-binaries/#binaries-r-configuration-linux)
-and even then, it's kinda long. The gist is that you need to do two things:
+To get binary packages for your system, you need to do two things:
 
 1. set your HTTPUserAgent header to state your R version and platform
 2. add the packagemanager CRAN-like repository to R's options:
@@ -101,7 +103,7 @@ local({
 })
 ```
 
-When you have this set up, you can then install the workbench packages:
+When you have this set up, you can then install the Workbench packages:
 
 ```r
 # Install The Workbench and dependencies
@@ -112,11 +114,12 @@ install.packages(c("sandpaper", "varnish", "pegboard", "tinkr"), dep = TRUE)
 
 
 The {sandpaper} package comes with the [{usethis}](https://usethis.r-lib.org)
-package embedded (though this may change in the future). In addition, you will
-need the [{devtools}](https://devtools.r-lib.org) for development.
+package embedded (though this may change in the future).
 
-I would also _highly_ recommend the [{pandoc}](https://cderv.github.io/pandoc/)
-package for managing pandoc versions (NOTE: this requires you to have a 
+If you wish to develop features for the Workbench, you will need the
+[{devtools}](https://devtools.r-lib.org) package. It is also recommend
+that you install the [{pandoc}](https://cderv.github.io/pandoc/)
+package for managing pandoc versions (NOTE: this requires you to have a
 personal access token set up).
 
 ```{.r}
@@ -163,13 +166,12 @@ usethis::git_sitrep()
 
 ## Development Workflow
 
-
-This development workflow is known as Test Driven Development in which a test is
-written _before_ things work. This way, we can confirm that a bug is fixed once
-it passes the tests and we have confidence that it will not fail again.
+We typically follow Test Driven Development principles to develop the Workbench, in
+which a test is written _before_ the main code itself. This way, we can confirm that a
+bug is fixed once it passes the tests and we have confidence that it will not fail again.
 
 1. open RStudio and switch to the project for the package you are working on
-2. checkout a new branch for your feature/bug
+2. checkout a new branch for your feature/bug, e.g. `git checkout -b new-feature`
 3. **load package** via `devtools::load_all()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>L</kbd> (
    use <kbd>cmd</kbd> on macOS) to load the package NAMESPACE
 4. (if needed) **document** (either via `devtools::document()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>D</kbd>)
@@ -180,5 +182,3 @@ it passes the tests and we have confidence that it will not fail again.
 6. **modify tests** for new functionality/bug fix
 7. **add functionality/bug fix** and move to 3 unless you are ready to push
 8. run check with `devtools::check()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>E</kbd>
-
-
