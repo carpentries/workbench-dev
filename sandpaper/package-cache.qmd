@@ -4,8 +4,8 @@ title: "The R package cache"
 
 ## Introduction
 
-All lessons that use The Workbench can build using either Markdown or R Markdown
-file formats. The R package cache allows for R Markdown file formats to be built
+All lessons that use the Workbench can build using either Markdown or R Markdown
+file formats. The {renv} package cache allows for R Markdown file formats to be built
 reproducibly and consistently. The cache is expected to be mindful of these
 formats in the following ways (as taken from [Building Lessons With A Package
 Cache](https://carpentries.github.io/sandpaper/articles/building-with-renv.html)):
@@ -17,6 +17,30 @@ Cache](https://carpentries.github.io/sandpaper/articles/building-with-renv.html)
   default R library and they will not alter your R environment.
 - *transparent*: any additions or deletions to the cache will be recorded in
   the lockfile, which is tracked by git.
+
+## Why is {renv} used?
+
+{renv} is used to form a single "point in time" to refer to when installing
+packages for building R Markdown lessons.
+
+This has two distinct advantages:
+
+1. The user does not have to worry about overwriting packages in their own
+   library (i.e. a graduate researcher working on their dissertation does not
+   want to have to rewrite their analyses because of a new version of {sf})
+2. The package versions will be the same as the versions on the GitHub version
+   of the site, which means that there will be no false positives of new errors
+   popping up
+
+::: {.callout-note}
+
+For even more details on the package cache, see the [Building Lessons With A Package
+Cache](https://carpentries.github.io/sandpaper/articles/building-with-renv.html)
+article.
+
+:::
+
+## When is {renv} used?
 
 The package cache is _only_ used when building lessons with R Markdown elements
 and performs the folowing tasks [in a separate R
@@ -34,7 +58,7 @@ polluting the user's environment:
     The `renv_check_consent()` checks if the user has run
     `sandpaper::use_package_cache()`, which allows {renv} to create and maintain
     a global package cache on their system.
-    
+
     ```{r}
     #| label: renv-check-consent-deps
     #| echo: false
@@ -57,10 +81,10 @@ polluting the user's environment:
     ::: {.callout-note collapse="true"}
 
     ### Flow Diagram for `build_episode_md()`
-    
+
     This flow represents the build process for _each R Markdown file_. This
     function is called from within a separate R process. The only conditional
-    here determines if the {renv} environment needs to be loaded. 
+    here determines if the {renv} environment needs to be loaded.
 
     ```{r}
     #| label: build-episode-md-flow
@@ -79,19 +103,53 @@ polluting the user's environment:
     statement that controls the loading of renv"}
     :::
 
-This chapter will go into the history of using a package cache in Carpentries
-lessons, dig into the design principles, and understand challenges for moving
-forward.
+If the global package cache from {renv} is available, then the lesson profile
+(in the lesson `renv/lesson-requirements/profiles/` folder) is activated
+before the episode is sent to {knitr}. R will then use the packages
+provided in this lesson profile.
+
+## {renv} and GitHub Actions
+
+Whilst the {sandpaper} internals of handling the package cache are the same for
+both local and remote builds, the actual package cache are handled differently.
+
+### Docker CI builds
+
+Lessons can employ Continuous Integration on GitHub via GitHub Actions in the
+form of workflows.
+
+These workflows provide automated package cache management, and a way to ensure
+consistent builds over time where the user decides when to check for and install
+updated packages. This has two benefits:
+
+ - Working lesson builds will not suddenly break due to a new base R, system dependency,
+   or package versions released with bugs or incompatabilities with other software
+ - Pinning package versions to specifically set required functionality, avoiding
+   automatic updates where new packages may introduce bugs or remove deprecated functions
+
+[Checks for](https://github.com/carpentries/sandpaper/blob/main/inst/workflows/update-cache.yaml) and
+[updatess to](https://github.com/carpentries/sandpaper/blob/main/inst/workflows/docker_apply_cache.yaml)
+the package cache on GitHub can be performed with the respective linked workflows.
+
+More information can be found within the
+[{sandpaper} workflows readme](https://github.com/carpentries/sandpaper/tree/main/inst/workflows)
+documentation.
 
 
 ## A Bit of History
 
-As of this writing, The Workbench is able to reproducibly build and deploy
+For those interested, this chapter will go into the history of using a package
+cache in Carpentries lessons, dig into the design principles, and understand
+challenges for moving forward.
+
+### Platform Independence
+
+As of this writing, the Workbench is able to reproducibly build and deploy
 lessons across machines and infrastructures thanks to the package cache provided
 by {renv}, but it is important to understand how we got here and what the
 motivations were, because the tools we have now simply did not exist in 2016.
 This section dives a bit into the history of writing R markdown content in
-Carpentries lessons and what lessons... were learned. 
+Carpentries lessons and what lessons... were learned.
 
 Software Carpentry Lessons have been able to handle content written in R
 Markdown [since July 2014](https://github.com/swcarpentry/DEPRECATED-bc/pull/626).
@@ -104,8 +162,8 @@ separate. The very next month, François submitted
 added the capability to automatically detect and install packages needed to
 build an R-based lesson.
 
-Of course, back in 2016, in order to deploy an R-based lesson, you still had to
-build it locally, which sounds simple until you consider the aspect of
+Of course, back in 2016, in order to deploy an R-based lesson it still needed
+to be built locally, which sounds simple until you consider the aspect of
 reproducibility [@marwick2016computational; @wilson2017good]. If you build the
 same document on two different machines, there is no guarantee that you will
 get the same results. Thus, in May 2018, Raniere Silva added the ability to
@@ -115,13 +173,15 @@ Maxim Belkin added [GitHub Workflows to the styles
 repository](https://github.com/carpentries/styles/pull/488) so that we no longer
 had to rely on TravisCI.
 
+### Reproducibility
+
 These changes allowed a single, definitive source for lessons to be built, but
 alas, they still were not _reproducible_ because the packages used to build the
 lesson were always being run with the most recent versions. This lead to
-problems with outputs changing or worse, the entire build failing (see
-[swcarpentry/r-novice-gapminder#746](https://github.com/swcarpentry/r-novice-gapminder/issues/746).
-Moreover, lesson maintainers of thes R lessons encountered the following
-problems: 
+problems with outputs changing or worse, the
+[entire build failing](https://github.com/swcarpentry/r-novice-gapminder/issues/746).
+Moreover, lesson maintainers of these R lessons encountered the following
+problems:
 
 1. Every time they built their lessons locally, their default R package library
    would update. This was especially a problem for maintainers who were working
@@ -130,16 +190,40 @@ problems:
 2. Maintainers were unsure of what would happen to the lesson with any given
    pull request and would have to manually run the results or trust the
    contributor.
-3. All the normal struggles with Jekyll.
+3. All the typical struggles with Jekyll and its own system dependencies.
 
 Reproducibility is _hard_. Software ecosystems are always shifting like the sand
 dunes in the Sahara [@vaniea2016tales]. By late 2020, we had come a long way in terms of automating
 the build process for R-based lessons, but there were still many hills to climb.
-It was in this context that we developed the use of {renv} and the R package 
+
+It was in this context that we developed the use of {renv} and the R package
 cache to automate package provisioning, caching, and auditable updating so that
 R-based lessons could reliably be deployed with no surprises.
 
-## Design Principles
+### Dockerised solutions
+
+In 2025, following 3 years of production level use of the Workbench in the hands
+of lesson developers, maintainers and the Carpentries Core Team, a few issues
+were catalogued:
+
+ - Managing lessons on GitHub has quite a high cognitive load, where the complexity
+   of the CI, security and build process lent itself to a confusing situation for
+   users when things went wrong. Certain things the workflows need to do require
+   special setup, or would break due to updated other actions or dependencies.
+ - Updates to the base R version or {renv} itself would create quite long-standing
+   problems due to package incompatabilities between versions, that can only be
+   resolved by upstream package maintainers.
+ - Workbench package releases had to be manually recognised and incorporated into a
+   lesson rather than being automatically available.
+
+These issues meant that the Core Team had to spend time supporting the
+Workbench infrastructure in ways that could be avoided. As such, Rob Davey
+undertook the work to make a formal Docker image of R, Rstudio, and the Workbench
+which would alleviate these problems by providing a static and consistent build
+environment.
+
+
+## Other Design Principles
 
 It is worth reading through
 [carpentries/sandpaper#21](https://github.com/carpentries/sandpaper/issues/21)
@@ -180,7 +264,7 @@ and real-life stressors the lesson maintainer/developer/contributor is
 potentially dealing with. You want to minimize the amount of fuss that the
 contributor needs to do to get something working. **A contributor should only
 have to add a package once to the lesson content to make it available.** This
-means that the following steps are taken to add a new package: 
+means that the following steps are taken to add a new package:
 
 1. Contributor A has {packageA} in their library and wants to demonstrate the
    use of {packageA} in the lesson.
@@ -200,9 +284,7 @@ lockfile. In this way, the lesson content remains the source of truth for the
 packages used in the lesson and the lockfile represents the metadata associated
 with the lesson.
 
-
-
-That means the following WRT to packages in a lesson:
+That means the following with respect to packages in a lesson:
 
 1. Users should not have to know that the lockfile exists
 2. The packages used in the lesson should be locked to specific versions and be
@@ -216,5 +298,3 @@ That means the following WRT to packages in a lesson:
    according to the contents of the lesson
 8. Users should be able to specify versions in the lockfile easily
 9. Users should be able to automatically update the lockfile
-
-

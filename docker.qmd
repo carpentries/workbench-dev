@@ -6,7 +6,7 @@ title: "Docker Setup"
 
 This documentation covers the Docker-based provision of Workbench packages and
 dependencies. For those interested in installing manually to manage their Workbench
-environments, please see the [setup][setup.html] documentation.
+environments, please see the [setup](setup.html) documentation.
 
 Using Docker removes the need to install and manage a local R and Workbench
 package environment. This keeps the Workbench separate from any R environments on
@@ -14,8 +14,9 @@ your host operating system, and also provides a single consistent set of softwar
 that has been checked and verified by the Workbench maintainers.
 
 We currently provide two pre-built images:
-- linux/amd64
-- linux/arm64
+
+ - linux/amd64
+ - linux/arm64
 
 As such, all packages and dependencies required to run the Workbench via Docker
 are preinstalled and tested for both AMD64 (Intel/AMD 64-bit) and ARM64
@@ -25,10 +26,10 @@ Workbench releases are made by the Workbench maintainers.
 
 ### Known Issues
 
-- **Building** images locally from scratch may not work on Mac M* (M1, M2, etc), but should be fine on Mac Intel
-  (**running** our prebuilt images as containers on M* should work however)
-- The container currently runs as root, so any files written to the mounted lesson volume will be owned on the host by root
-  (this is because we use the same Dockerfile in the GitHub Actions, which need to be run as root)
+ - **Building** images locally from scratch may not work on Mac M* (M1, M2, etc), but should be fine on Mac Intel
+   (**running** our prebuilt images as containers on M* should work however)
+ - The container currently runs as root, so any files written to the mounted lesson volume will be owned on the host by root
+   (this is because we use the same Dockerfile in the GitHub Actions, which need to be run as root)
 
 
 ## Software Requirements
@@ -40,8 +41,9 @@ Workbench releases are made by the Workbench maintainers.
 ## Quick Start
 
 You can choose to manage creating/cloning, building, and deploying your lessons either:
-- within the Docker container itself (the easiest method); or
-- by keeping the lesson repository "outside" the Docker container
+
+ - within the Docker container itself (the easiest method); or
+ - by keeping the lesson repository "outside" the Docker container
 
 There's no right or wrong way, and both have their pros and cons. We'll go through
 both below. Each needs some setup, but once it's done, you're set for any and all
@@ -57,7 +59,11 @@ cd ~
 docker pull carpentries/workbench-docker:latest
 
 # run the image as a container in detached mode
-docker run --name carpentries-workbench -d carpentries/workbench-docker:latest
+docker run --name carpentries-workbench \
+-p 4321:4321 \
+-v ~/.ssh:/home/rstudio/.ssh:ro \
+-v ~/.gitconfig:/home/rstudio/.gitconfig \
+-d carpentries/workbench-docker:latest
 
 # connect to a bash shell inside the container
 docker exec --user rstudio -it carpentries-workbench bash
@@ -68,11 +74,44 @@ cd git-novice
 
 # start an R session
 R
-
-# load sandpaper and serve the lesson
-library(sandpaper)
-sandpaper::serve()
 ```
+
+#### For markdown lessons
+
+For lessons that use no R packages:
+
+```r
+# load sandpaper
+library(sandpaper)
+
+# serve the lesson
+# (the host parameter needs to set to 0.0.0.0)
+sandpaper::serve(host = "0.0.0.0")
+```
+
+#### For Rmarkdown lessons
+
+For lessons that use R packages and renv:
+
+```r
+# load sandpaper
+library(sandpaper)
+
+# set renv consent
+sandpaper::use_package_cache()
+
+# install dependencies
+sandpaper::manage_deps()
+
+# serve the lesson
+# (the host parameter needs to set to 0.0.0.0)
+sandpaper::serve(host = "0.0.0.0")
+```
+
+#### Viewing the built lesson
+
+To view the built lesson, go to `http://localhost:4321` on your host system.
+
 
 ### Lessons on your host system
 
@@ -100,6 +139,8 @@ cd workbench-docker
 # start the workbench container
 ./scripts/run_workbench.sh shell-novice
 ```
+
+For more detailed information, please read the [in-depth documentation](docker.html#building-workbench-lessons).
 
 ## Using the Workbench Image
 
@@ -196,7 +237,8 @@ Which will output:
 63f1fd51f925 carpentries-workbench
 ```
 
-Using the name in the NAMES column, in this case `wb`, execute a bash shell inside the container. The name of the container on your system may be different:
+Using the name in the NAMES column, in this case `carpentries-workbench`, execute a bash shell inside the container.
+The name of the container on your system may be different:
 
 ```bash
 docker exec --user rstudio -it carpentries-workbench bash
@@ -243,9 +285,18 @@ And then remove it:
 docker rm carpentries-workbench
 ```
 
-NOTE: any lesson content you develop will be stored within the container, and will be deleted if you delete the container.
+::: {.callout-warning}
 
-To use a folder on your local host system as the lesson content, please read below.
+### Warning!
+
+Be careful! Any lesson content you develop stored within the container (that you haven't pushed up to GitHub)
+will be deleted if you delete the container.
+
+To use a folder on your local host system as the lesson content, please read about
+[named volumes](docker.html#named-volumes) or [mounting local lesson folders](docker.html#mounting-a-lesson-to-use-with-a-pre-built-image).
+
+:::
+
 
 Once a container is removed, you can start up a new fresh container from the same workbench docker image by following the first steps of this readme.
 
