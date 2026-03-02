@@ -1,0 +1,290 @@
+---
+title: "Docker Quick Start"
+---
+
+## Software Requirements
+
+Install Docker Desktop for [your operating system](https://docs.docker.com/desktop/).
+
+Once installed, choose one of the following ways to interact with the Docker system:
+
+1. Via the command line terminal (bash on Linux/Windows via WSL/git bash, terminal on the Mac)
+2. Via the Docker Desktop GUI app
+
+
+## Quick Starts
+
+### Command line
+
+#### Very Quick Start
+
+This quick start uses curl to get setup and run scripts pulled from the workbench-docker repo.
+This avoids the need to locally clone the workbench-docker repository.
+
+```bash
+# go home
+cd ~
+
+# make a `lessons` folder in your home directory and clone in a lesson
+mkdir ~/lessons
+cd ~/lessons
+git clone git@github.com:swcarpentry/shell-novice.git
+
+# create a workbench-lessons named volume, and copy in the shell-novice content
+curl -s https://raw.githubusercontent.com/carpentries/workbench-docker/main/scripts/setup_named_volume.sh | bash -s -- ~/lessons/shell-novice
+
+# start the workbench container
+curl -s https://raw.githubusercontent.com/carpentries/workbench-docker/main/scripts/run_workbench.sh | bash
+```
+
+Then go to `http://localhost:8787` in your web browser to access the Rstudio Server running in your container.
+
+::: {.callout-note}
+
+#### Script Options
+
+There are two optional flags that can be supplied to the run_workbench.sh script:
+
+- `-t` : allows the use of a different workbench-docker image than the default `latest`, e.g. `-t dev-0.2.5` will use the `carpentries/workbench-docker:dev-0.2.5` image
+- `-p` : allows setting a different port that rstudio server runs on which by default is `8787`, e.g. `-p 8999` will run RStudio on `http://localhost:8999`
+
+For example:
+
+```bash
+curl -s https://raw.githubusercontent.com/carpentries/workbench-docker/main/scripts/run_workbench.sh | bash -s -- -p 8999 -t dev-0.2.5
+```
+
+:::
+
+#### Fairly Quick Start
+
+This quick start is similar to the above, but the steps are performed manually with a locally cloned lesson and workbench-docker repo.
+
+```bash
+# go home
+cd ~
+
+# get the latest workbench docker image
+docker pull carpentries/workbench-docker:latest
+
+# make a `lessons` folder in your home directory and clone in a lesson
+mkdir ~/lessons
+cd ~/lessons
+git clone git@github.com:swcarpentry/shell-novice.git
+
+# make a `workbench` folder in your home directory and clone in the workbench-docker repo
+mkdir ~/workbench
+cd ~/workbench
+git clone git@github.com:carpentries/workbench-docker.git
+
+# enter the `workbench-docker` folder, create the workbench-lessons named volume, and copy in the shell-novice content
+cd workbench-docker
+./scripts/setup_named_volume.sh ~/lessons/shell-novice
+
+# start the workbench container
+./scripts/run_workbench.sh
+```
+
+#### Docker Desktop
+
+**Make sure the Docker Desktop GUI app is running.**
+
+This quick start does not pull in any lessons you may have locally, but gives you an environment that you can use to manage your lessons yourself.
+More details on how to manage lessons either within or outside the Docker container are [below](docker.html#in-depth-lesson-management).
+
+Within the Docker Desktop GUI, click the magnifying glass icon at the top of the app.
+
+Search for `workbench-docker`, and the top result should be the `carpentries/workbench-docker:latest` image.
+
+::: {.callout-important}
+
+Double check that you select `carpentries/workbench-docker:latest` as it's important you use the correct Carpentries Workbench image.
+
+:::
+
+<figure style='text-align: center'>
+<p>
+<img src="images/docker_desktop_search.png" width="80%" alt="A picture of the Docker Desktop app running.">
+</p>
+<figcaption style='display: block'></p>Pull the carpentries/workbench-docker image to your PC.</p></figcaption>
+</figure>
+
+Click the `Pull` button next to the image name.
+
+This will download the image to your PC, which may take a few minutes depending on your internet connection speed.
+
+Once downloaded, follow the instructions for your chosen terminal type:
+
+ - For Windows, run either Git for Windows ("Git Bash") or a Linux bash terminal using Windows Subsystem for Linux ("WSL")
+ - For Mac or Linux, run a bash terminal directly
+
+::: {.callout-note}
+
+If you do not have Git Bash or WSL installed, please follow [these instructions to install one of them](https://carpentries.github.io/workshop-template/#the-bash-shell)
+
+:::
+
+### Run the workbench-docker container
+
+Within your chosen terminal, run the following command:
+
+```bash
+docker run --rm -e PASSWORD="rstudio" -p 8787:8787 -it carpentries/workbench-docker
+```
+
+This will start the container, and enable the RStudio instance within it.
+
+### Accessing RStudio
+
+Open a web browser, and go to `http://localhost:8787`.
+
+At the RStudio login screen, use both `rstudio` as the username and password.
+
+Congratulations, you're now set up to start using the Workbench!
+
+### Next Steps
+
+We recommend reading through the main [{sandpaper} usage documentation](https://carpentries.github.io/sandpaper-docs/introduction.html)
+to familiarise yourself with how to create and build lessons.
+
+There's also a vibrant community for the Workbench on our [Carpentries Slack server](https://slack-invite.carpentries.org/),
+in the #workbench and #lesson-dev channels.
+Please join us!
+
+### Next Next Steps
+
+We've covered the most basic way to access the Workbench through RStudio in Docker.
+However, there are some important considerations about what to do next.
+
+The Quick Starts intentionally avoid describing some of the more complicated topics, such as:
+
+ - Mounting your local storage to the container so you can use your existing lessons, SSH configuration, and `.gitconfig` setup.
+ - Using named volumes to keep your lessons in a special separate container.
+
+The following sections cover these topics.
+
+
+## Lesson Management
+
+You can choose to manage creating/cloning, building, and deploying your lessons either:
+
+ - within the Docker container itself (the easiest method); or
+ - by keeping the lesson repository "outside" the Docker container
+
+There's no right or wrong way, and both have their pros and cons. We'll go through
+both below. Each needs some setup, but once it's done, you're set for any and all
+future Workbench releases!
+
+::: {.callout-note}
+
+For the following instructions, it's assumed:
+
+ - you're running these commands within Git for Windows ("Git Bash") or a native terminal in Mac, Linux or Windows WSL.
+ - you have pulled the workbench-docker image as per the [Docker Desktop](docker.html#docker-desktop-quick-start) or [Terminal](docker.html#terminal-quick-start) Quick Start.
+ - you have a running carpentries-workbench container as per the Quick Start `docker run` command.
+
+:::
+
+### Lessons within the Docker container
+
+You can connect to your container by running:
+
+```bash
+# connect to a bash shell inside the container
+docker exec --user rstudio -it carpentries-workbench bash
+```
+
+This will run a new `bash` prompt inside the container that looks like the example below:
+
+```bash
+rstudio@b1d467b8e156:~$
+```
+
+You can then clone a lesson and start R:
+
+```bash
+# clone a lesson
+git clone git@github.com:swcarpentry/git-novice.git
+cd git-novice
+
+# start an R session
+R
+```
+
+You can then create, build and serve lessons!
+
+#### For markdown lessons
+
+For lessons that use no R packages:
+
+```r
+# load sandpaper
+library(sandpaper)
+
+# serve the lesson
+# (the host parameter needs to set to 0.0.0.0)
+sandpaper::serve(host = "0.0.0.0")
+```
+
+#### For Rmarkdown lessons
+
+For lessons that use R packages and renv:
+
+```r
+# load sandpaper
+library(sandpaper)
+
+# set renv consent
+sandpaper::use_package_cache()
+
+# install dependencies
+sandpaper::manage_deps()
+
+# serve the lesson
+# (the host parameter needs to set to 0.0.0.0)
+sandpaper::serve(host = "0.0.0.0")
+```
+
+#### Viewing the built lesson
+
+To view the built lesson, go to `http://localhost:4321` on your host system.
+
+### Lessons on your host system
+
+```bash
+# go home
+cd ~
+
+# get the latest workbench docker image
+docker pull carpentries/workbench-docker:latest
+
+# make a `lessons` folder in your home directory and clone in a lesson
+mkdir ~/lessons
+cd ~/lessons
+git clone git@github.com:swcarpentry/shell-novice.git
+
+# make a `workbench` folder in your home directory and clone in the workbench-docker repo
+mkdir ~/workbench
+cd ~/workbench
+git clone git@github.com:carpentries/workbench-docker.git
+
+# enter the `workbench-docker` folder, create the workbench-lessons named volume, and copy in the shell-novice content
+cd workbench-docker
+./scripts/setup_named_volume.sh ~/lessons/shell-novice
+
+# start the workbench container
+./scripts/run_workbench.sh shell-novice
+```
+
+
+## Next Steps
+
+For more detailed information, please read the [in-depth documentation](docker.html#building-workbench-lessons).
+
+
+## Getting help
+
+If you have any issues with this image, please email us on `infrastructure at carpentries.org` or head to the `#workbench` channel in our [Slack server](https://slack-invite.carpentries.org/).
+
+[workbench-docker]: https://github.com/carpentries/workbench-docker
+[dockerhub]: https://hub.docker.com/r/carpentries/workbench-docker

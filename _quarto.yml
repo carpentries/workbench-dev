@@ -18,6 +18,7 @@ book:
     - part: "Setup"
       chapters:
       - setup.qmd
+      - docker-quick-start.qmd
       - docker.qmd
       - testing.qmd
     - part: "Design Considerations"
