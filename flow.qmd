@@ -1,24 +1,42 @@
 ---
-title: "Flow Diagrams"
+title: "Rendering Lesson Content"
 filters:
   - flow.lua
 ---
 
 ## Introduction
 
-This section builds on [The broad workflow](index.html#workflows) and details
-the internal process that are invoked with the 
-[`sandpaper::build_lesson()`]({sadoc}/build_lesson.html) function. If you look at [the source for this
-function](https://github.com/carpentries/sandpaper/blob/HEAD/R/build_lesson.R),
-it contains a total of sevens significant lines of code (many more due to
-documentation and comments).
+The Workbench is designed on the following principles for developing lesson materials
+for teaching:
 
-The pre-flight steps all happen before a single source file is built. These
-check for pandoc, validate the lesson, and configure global elements. The last
-two lines are responsible for building the site and combining them with the
-global variables and templates. 
+1. Lessons are comprised primarily of episodes, with additional special pages that
+   aggregate content including references, glossaries, key points and images
+2. Pages within lessons have links back to their source content so people
+   can edit the pages they are viewing
+3. Lessons are writtin in Markdown or RMarkdown
+4. Lessons can be rendered and previewed locally
+5. Lessons can be tested, built and deployed online for broad consumption
 
-Users will invoke this function in the following ways:
+The initial Workbench design phase (2020--2021) focussed on functionality
+that would _enhance_ the above features of lessons:
+
+1. A web template that was tested for its accessibility
+2. A separate instructor and learner view
+3. An internal package cache for R Markdown-based lessons
+
+These features are implemented in a largely modular fashion, allowing separation
+of the various pieces of functionality and easing development and testing.
+
+## Lesson Build Internals
+
+The main workhorse of the Workbench is the {sandpaper} package, specifically the
+[`sandpaper::build_lesson()`]({sadoc}/build_lesson.html)
+[function](https://github.com/carpentries/sandpaper/blob/HEAD/R/build_lesson.R).
+
+The sandpaper preview and deploy functions use `build_lesson()` to underpin their
+processes.
+
+In summary, these three functions are:
 
 | venue | function                    | purpose                                |
 | ----- | --------------------------- | -------------------------------------- |
@@ -26,27 +44,30 @@ Users will invoke this function in the following ways:
 | local | `sandpaper::serve()`        | dynamically render and preview content |
 | remote| `sandpaper:::ci_deploy()`   | render content and deploy to branches  |
 
-All of these methods will call `sandpaper::validate_lesson()` (which also sets
+All of these methods will also call `sandpaper::validate_lesson()` (which also sets
 up global metadata and menu variables) and the two-step internal functions
-`sandpaper:::build_markdown()` and `sandpaper:::build_site()`. Below, I break
-down and detail the process for each.
+`sandpaper:::build_markdown()` and `sandpaper:::build_site()`. We'll look in detail
+at the process for each below.
 
 ## Preflight Checks
 
-Before a lesson can be built, we need to confirm the following:
+A number of pre-flight steps happen before any source files are built. These
+check for pandoc, validate the lesson, and configure global elements. The site
+is then built and combined with the global variables and templates.
+
+So, before a lesson can be built, we need to confirm the following:
 
 1. We have access to the tools needed to build a lesson (e.g.
    [pandoc](https://pandoc.org)). This is achieved via the
    [`sandpaper::check_pandoc()`]({sadoc}/check_pandoc.html)
-2. We are inside a lesson that can be built with The Carpentries Workbench
+2. We are inside a lesson that can be built with the Workbench
 
-## `validate_lesson()` {#validate-lesson}
+### `validate_lesson()` {#validate-lesson}
 
-The [lesson validator]({sadoc}/validate_lesson.html) is a bit of a misnomer.
-Yes, it does peform lesson validation, which it does so through the methods in
-the [`pegboard::Lesson` R6 class]({padoc}/Lesson.html).
+The [lesson validator]({sadoc}/validate_lesson.html) peforms lesson validation
+through the methods in the [`pegboard::Lesson` R6 class]({padoc}/Lesson.html).
 
-In order to use thse methods, it first loads the lesson, via the 
+Validation first loads the lesson, via the
 [`sandpaper::this_lesson()`]({sadoc}/lesson_storage.html) function, which loads
 _and_ caches the `pegboard::Lesson` object. It also caches elements that are
 mostly duplicated across episodes with small tweaks for each episode:
@@ -58,19 +79,27 @@ mostly duplicated across episodes with small tweaks for each episode:
 
 ## `build_markdown()` {#build-markdown}
 
-### Generating Markdown {#flow-markdown}
-
 Markdown generation for the lesson is controlled by the internal function
 `sandpaper:::build_markdown()`.
 
-When a lesson contains R Markdown files, these need to have content rendered to
-markdownsot hat we can further process them. This content is processed with the
+### Generating Markdown {#flow-markdown}
+
+For Markdown lessons, source content `md` files are copied to the `site/built`
+folder for processing.
+
+For R Markdown lessons, the `rmd` files need to have content rendered to markdown first
+so that it can be further processed for rendering. This is carried out with the
 [{knitr}](https://yihui.org/knitr/) R package _in a separate R process_.
-Markdown source content on the other hand is copied to the `site/built` folder. 
+
+::: {.callout-note}
+
+## Rendering performance
 
 Because R Markdown files can take some time to render, we use MD5 sums of the
 episode contents (stored in the `site/built/md5sum.txt` file) to skip any files
 that have not changed.
+
+:::
 
 
 ```{mermaid}
@@ -98,42 +127,30 @@ sequenceDiagram
 
 ::: {.callout-note}
 
-#### Package Cache and Reproducibility
+## Package Cache and Reproducibility
 
-One package that is missing from the above diagram is {renv} and that's
-partially because it has an indirect effect on the lesson: it provisions the
-packages needed to build the lesson.
+One package that is missing from the above diagram is {renv}.
 
-When episodes are rendered from R Markdown to Markdown, we attempt to reproduce
-the build environment as closely as possible by using the {renv} package. If the
-global package cache from {renv} is available, then the lesson profile is
-activated before the episode is sent to {knitr} and R will use the packages
-provided in that profile. This has two distinct advantages:
+When episodes are rendered from R Markdown to Markdown, the build environment
+is cached by the {renv} package.
 
-1. The user does not have to worry about overwriting packages in their own
-   library (i.e. a graduate researcher working on their dissertation does not
-   want to have to rewrite their analyses because of a new version of {sf})
-2. The package versions will be the same as the versions on the GitHub version
-   of the site, which means that there will be no false positives of new errors
-   popping up
-
-For details on the package cache, see the [Building Lessons With A Package
-Cache](https://carpentries.github.io/sandpaper/articles/building-with-renv.html)
-article.
+Please see the [package cache documentation](sandpaper/package-cache.html) for
+more information.
 
 :::
 
-
-At this step, the markdown has been written and the state of the cache is
-updated so if we re-run this function, then it will show that no changes have
-occured. After this step, the internal function `sandpaper:::build_site()` is
-run where the markdown file that we just created is converted to HTML with
-pandoc and stored in an R object. This R object is then manipulated and then
-written to an HTML file with the {varnish} website templates applied.
+For either source file format, markdown has been written and the state of the cache is
+updated so if we re-run `build_markdown()`, then it will show that no changes have
+occured.
 
 We use this function in the pull request workflows to demonstrate the changes in
 markdown source files, which is useful when package versions change, causing the
-output to potentially change. 
+output to potentially change.
+
+After this step, the internal function `sandpaper:::build_site()` is
+run where the markdown files are converted to HTML with pandoc and stored in an
+R object. This R object is then manipulated and then written to an HTML file with
+the {varnish} website templates applied.
 
 ## `build_site()` {#build-site}
 
@@ -142,7 +159,6 @@ section](#flow-html)), manipulation ([the section after that](#flow-tweaks)),
 and applying the template ([the final section](#flow-website))
 separately because, while these processes are each run via the internal
 `sandpaper:::build_site()` function, they are functionally separate.
-
 
 ### Generating HTML {#flow-html}
 
@@ -175,17 +191,29 @@ template. The next section details the flow we use to tweak the HTML content.
 
 ### Processing HTML {#flow-tweaks}
 
-The HTML needs to be tweaked because the output from pandoc, even with our
-lua filters, still needs some modification. We tweak the content by first
-converting the HTML into an Abstract Syntax Tree (AST). This allows us to
-programmatically manipulate tags in the HTML without resorting to using regular
-expressions.
+The HTML needs to be tweaked because the output from pandoc still needs some
+modification. We tweak the content by first converting the HTML into an
+Abstract Syntax Tree (AST). This allows us to programmatically manipulate tags
+in the HTML without resorting to using regular expressions.
 
-In this part, we update links, images, headings, structure that we could not
-fix using lua filters. We also apply translations to some of the menu elements
-that are not templated in {varnish}. We then use the information from the
-episode to complete the global menu variable with links to the second level
-headings in the episode.
+Using a language called `lua`, we perform the first stage of HTML modification.
+Then, we update links, images, headings, structure that we could not fix using
+lua filters.
+
+::: {.callout-note}
+
+## Internationalisation
+
+We also apply translations to some of the menu elements that are not templated in
+{varnish}.
+
+More information about translated lesson elements can be found in the TODO documentation.
+
+:::
+
+
+We then use the information from the episode to complete the global menu variable
+with links to the second level headings in the episode.
 
 ```{mermaid}
 sequenceDiagram
@@ -214,16 +242,16 @@ sequenceDiagram
 
 #### Working With XML
 
-Working with XML data is perhaps one of the strangest experiences for an R user
-because in R, functions will normally return a copy of the data, but when
-working with an XML document parsed by {xml2}, the data is modified _in place_.
+Much of the modifications listed here are carried out on XML formatted documents.
 
-It allows us to do neat things, but there is a learning curve associated.
+(HTML is indeed a descendent of XML!)
 
-I have written hopefully helpful handbooks (guides) on 
+Working with XML data is performed in R by the {xml2} package.
+
+There are helpful handbooks and guides at the following links:
 
  - [working with XML
-   data](https://carpentries.github.io/pegboard/articles/intro-xml.html), 
+   data](https://carpentries.github.io/pegboard/articles/intro-xml.html),
  - [working with the Lesson
    object](https://carpentries.github.io/pegboard/articles/intro-lesson.html)
    and
@@ -233,12 +261,13 @@ I have written hopefully helpful handbooks (guides) on
 :::
 
 
-### Applying Website Template {#flow-website}
+### Applying The Website Template {#flow-website}
 
-Now that we have an HTML AST that has been corrected and associated metadata,
+Now that we have an HTML AST that has been modified successfully,
 we are ready to write this to HTML. This process is achieved by passing the
-AST and metadata to {pkgdown} where it performs a little more manipulation,
-applies the {varnish} template, and writes it to disk. 
+AST and associated lesson metadata to {pkgdown} where it performs a
+little more manipulation, applies the {varnish} template, and writes it to disk
+as the final rendered output. A web browser can now be used to view the lesson.
 
 ```{mermaid}
 sequenceDiagram
@@ -266,4 +295,3 @@ sequenceDiagram
     {pkgdown} -->> site/docs/episode.html: WRITE website
     deactivate {pkgdown}
 ```
-

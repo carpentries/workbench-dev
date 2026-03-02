@@ -15,8 +15,11 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - setup.qmd
-    - testing.qmd
+    - part: "Setup"
+      chapters:
+      - setup.qmd
+      - docker.qmd
+      - testing.qmd
     - part: "Design Considerations"
       chapters:
       - flow.qmd

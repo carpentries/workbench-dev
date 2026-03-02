@@ -2,6 +2,27 @@
 title: "Adding Features"
 ---
 
+
+## Introduction
+
+We typically follow Test Driven Development principles to develop the Workbench, in
+which a test is written _before_ the main code itself. This way, we can confirm that a
+bug is fixed once it passes the tests and we have confidence that it will not fail again.
+
+1. Open RStudio and switch to the project for the package you are working on
+2. Checkout a new branch for your feature/bug, e.g. `git checkout -b new-feature`
+3. **Load package** via `devtools::load_all()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>L</kbd> (
+   use <kbd>cmd</kbd> on macOS) to load the package NAMESPACE
+4. **Document** (If needed, either via `devtools::document()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>D</kbd>)
+5. **Run tests** (either via `devtools::test()` or
+   <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>T</kbd> to run the entire test suite
+   OR to test a single file, use the "run tests" button in a test file or run
+   `testthat::test_local(filter = '[FILE SLUG]')`
+6. **Modify tests** for new functionality/bug fix
+7. **Add functionality/bug fix** with comments
+8. **Run checks** with `devtools::check()` or <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>E</kbd>
+
+
 ::: {.callout-note}
 
 ## Three short stories about features
@@ -13,10 +34,7 @@ are three short stories about new features and how they affect users.
 
 Story 1: <https://xkcd.com/1172/>
 
-Story 2: 
-
-I remember seeing a little story on Twitter once about an exchange between a
-game developer and user.
+Story 2: An anecdotal little story about an exchange between a game developer and user:
 
 > User: I was designing my character and I noticed that there is no option for
 > it to have a scarf. Can you add that option?
@@ -26,52 +44,18 @@ game developer and user.
 > User: This is awesome, Thank you! I love the new scarf, but I wonder, can it
 > wave a little as I have my character walk?
 >
-> Dev: Uh... that's going to take about six months of work. 
+> Dev: Uh... that's going to take about six months of work.
 
-Story 3: "I joined The Carpentries because I saw that The Workbench was being
+Story 3: "I joined The Carpentries because I saw that the Workbench was being
 developed"
 
 :::
 
-## Introduction
-
-One of the best things about developing a tool for a broad community: there is
-never a dearth of ideas that will fuel the improvement of the tool. This fact
-also happens to be one of the worst things about developing a tool for a broad
-community. The larger and more widely-used a tool is, the more you begin to find
-that the default features really shape the tool, which shapes what people can
-create with it. 
-
-The workbench was built to be a feature-complete replacement for The styles
-repository in the sense that the following was true:
-
-1. Lessons were comprised of primarily episodes with special pages that
-   aggregate content including key points and images
-2. Pages within lessons would have links back to their source content so people
-   could edit the pages they were viewing
-3. Lessons could be writtin in Markdown and deployed to GitHub pages
-4. Lessons could be rendered and previewed locally
-5. Lessons could render Markdown from R Markdown
-
-During the design phase (2020--2021), we explicitly focussed on a set of
-features that would _enhance_ the above features of lessons. The most salient
-features that were of immediate value to our community were:
-
-1. A web template that was tested for its accessibility
-2. A separate instructor and learner view
-3. An internal package cache for R Markdown-based lessons
-
-One key about all of these features? As The Workbench was being built, these
-were all implemented _separately_. This may not seem like a big deal, but it is
-worth noting because it gives creedence to the modular nature of The Workbench.
-As I work on The Workbench I always strive to retain this modularity and ensure
-that whatever I create does not break the workflow of another (unless I have a
-_very good reason_ for it).
 
 ## The Workbench user interface is a lesson
 
-When building a feature for The Workbench, it's important to remember that
-people who use The Workbench may not know how to use R, Git, or GitHub. They
+When building a feature for the Workbench, it's important to remember that
+people who use the Workbench may not know how to use R, Git, or GitHub. They
 will be working with a lesson and members of The Carpentries who have been here
 for a hot minute might actually be afraid of rendering a lesson locally from the
 experiences they had with the Jekyll interface.
@@ -106,7 +90,7 @@ The Workbench because the developer of the system was a paid staff member of The
 Carpentries. Finally, the **resources** existed through funding via
 Chan-Zuckerberg Initiative, the Moore Foundation, The Sloan Foundation, and The
 R Consortium. Moreover the tools that we used to build The Workbench were
-well-tested and well-supported. 
+well-tested and well-supported.
 
 
 ## Purpose
