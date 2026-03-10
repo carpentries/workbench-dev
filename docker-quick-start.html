@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>15&nbsp; Release Process for Workbench Packages – Workbench Developer's Guide</title>
+<title>3&nbsp; Docker Quick Start – Workbench Developer's Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -69,8 +69,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./hotfixes.html" rel="next">
-<link href="./varnish/intro.html" rel="prev">
+<link href="./docker.html" rel="next">
+<link href="./setup.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -122,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./setup.html">Setup</a></li><li class="breadcrumb-item"><a href="./docker-quick-start.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Docker Quick Start</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -184,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./docker-quick-start.html" class="sidebar-item-text sidebar-link">
+  <a href="./docker-quick-start.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Docker Quick Start</span></span></a>
   </div>
 </li>
@@ -311,7 +311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./releases.html" class="sidebar-item-text sidebar-link active">
+  <a href="./releases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
   </div>
 </li>
@@ -397,24 +397,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">15.1</span> Background</a></li>
-  <li><a href="#versioning" id="toc-versioning" class="nav-link" data-scroll-target="#versioning"><span class="header-section-number">15.2</span> Versioning</a></li>
-  <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">15.3</span> Release Process</a></li>
-  <li><a href="#workbench-release-schedule" id="toc-workbench-release-schedule" class="nav-link" data-scroll-target="#workbench-release-schedule"><span class="header-section-number">15.4</span> Workbench Release Schedule</a>
+  <li><a href="#software-requirements" id="toc-software-requirements" class="nav-link active" data-scroll-target="#software-requirements"><span class="header-section-number">3.1</span> Software Requirements</a></li>
+  <li><a href="#quick-starts" id="toc-quick-starts" class="nav-link" data-scroll-target="#quick-starts"><span class="header-section-number">3.2</span> Quick Starts</a>
   <ul class="collapse">
-  <li><a href="#minor-feature-updates" id="toc-minor-feature-updates" class="nav-link" data-scroll-target="#minor-feature-updates"><span class="header-section-number">15.4.1</span> Minor Feature Updates</a></li>
-  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">15.4.2</span> Breaking Changes</a></li>
+  <li><a href="#command-line" id="toc-command-line" class="nav-link" data-scroll-target="#command-line"><span class="header-section-number">3.2.1</span> Command line</a></li>
+  <li><a href="#run-the-workbench-docker-container" id="toc-run-the-workbench-docker-container" class="nav-link" data-scroll-target="#run-the-workbench-docker-container"><span class="header-section-number">3.2.2</span> Run the workbench-docker container</a></li>
+  <li><a href="#accessing-rstudio" id="toc-accessing-rstudio" class="nav-link" data-scroll-target="#accessing-rstudio"><span class="header-section-number">3.2.3</span> Accessing RStudio</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps"><span class="header-section-number">3.2.4</span> Next Steps</a></li>
+  <li><a href="#next-next-steps" id="toc-next-next-steps" class="nav-link" data-scroll-target="#next-next-steps"><span class="header-section-number">3.2.5</span> Next Next Steps</a></li>
   </ul></li>
-  <li><a href="#github-action-schedule" id="toc-github-action-schedule" class="nav-link" data-scroll-target="#github-action-schedule"><span class="header-section-number">15.5</span> GitHub Action Schedule</a></li>
+  <li><a href="#lesson-management" id="toc-lesson-management" class="nav-link" data-scroll-target="#lesson-management"><span class="header-section-number">3.3</span> Lesson Management</a>
+  <ul class="collapse">
+  <li><a href="#lessons-within-the-docker-container" id="toc-lessons-within-the-docker-container" class="nav-link" data-scroll-target="#lessons-within-the-docker-container"><span class="header-section-number">3.3.1</span> Lessons within the Docker container</a></li>
+  <li><a href="#lessons-on-your-host-system" id="toc-lessons-on-your-host-system" class="nav-link" data-scroll-target="#lessons-on-your-host-system"><span class="header-section-number">3.3.2</span> Lessons on your host system</a></li>
+  </ul></li>
+  <li><a href="#next-steps-1" id="toc-next-steps-1" class="nav-link" data-scroll-target="#next-steps-1"><span class="header-section-number">3.4</span> Next Steps</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help"><span class="header-section-number">3.5</span> Getting help</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./setup.html">Setup</a></li><li class="breadcrumb-item"><a href="./docker-quick-start.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Docker Quick Start</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Docker Quick Start</span></h1>
 </div>
 
 
@@ -431,68 +438,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="background" class="level2" data-number="15.1">
-<h2 data-number="15.1" class="anchored" data-anchor-id="background"><span class="header-section-number">15.1</span> Background</h2>
-<p>The workbench contains three main packages:</p>
-<ul>
-<li><a href="https://carpentries.github.io/sandpaper/">{sandpaper}</a>: user interface and workflow engine</li>
-<li><a href="https://carpentries.github.io/pegboard/">{pegboard}</a>: parsing and validation engine</li>
-<li><a href="https://carpentries.github.io/varnish/">{varnish}</a>: HTML templates, CSS, and JS elements</li>
-</ul>
-<p>Each of these packages are available on the <a href="https://carpentries.r-universe.dev/">Carpentries R-Universe</a> and new versions are checked for hourly. This allows folks to get up-to-date versions of The Workbench packages built for their system without running out of GitHub API query attempts.</p>
-<p>In order to maintain quality, packages are only sent to the R-Universe if they have been formally released on GitHub (<a href="https://github.com/carpentries/universe/blob/0c330a1e8f0337de483144fece37c2710af6f4df/packages.json#L16-L33">as specified in the packages.json configuration file</a>). This allows us to incrementally add new experimental features without changing the stable deployments.</p>
-<p>These packages are also compiled into <a href="https://hub.docker.com/r/carpentries/workbench-docker">a Docker image</a> that are used in GitHub Actions within many lesson repositories, providing a consistent route to building lessons via Continuous Integration (CI). This Docker image can also be used locally.</p>
+<section id="software-requirements" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="software-requirements"><span class="header-section-number">3.1</span> Software Requirements</h2>
+<p>Install Docker Desktop for <a href="https://docs.docker.com/desktop/">your operating system</a>.</p>
+<p>Once installed, choose one of the following ways to interact with the Docker system:</p>
+<ol type="1">
+<li>Via the command line terminal (bash on Linux/Windows via WSL/git bash, terminal on the Mac)</li>
+<li>Via the Docker Desktop GUI app</li>
+</ol>
 </section>
-<section id="versioning" class="level2" data-number="15.2">
-<h2 data-number="15.2" class="anchored" data-anchor-id="versioning"><span class="header-section-number">15.2</span> Versioning</h2>
-<p>The workbench is built using very basic semantic versioning using the <code>X.Y.Z[.9000]</code> pattern.</p>
-<dl>
-<dt><span id="major"><code>X</code></span></dt>
-<dd>
-<strong>Major version number</strong> this version number will change if there are significant breaking changes to any of the user-facing workflows. That is, if a change requires users to modify their scripts, then it is a breaking change. <em>For example:</em> at this time of writing, <code>{pegboard}</code> is at version 0.7.0, for which the <code>Lesson</code> object assumes a Jekyll lesson by default. If we were to change this to assume a sandpaper lesson by default, then this would be a breaking change because anyone who is using <code>Lesson$new()</code> will now need to use <code>Lesson$new(jekyll = TRUE)</code>.
-</dd>
-<dt><span id="minor"><code>Y</code></span></dt>
-<dd>
-<strong>Minor version number</strong> this version number will change if there are new features or enhanced behaviors available to the users in a way that <em>does not affect how users who do not need the new features use the package</em>. An example of this is <code>{pegboard}</code> version 0.7.0 introduced processing of child documents. If the lesson has no child documents, then it is processed as expected, but if the child documents exist, then they are additionally processed and validated.
-</dd>
-<dt><span id="patch"><code>Z</code></span></dt>
-<dd>
-<strong>Patch version number</strong> this version number will change if something that was previously broken was fixed, but no new features have been added. An example of this is in <a href="https://github.com/carpentries/sandpaper/releases/tag/0.13.3"><code>{sandpaper}</code> version 0.13.3</a> where there were two bugfixes that affected links to setup page sections and 404 page rendering that otherwise did not add any new features.
-</dd>
-<dt><span id="dev"><code>9000</code></span></dt>
-<dd>
-<strong>Development version indicator</strong> this indicates that the version of {sandpaper} on GitHub is in development and not yet released. This indicator is always appended to the current release number and should be between 9000 and 9999. For example, you the development version indicator for the version of sandpaper after 0.13.2 is 0.13.2.9000. This particular version resulted in a bump to 0.13.3, but it could also have resulted in 0.14.0 or 1.0.0. It has not been extensively used in the past, but it is quite useful for tracking incremental changes with different bugfixes and features that may appear. When this development version indicator exists, the documentation site will have an extra <code>dev/</code> directory that contains the upcoming changes so that we can continue to develop the workbench without disrupting the regular documentation flow.
-</dd>
-</dl>
-</section>
-<section id="release-process" class="level2" data-number="15.3">
-<h2 data-number="15.3" class="anchored" data-anchor-id="release-process"><span class="header-section-number">15.3</span> Release Process</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
+<section id="quick-starts" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="quick-starts"><span class="header-section-number">3.2</span> Quick Starts</h2>
+<section id="command-line" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="command-line"><span class="header-section-number">3.2.1</span> Command line</h3>
+<section id="very-quick-start" class="level4" data-number="3.2.1.1">
+<h4 data-number="3.2.1.1" class="anchored" data-anchor-id="very-quick-start"><span class="header-section-number">3.2.1.1</span> Very Quick Start</h4>
+<p>This quick start uses curl to get setup and run scripts pulled from the workbench-docker repo. This avoids the need to locally clone the workbench-docker repository.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># go home</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># make a `lessons` folder in your home directory and clone in a lesson</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/lessons</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/lessons</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:swcarpentry/shell-novice.git</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create a workbench-lessons named volume, and copy in the shell-novice content</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> https://raw.githubusercontent.com/carpentries/workbench-docker/main/scripts/setup_named_volume.sh <span class="kw">|</span> <span class="fu">bash</span> <span class="at">-s</span> <span class="at">--</span> ~/lessons/shell-novice</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># start the workbench container</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> https://raw.githubusercontent.com/carpentries/workbench-docker/main/scripts/run_workbench.sh <span class="kw">|</span> <span class="fu">bash</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then go to <code>http://localhost:8787</code> in your web browser to access the Rstudio Server running in your container.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Non-urgent releases only
+<span class="screen-reader-only">Note</span>Script Options
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This release process assumes that we have accumulated bugfixes and/or features in the <code>main</code> branch, which we are ready to release. If you have a bug that needs to be patched <em>immediately</em> and you have new features in the main branch that are not yet released, then you should <a href="hotfixes">create a hotfix</a> instead.</p>
+<p>There are two optional flags that can be supplied to the run_workbench.sh script:</p>
+<ul>
+<li><code>-t</code> : allows the use of a different workbench-docker image than the default <code>latest</code>, e.g.&nbsp;<code>-t dev-0.2.5</code> will use the <code>carpentries/workbench-docker:dev-0.2.5</code> image</li>
+<li><code>-p</code> : allows setting a different port that rstudio server runs on which by default is <code>8787</code>, e.g.&nbsp;<code>-p 8999</code> will run RStudio on <code>http://localhost:8999</code></li>
+</ul>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> https://raw.githubusercontent.com/carpentries/workbench-docker/main/scripts/run_workbench.sh <span class="kw">|</span> <span class="fu">bash</span> <span class="at">-s</span> <span class="at">--</span> <span class="at">-p</span> 8999 <span class="at">-t</span> dev-0.2.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-<p>When a package is ready for release we use the following checklist:</p>
-<ul class="task-list">
-<li><p><label><input type="checkbox">Create a new branch from <code>main</code> called <code>release-X.Y.Z</code></label></p></li>
-<li><p><label><input type="checkbox">Update version number in DESCRIPTION and check that the <code>Remotes:</code> is up-to-date</label></p></li>
-<li><p><label><input type="checkbox">Add NEWS for the changes in this version</label></p></li>
-<li><p><label><input type="checkbox">commit, push changes, and create pull request</label></p></li>
-<li><p><label><input type="checkbox">check the pull request against the <a href="https://github.com/carpentries/workbench-integration-test#readme">workbench integration test</a></label></p></li>
-<li><p><label><input type="checkbox">Merge the pull request when checks pass</label></p></li>
-<li><p><label><input type="checkbox">add new signed tag with the name “<package> X.Y.Z” and push</package></label></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example: create a signed (-s) tag for sandpaper 3.3.3</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-s</span> 3.3.3 <span class="at">-m</span> <span class="st">'&lt;short explanation of what changed&gt;'</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p><label><input type="checkbox">create a release on github from the new tag</label></p></li>
+</section>
+<section id="fairly-quick-start" class="level4" data-number="3.2.1.2">
+<h4 data-number="3.2.1.2" class="anchored" data-anchor-id="fairly-quick-start"><span class="header-section-number">3.2.1.2</span> Fairly Quick Start</h4>
+<p>This quick start is similar to the above, but the steps are performed manually with a locally cloned lesson and workbench-docker repo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># go home</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get the latest workbench docker image</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull carpentries/workbench-docker:latest</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># make a `lessons` folder in your home directory and clone in a lesson</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/lessons</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/lessons</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:swcarpentry/shell-novice.git</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># make a `workbench` folder in your home directory and clone in the workbench-docker repo</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/workbench</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workbench</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:carpentries/workbench-docker.git</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># enter the `workbench-docker` folder, create the workbench-lessons named volume, and copy in the shell-novice content</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workbench-docker</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/setup_named_volume.sh</span> ~/lessons/shell-novice</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># start the workbench container</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/run_workbench.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="docker-desktop" class="level4" data-number="3.2.1.3">
+<h4 data-number="3.2.1.3" class="anchored" data-anchor-id="docker-desktop"><span class="header-section-number">3.2.1.3</span> Docker Desktop</h4>
+<p><strong>Make sure the Docker Desktop GUI app is running.</strong></p>
+<p>This quick start does not pull in any lessons you may have locally, but gives you an environment that you can use to manage your lessons yourself. More details on how to manage lessons either within or outside the Docker container are <a href="docker.html#in-depth-lesson-management">below</a>.</p>
+<p>Within the Docker Desktop GUI, click the magnifying glass icon at the top of the app.</p>
+<p>Search for <code>workbench-docker</code>, and the top result should be the <code>carpentries/workbench-docker:latest</code> image.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Double check that you select <code>carpentries/workbench-docker:latest</code> as it’s important you use the correct Carpentries Workbench image.</p>
+</div>
+</div>
+<figure style="text-align: center" class="figure">
+<p>
+<img src="images/docker_desktop_search.png" width="80%" alt="A picture of the Docker Desktop app running." class="figure-img">
+</p>
+<figcaption style="display: block">
+<p></p>
+Pull the carpentries/workbench-docker image to your PC.
+<p></p>
+</figcaption>
+</figure>
+<p>Click the <code>Pull</code> button next to the image name.</p>
+<p>This will download the image to your PC, which may take a few minutes depending on your internet connection speed.</p>
+<p>Once downloaded, follow the instructions for your chosen terminal type:</p>
+<ul>
+<li>For Windows, run either Git for Windows (“Git Bash”) or a Linux bash terminal using Windows Subsystem for Linux (“WSL”)</li>
+<li>For Mac or Linux, run a bash terminal directly</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -504,50 +560,144 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Creating tags via the command line is recommended via the <code>gh</code> tools. It is also recommended that your Git configuration is set up to use <a href="https://www.garrickadenbuie.com/blog/signed-verified-git-commits-keybase-rstudio/#fnref3">a gpg signature</a> so that all commits, tags and releases are verified.</p>
+<p>If you do not have Git Bash or WSL installed, please follow <a href="https://carpentries.github.io/workshop-template/#the-bash-shell">these instructions to install one of them</a></p>
 </div>
 </div>
-<p>Adding a tag and release can be achieved in a single step with the <a href="https://cli.github.com/">github cli</a> with the command <code>gh release create X.Y.Z</code> for the version number</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create 3.3.3</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ? Title (optional) sandpaper 3.3.3</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ? Release notes  [Use arrows to move, type to filter]</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   Write my own</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; Write using generated notes as template</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   Leave blank</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Selecting “Write using generated notes as a template” opens an editor and populates it with the pull requests that have been accepted since the last release.</p>
-<p>Once the release is created on GitHub, then the package will be available on the R-Universe in about an hour or less.</p>
-<p>The newly released packages will be incorporated into a Docker image via the <a href="https://github.com/carpentries/workbench-docker">workbench-docker</a> repository.</p>
-</section>
-<section id="workbench-release-schedule" class="level2" data-number="15.4">
-<h2 data-number="15.4" class="anchored" data-anchor-id="workbench-release-schedule"><span class="header-section-number">15.4</span> Workbench Release Schedule</h2>
-<p>As the Workbench is maintained by a small team, the release process is largely ad-hoc. The capacity of the team to handle issues, fix bugs, and deploy new code is limited.</p>
-<p>However, any release timelines are based on two assumptions:</p>
-<ol type="1">
-<li>For non-hotfix releases, these will always happen Monday to Thursday inclusive. Feature releases will never happen on a Friday.</li>
-<li>For hotfix releases where critical functionality needs to be restored, these may happen at any time.</li>
-</ol>
-<section id="minor-feature-updates" class="level3" data-number="15.4.1">
-<h3 data-number="15.4.1" class="anchored" data-anchor-id="minor-feature-updates"><span class="header-section-number">15.4.1</span> Minor Feature Updates</h3>
-<p>For releases that add new non-breaking features which bump the <a href="#minor">minor version</a>, it is important to alert the community a couple of days in advance of the release so they have a chance to give feedback before the release. Thus, I propose the following timeline:</p>
-<ol type="1">
-<li><strong>Friday (drafting)</strong>: Members of Workbench Maintainer Group draft communications describing new features</li>
-<li><strong>Monday (communications)</strong>: Communications describing new features sent to relevant communities (maintainers/trainers/instructors, depending on feature)</li>
-<li><strong>Wednesday (release)</strong>: New version of Workbench package(s) released</li>
-</ol>
-<p>We release on Wednesday in order to give enough time for the communications to sink in <em>and</em> give enough time for us to release patches to the release before all lessons get rebuilt.</p>
-</section>
-<section id="breaking-changes" class="level3" data-number="15.4.2">
-<h3 data-number="15.4.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">15.4.2</span> Breaking Changes</h3>
-<p>If there are breaking changes, it is important to give the community enough time to adapt and to offer them a path forward to fix their workflows. Depending on how drastic the change is, it may be important to conduct beta testing to ensure that the change doesn’t contain any unforseen bugs and, importantly, that it <em>improves the workflow for the audience over doing nothing at all</em>.</p>
-<p>The Beta Phase of The Workbench is an extreme version of this, but it <em>is</em> important, because <a href="https://github.com/dwinter/mmod/issues/2">major version changes have real-world consequences</a> that you want to avoid as much as possible.</p>
-<p>The release should still happen on a Wednesday, but the communications aspect should be timely, specific, targeted, and repeated. It may be that you have to communicate about the change one week, one month, or even one quarter ahead of the release. In a volunteer community, you will end up in situations where people are checked out for months at a time and will see everything changed, so please do take care with the communications and changes.</p>
 </section>
 </section>
-<section id="github-action-schedule" class="level2" data-number="15.5">
-<h2 data-number="15.5" class="anchored" data-anchor-id="github-action-schedule"><span class="header-section-number">15.5</span> GitHub Action Schedule</h2>
-<p>Lesson repositories that use the Workbench workflows in GitHub Actions will be largely automatically managed.</p>
-<p>All lesson builds and updates happen every Tuesday at 00:00 UTC.</p>
-<p>Lessons that use R packages for R-based lessons are updated only on the <em>first</em> Tuesday of each month.</p>
+<section id="run-the-workbench-docker-container" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="run-the-workbench-docker-container"><span class="header-section-number">3.2.2</span> Run the workbench-docker container</h3>
+<p>Within your chosen terminal, run the following command:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-e</span> PASSWORD=<span class="st">"rstudio"</span> <span class="at">-p</span> 8787:8787 <span class="at">-it</span> carpentries/workbench-docker</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This will start the container, and enable the RStudio instance within it.</p>
+</section>
+<section id="accessing-rstudio" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="accessing-rstudio"><span class="header-section-number">3.2.3</span> Accessing RStudio</h3>
+<p>Open a web browser, and go to <code>http://localhost:8787</code>.</p>
+<p>At the RStudio login screen, use both <code>rstudio</code> as the username and password.</p>
+<p>Congratulations, you’re now set up to start using the Workbench!</p>
+</section>
+<section id="next-steps" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="next-steps"><span class="header-section-number">3.2.4</span> Next Steps</h3>
+<p>We recommend reading through the main <a href="https://carpentries.github.io/sandpaper-docs/introduction.html">{sandpaper} usage documentation</a> to familiarise yourself with how to create and build lessons.</p>
+<p>There’s also a vibrant community for the Workbench on our <a href="https://slack-invite.carpentries.org/">Carpentries Slack server</a>, in the #workbench and #lesson-dev channels. Please join us!</p>
+</section>
+<section id="next-next-steps" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="next-next-steps"><span class="header-section-number">3.2.5</span> Next Next Steps</h3>
+<p>We’ve covered the most basic way to access the Workbench through RStudio in Docker. However, there are some important considerations about what to do next.</p>
+<p>The Quick Starts intentionally avoid describing some of the more complicated topics, such as:</p>
+<ul>
+<li>Mounting your local storage to the container so you can use your existing lessons, SSH configuration, and <code>.gitconfig</code> setup.</li>
+<li>Using named volumes to keep your lessons in a special separate container.</li>
+</ul>
+<p>The following sections cover these topics.</p>
+</section>
+</section>
+<section id="lesson-management" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="lesson-management"><span class="header-section-number">3.3</span> Lesson Management</h2>
+<p>You can choose to manage creating/cloning, building, and deploying your lessons either:</p>
+<ul>
+<li>within the Docker container itself (the easiest method); or</li>
+<li>by keeping the lesson repository “outside” the Docker container</li>
+</ul>
+<p>There’s no right or wrong way, and both have their pros and cons. We’ll go through both below. Each needs some setup, but once it’s done, you’re set for any and all future Workbench releases!</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For the following instructions, it’s assumed:</p>
+<ul>
+<li>you’re running these commands within Git for Windows (“Git Bash”) or a native terminal in Mac, Linux or Windows WSL.</li>
+<li>you have pulled the workbench-docker image as per the <a href="docker.html#docker-desktop-quick-start">Docker Desktop</a> or <a href="docker.html#terminal-quick-start">Terminal</a> Quick Start.</li>
+<li>you have a running carpentries-workbench container as per the Quick Start <code>docker run</code> command.</li>
+</ul>
+</div>
+</div>
+<section id="lessons-within-the-docker-container" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="lessons-within-the-docker-container"><span class="header-section-number">3.3.1</span> Lessons within the Docker container</h3>
+<p>You can connect to your container by running:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># connect to a bash shell inside the container</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">--user</span> rstudio <span class="at">-it</span> carpentries-workbench bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This will run a new <code>bash</code> prompt inside the container that looks like the example below:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rstudio@b1d467b8e156:~$</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can then clone a lesson and start R:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clone a lesson</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:swcarpentry/git-novice.git</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> git-novice</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># start an R session</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can then create, build and serve lessons!</p>
+<section id="for-markdown-lessons" class="level4" data-number="3.3.1.1">
+<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="for-markdown-lessons"><span class="header-section-number">3.3.1.1</span> For markdown lessons</h4>
+<p>For lessons that use no R packages:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load sandpaper</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandpaper)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># serve the lesson</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (the host parameter needs to set to 0.0.0.0)</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">::</span><span class="fu">serve</span>(<span class="at">host =</span> <span class="st">"0.0.0.0"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="for-rmarkdown-lessons" class="level4" data-number="3.3.1.2">
+<h4 data-number="3.3.1.2" class="anchored" data-anchor-id="for-rmarkdown-lessons"><span class="header-section-number">3.3.1.2</span> For Rmarkdown lessons</h4>
+<p>For lessons that use R packages and renv:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load sandpaper</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandpaper)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set renv consent</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">::</span><span class="fu">use_package_cache</span>()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># install dependencies</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">::</span><span class="fu">manage_deps</span>()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># serve the lesson</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># (the host parameter needs to set to 0.0.0.0)</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">::</span><span class="fu">serve</span>(<span class="at">host =</span> <span class="st">"0.0.0.0"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="viewing-the-built-lesson" class="level4" data-number="3.3.1.3">
+<h4 data-number="3.3.1.3" class="anchored" data-anchor-id="viewing-the-built-lesson"><span class="header-section-number">3.3.1.3</span> Viewing the built lesson</h4>
+<p>To view the built lesson, go to <code>http://localhost:4321</code> on your host system.</p>
+</section>
+</section>
+<section id="lessons-on-your-host-system" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="lessons-on-your-host-system"><span class="header-section-number">3.3.2</span> Lessons on your host system</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># go home</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get the latest workbench docker image</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull carpentries/workbench-docker:latest</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># make a `lessons` folder in your home directory and clone in a lesson</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/lessons</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/lessons</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:swcarpentry/shell-novice.git</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># make a `workbench` folder in your home directory and clone in the workbench-docker repo</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/workbench</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workbench</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:carpentries/workbench-docker.git</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># enter the `workbench-docker` folder, create the workbench-lessons named volume, and copy in the shell-novice content</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workbench-docker</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/setup_named_volume.sh</span> ~/lessons/shell-novice</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># start the workbench container</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/run_workbench.sh</span> shell-novice</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="next-steps-1" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="next-steps-1"><span class="header-section-number">3.4</span> Next Steps</h2>
+<p>For more detailed information, please read the <a href="docker.html#building-workbench-lessons">in-depth documentation</a>.</p>
+</section>
+<section id="getting-help" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="getting-help"><span class="header-section-number">3.5</span> Getting help</h2>
+<p>If you have any issues with this image, please email us on <code>infrastructure at carpentries.org</code> or head to the <code>#workbench</code> channel in our <a href="https://slack-invite.carpentries.org/">Slack server</a>.</p>
 
 
 </section>
@@ -955,13 +1105,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./varnish/intro.html" class="pagination-link" aria-label="The {varnish} package">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span>
+      <a href="./setup.html" class="pagination-link" aria-label="Manual Setup">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Manual Setup</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./hotfixes.html" class="pagination-link" aria-label="Releasing Hotfixes">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./docker.html" class="pagination-link" aria-label="Docker Setup">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Docker Setup</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

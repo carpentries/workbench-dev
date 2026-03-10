@@ -2,14 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.5">
+<meta name="generator" content="quarto-1.9.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>10&nbsp; Building HTML – Workbench Developer's Guide</title>
+<title>12&nbsp; Building HTML – Workbench Developer's Guide</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -22,8 +25,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -34,7 +38,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -67,15 +71,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <link href="../pegboard/intro.html" rel="next">
 <link href="../sandpaper/package-cache.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ff4371ef257df69894857e99c6ad0d06.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b8db49fd727932e7c00c6ee89cd1476d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -108,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -121,7 +126,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -140,7 +145,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../guide.scss">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -149,7 +154,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/building-html.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Building HTML</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/building-html.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Building HTML</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -194,22 +199,10 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">System Setup</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Design Considerations</span></a>
+ <span class="menu-text">Setup</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -217,14 +210,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../flow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flow Diagrams</span></span></a>
+  <a href="../setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Manual Setup</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../features.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Adding Features</span></span></a>
+  <a href="../docker-quick-start.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Docker Quick Start</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docker.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Docker Setup</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Testing The Workbench</span></span></a>
   </div>
 </li>
       </ul>
@@ -232,7 +237,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">{sandpaper} User Interface</span></a>
+ <span class="menu-text">Design Considerations</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -240,32 +245,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
+  <a href="../flow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Rendering Lesson Content</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../sandpaper/global-state.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The global state in {sandpaper}</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../sandpaper/building-html.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Building HTML</span></span></a>
+  <a href="../features.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding Features</span></span></a>
   </div>
 </li>
       </ul>
@@ -273,7 +260,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">{pegboard} Validation and Parsing</span></a>
+ <span class="menu-text">{sandpaper} User Interface</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -281,8 +268,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
+  <a href="../sandpaper/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The {sandpaper} package</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sandpaper/testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Testing {sandpaper}</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sandpaper/global-state.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The global state in {sandpaper}</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sandpaper/package-cache.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The R package cache</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sandpaper/building-html.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Building HTML</span></span></a>
   </div>
 </li>
       </ul>
@@ -290,7 +301,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">{varnish} Web Styling</span></a>
+ <span class="menu-text">{pegboard} Validation and Parsing</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -298,8 +309,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
+  <a href="../pegboard/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -307,7 +318,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Package Distribution</span></a>
+ <span class="menu-text">{varnish} Web Styling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -315,14 +326,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../releases.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../hotfixes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
+  <a href="../varnish/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">The {varnish} package</span></span></a>
   </div>
 </li>
       </ul>
@@ -330,7 +335,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Remote Deployment and Management</span></a>
+ <span class="menu-text">Package Distribution</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -338,20 +343,43 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../releases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hotfixes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Releasing Hotfixes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Remote Deployment and Management</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../remote/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../remote/deploy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Deployment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../remote/pull-request.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Pull Request Responders</span></span></a>
   </div>
 </li>
       </ul>
@@ -359,7 +387,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -370,13 +398,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../sop.html" class="sidebar-item-text sidebar-link">
@@ -401,34 +429,34 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">10.1</span> Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">12.1</span> Introduction</a>
   <ul class="collapse">
-  <li><a href="#page-types-in-the-workbench" id="toc-page-types-in-the-workbench" class="nav-link" data-scroll-target="#page-types-in-the-workbench"><span class="header-section-number">10.1.1</span> Page types in The Workbench</a></li>
+  <li><a href="#page-types-in-the-workbench" id="toc-page-types-in-the-workbench" class="nav-link" data-scroll-target="#page-types-in-the-workbench"><span class="header-section-number">12.1.1</span> Page types in The Workbench</a></li>
   </ul></li>
-  <li><a href="#rendering-html" id="toc-rendering-html" class="nav-link" data-scroll-target="#rendering-html"><span class="header-section-number">10.2</span> Rendering HTML</a>
+  <li><a href="#rendering-html" id="toc-rendering-html" class="nav-link" data-scroll-target="#rendering-html"><span class="header-section-number">12.2</span> Rendering HTML</a>
   <ul class="collapse">
-  <li><a href="#working-with-the-output" id="toc-working-with-the-output" class="nav-link" data-scroll-target="#working-with-the-output"><span class="header-section-number">10.2.1</span> Working with the Output</a></li>
+  <li><a href="#working-with-the-output" id="toc-working-with-the-output" class="nav-link" data-scroll-target="#working-with-the-output"><span class="header-section-number">12.2.1</span> Working with the Output</a></li>
   </ul></li>
-  <li><a href="#post-processing-with-xpath" id="toc-post-processing-with-xpath" class="nav-link" data-scroll-target="#post-processing-with-xpath"><span class="header-section-number">10.3</span> Post-processing with XPath</a>
+  <li><a href="#post-processing-with-xpath" id="toc-post-processing-with-xpath" class="nav-link" data-scroll-target="#post-processing-with-xpath"><span class="header-section-number">12.3</span> Post-processing with XPath</a>
   <ul class="collapse">
-  <li><a href="#translate_overview" id="toc-translate_overview" class="nav-link" data-scroll-target="#translate_overview"><span class="header-section-number">10.3.1</span> <code>translate_overview()</code></a></li>
-  <li><a href="#fix_headings" id="toc-fix_headings" class="nav-link" data-scroll-target="#fix_headings"><span class="header-section-number">10.3.2</span> <code>fix_headings()</code></a></li>
-  <li><a href="#fix_accordions" id="toc-fix_accordions" class="nav-link" data-scroll-target="#fix_accordions"><span class="header-section-number">10.3.3</span> <code>fix_accordions()</code></a></li>
-  <li><a href="#fix_callouts" id="toc-fix_callouts" class="nav-link" data-scroll-target="#fix_callouts"><span class="header-section-number">10.3.4</span> <code>fix_callouts()</code></a></li>
-  <li><a href="#fix_codeblocks" id="toc-fix_codeblocks" class="nav-link" data-scroll-target="#fix_codeblocks"><span class="header-section-number">10.3.5</span> <code>fix_codeblocks()</code></a></li>
-  <li><a href="#fix_figures" id="toc-fix_figures" class="nav-link" data-scroll-target="#fix_figures"><span class="header-section-number">10.3.6</span> <code>fix_figures()</code></a></li>
-  <li><a href="#fix_setup_link" id="toc-fix_setup_link" class="nav-link" data-scroll-target="#fix_setup_link"><span class="header-section-number">10.3.7</span> <code>fix_setup_link()</code></a></li>
+  <li><a href="#translate_overview" id="toc-translate_overview" class="nav-link" data-scroll-target="#translate_overview"><span class="header-section-number">12.3.1</span> <code>translate_overview()</code></a></li>
+  <li><a href="#fix_headings" id="toc-fix_headings" class="nav-link" data-scroll-target="#fix_headings"><span class="header-section-number">12.3.2</span> <code>fix_headings()</code></a></li>
+  <li><a href="#fix_accordions" id="toc-fix_accordions" class="nav-link" data-scroll-target="#fix_accordions"><span class="header-section-number">12.3.3</span> <code>fix_accordions()</code></a></li>
+  <li><a href="#fix_callouts" id="toc-fix_callouts" class="nav-link" data-scroll-target="#fix_callouts"><span class="header-section-number">12.3.4</span> <code>fix_callouts()</code></a></li>
+  <li><a href="#fix_codeblocks" id="toc-fix_codeblocks" class="nav-link" data-scroll-target="#fix_codeblocks"><span class="header-section-number">12.3.5</span> <code>fix_codeblocks()</code></a></li>
+  <li><a href="#fix_figures" id="toc-fix_figures" class="nav-link" data-scroll-target="#fix_figures"><span class="header-section-number">12.3.6</span> <code>fix_figures()</code></a></li>
+  <li><a href="#fix_setup_link" id="toc-fix_setup_link" class="nav-link" data-scroll-target="#fix_setup_link"><span class="header-section-number">12.3.7</span> <code>fix_setup_link()</code></a></li>
   </ul></li>
-  <li><a href="#applying-varnish-templating-with-pkgdownrender_page" id="toc-applying-varnish-templating-with-pkgdownrender_page" class="nav-link" data-scroll-target="#applying-varnish-templating-with-pkgdownrender_page"><span class="header-section-number">10.4</span> Applying {varnish} templating with <code>pkgdown::render_page()</code></a></li>
+  <li><a href="#applying-varnish-templating-with-pkgdownrender_page" id="toc-applying-varnish-templating-with-pkgdownrender_page" class="nav-link" data-scroll-target="#applying-varnish-templating-with-pkgdownrender_page"><span class="header-section-number">12.4</span> Applying {varnish} templating with <code>pkgdown::render_page()</code></a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/building-html.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Building HTML</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sandpaper/intro.html">{sandpaper} User Interface</a></li><li class="breadcrumb-item"><a href="../sandpaper/building-html.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Building HTML</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Building HTML</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Building HTML</span></h1>
 </div>
 
 
@@ -445,26 +473,26 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">12.1</span> Introduction</h2>
 <p>Building HTML in The Workbench is a process that is isolated from rendering R <em>Markdown</em> to <em>Markdown</em>. There are three general steps to building the HTML files:</p>
 <ol type="1">
 <li><strong>render</strong> the HTML using <code>pandoc</code> with our custom lua filters (which transform our special fenced-divs and flattens relative links)</li>
 <li><strong>post-process</strong> the HTML using {xml2} to further refine and translate elements that we cannot achieve through Lua filters. It is here that we do things like adding heading anchors, removing instructor notes for learner view, etc.</li>
 <li><strong>apply {varnish} templates</strong> by passing <a href="https://carpentries.github.io/sandpaper/dev/articles/data-flow.html">global variables</a> and HTML to {pkgdown}. This is where the metadata and most of the translations are applied.</li>
 </ol>
-<section id="page-types-in-the-workbench" class="level3" data-number="10.1.1">
-<h3 data-number="10.1.1" class="anchored" data-anchor-id="page-types-in-the-workbench"><span class="header-section-number">10.1.1</span> Page types in The Workbench</h3>
+<section id="page-types-in-the-workbench" class="level3" data-number="12.1.1">
+<h3 data-number="12.1.1" class="anchored" data-anchor-id="page-types-in-the-workbench"><span class="header-section-number">12.1.1</span> Page types in The Workbench</h3>
 <p>There are generally three kinds of pages that occur in The Workbench: single content pages where the HTML is directly generated from the Markdown, combined pages where two or more Markdown files contribute to the page content, and aggregate pages where the HTML is collected from specific sections of the single content pages after they have been rendered.</p>
-<section id="single-content-pages" class="level4" data-number="10.1.1.1">
-<h4 data-number="10.1.1.1" class="anchored" data-anchor-id="single-content-pages"><span class="header-section-number">10.1.1.1</span> Single Content Pages</h4>
+<section id="single-content-pages" class="level4" data-number="12.1.1.1">
+<h4 data-number="12.1.1.1" class="anchored" data-anchor-id="single-content-pages"><span class="header-section-number">12.1.1.1</span> Single Content Pages</h4>
 <p>These pages are generated directly from Markdown content and are going to be in the <code>episodes/</code>, <code>instructors/</code>, and <code>learners/</code> folders. There are special exceptions that are used for combined pages and aggregate pages.</p>
 </section>
-<section id="combined-pages" class="level4" data-number="10.1.1.2">
-<h4 data-number="10.1.1.2" class="anchored" data-anchor-id="combined-pages"><span class="header-section-number">10.1.1.2</span> Combined Pages</h4>
+<section id="combined-pages" class="level4" data-number="12.1.1.2">
+<h4 data-number="12.1.1.2" class="anchored" data-anchor-id="combined-pages"><span class="header-section-number">12.1.1.2</span> Combined Pages</h4>
 <p>Combined pages are rendered to HTML and then concatenated together.</p>
-<section id="index.md-and-learnerssetup.md" class="level5" data-number="10.1.1.2.1">
-<h5 data-number="10.1.1.2.1" class="anchored" data-anchor-id="index.md-and-learnerssetup.md"><span class="header-section-number">10.1.1.2.1</span> <code>index.md</code> and <code>learners/setup.md</code></h5>
+<section id="index.md-and-learnerssetup.md" class="level5" data-number="12.1.1.2.1">
+<h5 data-number="12.1.1.2.1" class="anchored" data-anchor-id="index.md-and-learnerssetup.md"><span class="header-section-number">12.1.1.2.1</span> <code>index.md</code> and <code>learners/setup.md</code></h5>
 <p>These form <code>/index.html</code> aka the home page where the sidebar shows the sections of the setup document.</p>
 <table class="caption-top table">
 <thead>
@@ -515,34 +543,34 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="profiles" class="level5" data-number="10.1.1.2.2">
-<h5 data-number="10.1.1.2.2" class="anchored" data-anchor-id="profiles"><span class="header-section-number">10.1.1.2.2</span> <code>profiles/*</code></h5>
+<section id="profiles" class="level5" data-number="12.1.1.2.2">
+<h5 data-number="12.1.1.2.2" class="anchored" data-anchor-id="profiles"><span class="header-section-number">12.1.1.2.2</span> <code>profiles/*</code></h5>
 <p>All the profiles pages are concatenated into a single page called <code>/profiles.html</code>.</p>
 </section>
-<section id="instructorsinstructor-notes.md-and-episodes" class="level5" data-number="10.1.1.2.3">
-<h5 data-number="10.1.1.2.3" class="anchored" data-anchor-id="instructorsinstructor-notes.md-and-episodes"><span class="header-section-number">10.1.1.2.3</span> <code>instructors/instructor-notes.md</code> and <code>episodes/*</code></h5>
+<section id="instructorsinstructor-notes.md-and-episodes" class="level5" data-number="12.1.1.2.3">
+<h5 data-number="12.1.1.2.3" class="anchored" data-anchor-id="instructorsinstructor-notes.md-and-episodes"><span class="header-section-number">12.1.1.2.3</span> <code>instructors/instructor-notes.md</code> and <code>episodes/*</code></h5>
 <p>The instructor notes (global and inline) are in a page called <code>/instructor/instructor-notes.html</code> The instructor notes are a special kind of combination that adds the in-line instructor notes to the end of the <code>instructor-notes.md</code> file. The in-line instructor notes start at the section with the anchor <code>#aggregate-instructor-notes</code> with subsections that have the anchor of the episode filenames.</p>
 </section>
 </section>
-<section id="aggregate-pages" class="level4" data-number="10.1.1.3">
-<h4 data-number="10.1.1.3" class="anchored" data-anchor-id="aggregate-pages"><span class="header-section-number">10.1.1.3</span> Aggregate Pages</h4>
-<section id="all-in-one-page" class="level5" data-number="10.1.1.3.1">
-<h5 data-number="10.1.1.3.1" class="anchored" data-anchor-id="all-in-one-page"><span class="header-section-number">10.1.1.3.1</span> All in one page</h5>
+<section id="aggregate-pages" class="level4" data-number="12.1.1.3">
+<h4 data-number="12.1.1.3" class="anchored" data-anchor-id="aggregate-pages"><span class="header-section-number">12.1.1.3</span> Aggregate Pages</h4>
+<section id="all-in-one-page" class="level5" data-number="12.1.1.3.1">
+<h5 data-number="12.1.1.3.1" class="anchored" data-anchor-id="all-in-one-page"><span class="header-section-number">12.1.1.3.1</span> All in one page</h5>
 <p>This is at <code>/aio.html</code> and is a concatenation of the schedule. Each episode will be in a section with the ID <code>aio-&lt;file-slug&gt;</code>. An episode file named <code>introduction.md</code> will have the address <code>/aio.html#aio-introduction</code> in the aio page. Note: the aio prefix is to prevent a clash with the ID.</p>
 </section>
-<section id="keypoints" class="level5" data-number="10.1.1.3.2">
-<h5 data-number="10.1.1.3.2" class="anchored" data-anchor-id="keypoints"><span class="header-section-number">10.1.1.3.2</span> Keypoints</h5>
+<section id="keypoints" class="level5" data-number="12.1.1.3.2">
+<h5 data-number="12.1.1.3.2" class="anchored" data-anchor-id="keypoints"><span class="header-section-number">12.1.1.3.2</span> Keypoints</h5>
 <p>This is at <code>/key-points.html</code>. The key points of each episode is extracted and placed into sections with the ID of <code>&lt;file-slug&gt;</code>. An episode file name <code>introduction.md</code> will have the address <code>/key-points.html#introduction</code>.</p>
 </section>
-<section id="images" class="level5" data-number="10.1.1.3.3">
-<h5 data-number="10.1.1.3.3" class="anchored" data-anchor-id="images"><span class="header-section-number">10.1.1.3.3</span> Images</h5>
+<section id="images" class="level5" data-number="12.1.1.3.3">
+<h5 data-number="12.1.1.3.3" class="anchored" data-anchor-id="images"><span class="header-section-number">12.1.1.3.3</span> Images</h5>
 <p>This is at <code>/instructor/images.html</code> and contains a concatenation of all the images in the lesson, printing the alt-text for each image if it exists.</p>
 </section>
 </section>
 </section>
 </section>
-<section id="rendering-html" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="rendering-html"><span class="header-section-number">10.2</span> Rendering HTML</h2>
+<section id="rendering-html" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="rendering-html"><span class="header-section-number">12.2</span> Rendering HTML</h2>
 <p>The first step of the pipeline is to render the HTML from <em>Markdown</em> (in the <code>site/built</code> folder) using pandoc with our custom lua filters. This is entirely encapsulated within the function <a href="https://carpentries.github.io/sandpaper/reference/render_html.html"><code>render_html()</code></a>:</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
@@ -573,31 +601,31 @@ window.Quarto = {
 </figure>
 </div>
 <p>The HTML that is rendered from <code>render_html()</code> is not standalone and expected to be insert into the <code>&lt;main&gt;</code> tags of <a href="https://jerryjones.dev/2018/01/30/basic-html-boilerplate-structure/">HTML boilderplate</a>. Luckily, <code>render_html()</code> <em>is</em> a standalone function. This means that you do not need to prepare anything other than a document for it to render. Here’s an example rendering basic <em>Markdown</em> to HTML as a character string. Let’s say we had a single markdown document that just showed:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>I can write in **Markdown** and $<span class="sc">\\</span>LaTeX$ <span class="sc">:joy_cat:</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>I can write in **Markdown** and $<span class="sc">\\</span>LaTeX$ <span class="sc">:joy_cat:</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>When rendered, it would look like this:</p>
 <blockquote class="blockquote">
 <p>I can write in <strong>Markdown</strong> and <span class="math inline">\(\\LaTeX\)</span> <span class="emoji" data-emoji="joy_cat">😹</span></p>
 </blockquote>
 <p>To test the rendering, we can create a temporary file on the fly and use <code>render_html()</code> to render it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="st">"I can write in **Markdown** and $</span><span class="sc">\\</span><span class="st">LaTeX$ :joy_cat:"</span>, tmp)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>html_text <span class="ot">&lt;-</span> sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>html_text <span class="ot">&lt;-</span> sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>html_text</code> variable contains a string of length 1 that contains the rendered HTML from the markdown.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>I can write in <span class="dt">&lt;</span><span class="kw">strong</span><span class="dt">&gt;</span>Markdown<span class="dt">&lt;/</span><span class="kw">strong</span><span class="dt">&gt;</span> and <span class="dt">&lt;</span><span class="kw">span</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>I can write in <span class="dt">&lt;</span><span class="kw">strong</span><span class="dt">&gt;</span>Markdown<span class="dt">&lt;/</span><span class="kw">strong</span><span class="dt">&gt;</span> and <span class="dt">&lt;</span><span class="kw">span</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">class</span><span class="op">=</span><span class="st">"math inline"</span><span class="dt">&gt;</span>\(\LaTeX\)<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span> <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"emoji"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">data-emoji</span><span class="op">=</span><span class="st">"joy_cat"</span><span class="dt">&gt;</span>😹<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="working-with-the-output" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="working-with-the-output"><span class="header-section-number">10.2.1</span> Working with the Output</h3>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">data-emoji</span><span class="op">=</span><span class="st">"joy_cat"</span><span class="dt">&gt;</span>😹<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="working-with-the-output" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="working-with-the-output"><span class="header-section-number">12.2.1</span> Working with the Output</h3>
 <p>for all of the functions that use <code>render_html()</code> you will find this general pipeline: <code>file_path |&gt; render_html() |&gt; xml2::read_html()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>html_text <span class="ot">&lt;-</span> <span class="fu">render_html</span>(file_path)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>html_text <span class="ot">&lt;-</span> <span class="fu">render_html</span>(file_path)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (html_text <span class="sc">==</span> <span class="st">""</span>) {</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  html <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(<span class="st">"&lt;p&gt;&lt;/p&gt;"</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  html <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(html_text)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can then use it to explore and manipulate the elements using good ol’ XPath synatax <span class="emoji" data-emoji="cowboy_hat_face">🤠</span> Yee haw!</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -606,7 +634,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="emoji" data-emoji="hand">✋</span> Wait just a rootin’ tootin’ minute!
+<span class="screen-reader-only">Tip</span><span class="emoji" data-emoji="hand">✋</span> Wait just a rootin’ tootin’ minute!
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -620,18 +648,18 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(html)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## {html_document}
 ## &lt;html&gt;
 ## [1] &lt;body&gt;&lt;p&gt;I can write in &lt;strong&gt;Markdown&lt;/strong&gt; and &lt;span class="math i ...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, <span class="st">".//p/strong"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, <span class="st">".//p/strong"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;strong&gt;Markdown&lt;/strong&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, <span class="st">".//p/span[@class='emoji']"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, <span class="st">".//p/span[@class='emoji']"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## {xml_nodeset (1)}
 ## [1] &lt;span class="emoji" data-emoji="joy_cat"&gt;😹&lt;/span&gt;</code></pre>
@@ -652,13 +680,13 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>html2 <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(<span class="fu">as.character</span>(html))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>html2 <span class="ot">&lt;-</span> xml2<span class="sc">::</span><span class="fu">read_html</span>(<span class="fu">as.character</span>(html))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>From here, the nodes get sent to <code>fix_nodes()</code> so that they can be post-processed.</p>
 </section>
 </section>
-<section id="post-processing-with-xpath" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="post-processing-with-xpath"><span class="header-section-number">10.3</span> Post-processing with XPath</h2>
+<section id="post-processing-with-xpath" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="post-processing-with-xpath"><span class="header-section-number">12.3</span> Post-processing with XPath</h2>
 <p>Before the HTML can be passed to the template, it needs to be tweaked a bit. There are two reasons why we would need to tweak the HTML:</p>
 <ul>
 <li>We want to add a feature that is not supported in pandoc (or at least older versions)</li>
@@ -673,7 +701,7 @@ Note
 </div>
 <p>In turn, <code>fix_nodes()</code> will call this cascade of XML manipulating functions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">:::</span>fix_nodes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sandpaper<span class="sc">:::</span>fix_nodes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (nodes = NULL) 
 {
@@ -687,7 +715,7 @@ Note
     fix_figures(nodes)
     fix_setup_link(nodes)
 }
-&lt;bytecode: 0x55d8a2a6faf0&gt;
+&lt;bytecode: 0x5568df1a2bc0&gt;
 &lt;environment: namespace:sandpaper&gt;</code></pre>
 </div>
 </div>
@@ -699,7 +727,7 @@ Note
 </div>
 <p>I will show the effects of each of these functions one by one, but first, here’s a couple of functions that will help me demonstrate so I don’t have to keep retyping an copying/pasting:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>render_and_parse <span class="ot">&lt;-</span> <span class="cf">function</span>(txt) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>render_and_parse <span class="ot">&lt;-</span> <span class="cf">function</span>(txt) {</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(txt, tmp)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(xml2<span class="sc">::</span><span class="fu">read_html</span>(sandpaper<span class="sc">:::</span><span class="fu">render_html</span>(tmp)))</span>
@@ -707,13 +735,13 @@ Note
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>print_html <span class="ot">&lt;-</span> <span class="cf">function</span>(html, <span class="at">xpath =</span> <span class="st">".//body/*"</span>) {</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(<span class="fu">as.character</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(html, xpath)))</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="translate_overview" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="translate_overview"><span class="header-section-number">10.3.1</span> <code>translate_overview()</code></h3>
+<section id="translate_overview" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="translate_overview"><span class="header-section-number">12.3.1</span> <code>translate_overview()</code></h3>
 <p>The Overview card is produced by the Lua filter, combining the <code>objectives</code> and <code>questions</code> fenced divs into one entity:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: objectives</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">- one</span></span>
@@ -726,7 +754,7 @@ Note
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="st">:::"</span></span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(ovr) <span class="sc">|&gt;</span> </span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="overview card"&gt;
 &lt;h2 class="card-header"&gt;Overview&lt;/h2&gt;
@@ -757,11 +785,11 @@ Note
 </div>
 <p>The <em>only</em> purpose for <code>translate_overview()</code> is to translate the entities for this card into different languages, so if we use it in an English context, nothing happens, but if we use it in a <em>Japanese</em> context, the the translation appears:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(ovr) <span class="sc">|&gt;</span> </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">translate_overview</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>()</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="overview card"&gt;
 &lt;h2 class="card-header"&gt;Overview&lt;/h2&gt;
@@ -791,8 +819,8 @@ Note
 </div>
 </div>
 </section>
-<section id="fix_headings" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="fix_headings"><span class="header-section-number">10.3.2</span> <code>fix_headings()</code></h3>
+<section id="fix_headings" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="fix_headings"><span class="header-section-number">12.3.2</span> <code>fix_headings()</code></h3>
 <p>Headings in The Workbench need a couple of things done:</p>
 <ol start="0" type="1">
 <li>The parent div needs to be a <code>&lt;section&gt;</code> tag</li>
@@ -801,7 +829,7 @@ Note
 </ol>
 <p>Behold!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>heads <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>heads <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">## Heading 2 {#i-am-a-section-link}</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">### Heading 3 </span></span>
@@ -812,7 +840,7 @@ Note
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">This is a new section</span></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div id="i-am-a-section-link" class="section level2"&gt;
 &lt;h2&gt;Heading 2&lt;/h2&gt;
@@ -826,7 +854,7 @@ Note
 &lt;p&gt;This is a new section&lt;/p&gt;
 &lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_headings</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(heads) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_headings</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;section id="i-am-a-section-link"&gt;
 &lt;h2 class="section-heading"&gt;Heading 2&lt;/h2&gt;
@@ -844,18 +872,18 @@ Note
 </div>
 </div>
 </section>
-<section id="fix_accordions" class="level3" data-number="10.3.3">
-<h3 data-number="10.3.3" class="anchored" data-anchor-id="fix_accordions"><span class="header-section-number">10.3.3</span> <code>fix_accordions()</code></h3>
+<section id="fix_accordions" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="fix_accordions"><span class="header-section-number">12.3.3</span> <code>fix_accordions()</code></h3>
 <p>The only thing that happens with accordions is that they get translated:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>accord <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>accord <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: instructor</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="st">drink water</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   
@@ -863,35 +891,35 @@ Note
   Instructor Note
   </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(accord) <span class="sc">|&gt;</span> </span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">fix_accordions</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  
  Instructor Note </code></pre>
 </div>
 </div>
 </section>
-<section id="fix_callouts" class="level3" data-number="10.3.4">
-<h3 data-number="10.3.4" class="anchored" data-anchor-id="fix_callouts"><span class="header-section-number">10.3.4</span> <code>fix_callouts()</code></h3>
+<section id="fix_callouts" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="fix_callouts"><span class="header-section-number">12.3.4</span> <code>fix_callouts()</code></h3>
 <p>Callouts need to have translations applied and ids adjusted:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>keyps <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>keyps <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="st">::: keypoints</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="st"> - hydrate</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="st">:::"</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div id="keypoints1" class="callout keypoints"&gt;
 &lt;div class="callout-square"&gt;
 &lt;i class="callout-icon" data-feather="key"&gt;&lt;/i&gt;
 &lt;/div&gt;
-&lt;div class="section level3 callout-title callout-inner"&gt;
-&lt;h3 class="callout-title"&gt;Keypoints&lt;/h3&gt;
+&lt;span class="callout-header"&gt;Keypoints&lt;/span&gt;
+&lt;div class="callout-inner"&gt;
 &lt;div class="callout-content"&gt;
 &lt;ul&gt;
 &lt;li&gt;hydrate&lt;/li&gt;
@@ -900,14 +928,14 @@ Note
 &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div id="keypoints1" class="callout keypoints"&gt;
 &lt;div class="callout-square"&gt;
 &lt;i class="callout-icon" data-feather="key"&gt;&lt;/i&gt;
 &lt;/div&gt;
+&lt;span class="callout-header"&gt;Key Points&lt;/span&gt;
 &lt;div class="callout-inner"&gt;
-&lt;h3 class="callout-title"&gt;Key Points&lt;/h3&gt;
 &lt;div class="callout-content"&gt;
 &lt;ul&gt;
 &lt;li&gt;hydrate&lt;/li&gt;
@@ -919,29 +947,26 @@ Note
 </div>
 <p>The translations are also applied:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>withr<span class="sc">::</span><span class="fu">with_language</span>(<span class="st">"ja"</span>, {</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render_and_parse</span>(keyps) <span class="sc">|&gt;</span> </span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    sandpaper<span class="sc">:::</span><span class="fu">fix_callouts</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print_html</span>(<span class="st">".//h3/text()"</span>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Key Points</code></pre>
-</div>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="fix_codeblocks" class="level3" data-number="10.3.5">
-<h3 data-number="10.3.5" class="anchored" data-anchor-id="fix_codeblocks"><span class="header-section-number">10.3.5</span> <code>fix_codeblocks()</code></h3>
+<section id="fix_codeblocks" class="level3" data-number="12.3.5">
+<h3 data-number="12.3.5" class="anchored" data-anchor-id="fix_codeblocks"><span class="header-section-number">12.3.5</span> <code>fix_codeblocks()</code></h3>
 <p>Codeblocks have a phantom H3 attached</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="st">```r</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="st">cat('mouse')</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="st">```"</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="st">```r</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">cat('mouse')</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">```"</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode r"&gt;&lt;code class="sourceCode r"&gt;&lt;span id="cb1-1"&gt;&lt;a href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;cat&lt;/span&gt;(&lt;span class="st"&gt;'mouse'&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_codeblocks</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(codes) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_codeblocks</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;div class="codewrapper sourceCode" id="cb1"&gt;
 &lt;h3 class="code-label"&gt;R&lt;i aria-hidden="true" data-feather="chevron-left"&gt;&lt;/i&gt;&lt;i aria-hidden="true" data-feather="chevron-right"&gt;&lt;/i&gt;
@@ -951,23 +976,23 @@ Note
 </div>
 </div>
 </section>
-<section id="fix_figures" class="level3" data-number="10.3.6">
-<h3 data-number="10.3.6" class="anchored" data-anchor-id="fix_figures"><span class="header-section-number">10.3.6</span> <code>fix_figures()</code></h3>
+<section id="fix_figures" class="level3" data-number="12.3.6">
+<h3 data-number="12.3.6" class="anchored" data-anchor-id="fix_figures"><span class="header-section-number">12.3.6</span> <code>fix_figures()</code></h3>
 <p>Figures need semantic HTML <code>&lt;figure&gt;</code>, not <code>&lt;div&gt;</code> and lone images with no captions should still be figures.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>figs <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="st">![](lone-img.png){alt='tumbleweed'}</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="st">![Just Sayin', Breakfast Plums, So Cold](papa-eating-plums.png){alt='an empty icebox, plums gone'}</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>figs <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="st">![](lone-img.png){alt='tumbleweed'}</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="st">![Just Sayin', Breakfast Plums, So Cold](papa-eating-plums.png){alt='an empty icebox, plums gone'}</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;img src="lone-img.png" alt="tumbleweed"&gt;&lt;/p&gt;
 &lt;div class="float"&gt;
 &lt;img src="papa-eating-plums.png" alt="an empty icebox, plums gone"&gt;&lt;div class="figcaption"&gt;Just Sayin’, Breakfast Plums, So Cold&lt;/div&gt;
 &lt;/div&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_figures</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(figs) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_figures</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;figure&gt;&lt;img src="lone-img.png" alt="tumbleweed" class="figure mx-auto d-block"&gt;&lt;/figure&gt;
 &lt;figure&gt;
@@ -976,21 +1001,21 @@ Note
 </div>
 </div>
 </section>
-<section id="fix_setup_link" class="level3" data-number="10.3.7">
-<h3 data-number="10.3.7" class="anchored" data-anchor-id="fix_setup_link"><span class="header-section-number">10.3.7</span> <code>fix_setup_link()</code></h3>
+<section id="fix_setup_link" class="level3" data-number="12.3.7">
+<h3 data-number="12.3.7" class="anchored" data-anchor-id="fix_setup_link"><span class="header-section-number">12.3.7</span> <code>fix_setup_link()</code></h3>
 <p>When someone writes the link to <code>setup.html</code>, it needs to be transmogrified to be <code>index.html#setup</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>stp <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="st">[setup](../learners/setup.html) </span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">with [macOS](../learners/setup.html#macos)"</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>stp <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="st">[setup](../learners/setup.html) </span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">with [macOS](../learners/setup.html#macos)"</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;a href="setup.html"&gt;setup&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;with &lt;a href="setup.html#macos"&gt;macOS&lt;/a&gt;&lt;/p&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_setup_link</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">render_and_parse</span>(stp) <span class="sc">|&gt;</span> sandpaper<span class="sc">:::</span><span class="fu">fix_setup_link</span>() <span class="sc">|&gt;</span> <span class="fu">print_html</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;p&gt;&lt;a href="index.html#setup"&gt;setup&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;with &lt;a href="index.html#macos"&gt;macOS&lt;/a&gt;&lt;/p&gt;</code></pre>
@@ -998,8 +1023,8 @@ Note
 </div>
 </section>
 </section>
-<section id="applying-varnish-templating-with-pkgdownrender_page" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="applying-varnish-templating-with-pkgdownrender_page"><span class="header-section-number">10.4</span> Applying {varnish} templating with <code>pkgdown::render_page()</code></h2>
+<section id="applying-varnish-templating-with-pkgdownrender_page" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="applying-varnish-templating-with-pkgdownrender_page"><span class="header-section-number">12.4</span> Applying {varnish} templating with <code>pkgdown::render_page()</code></h2>
 <p>All HTML files get funneled into <code>pkgdown::render_page()</code> through <code>build_html()</code>, which in turn is ultimately called by <code>build_site()</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1007,7 +1032,7 @@ Note
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Want to change the HTML engine?
+<span class="screen-reader-only">Note</span>Want to change the HTML engine?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1033,236 +1058,243 @@ Want to change the HTML engine?
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/carpentries\.github\.io\/workbench-dev\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/carpentries\.github\.io\/workbench-dev\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1270,194 +1302,170 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../sandpaper/package-cache.html" class="pagination-link" aria-label="The R package cache">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The R package cache</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The R package cache</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../pegboard/intro.html" class="pagination-link" aria-label="The {pegboard} package">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The {pegboard} package</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
