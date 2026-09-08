@@ -2,98 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://carpentries.github.io/workbench-dev/index.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/intro.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/setup.html</loc>
-    <lastmod>2026-08-25T00:03:51.959Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.825Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/docker-quick-start.html</loc>
-    <lastmod>2026-08-25T00:03:51.944Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.809Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/docker.html</loc>
-    <lastmod>2026-08-25T00:03:51.944Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.810Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/testing.html</loc>
-    <lastmod>2026-08-25T00:03:51.959Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.825Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/flow.html</loc>
-    <lastmod>2026-08-25T00:03:51.944Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.810Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/features.html</loc>
-    <lastmod>2026-08-25T00:03:51.944Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.810Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/intro.html</loc>
-    <lastmod>2026-08-25T00:03:51.955Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.821Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/testing.html</loc>
-    <lastmod>2026-08-25T00:03:51.959Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.825Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/global-state.html</loc>
-    <lastmod>2026-08-25T00:03:51.955Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.821Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/package-cache.html</loc>
-    <lastmod>2026-08-25T00:03:51.955Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.821Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sandpaper/building-html.html</loc>
-    <lastmod>2026-08-25T00:03:51.954Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.820Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/pegboard/intro.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/varnish/intro.html</loc>
-    <lastmod>2026-08-25T00:03:51.959Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.825Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/releases.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/hotfixes.html</loc>
-    <lastmod>2026-08-25T00:03:51.944Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.810Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/remote/intro.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/remote/deploy.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/remote/pull-request.html</loc>
-    <lastmod>2026-08-25T00:03:51.952Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.818Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/summary.html</loc>
-    <lastmod>2026-08-25T00:03:51.959Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.825Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/references.html</loc>
-    <lastmod>2026-08-25T00:03:51.945Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.811Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/sop.html</loc>
-    <lastmod>2026-08-25T00:03:51.959Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.825Z</lastmod>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-dev/flight-rules.html</loc>
-    <lastmod>2026-08-25T00:03:51.944Z</lastmod>
+    <lastmod>2026-09-08T00:04:24.810Z</lastmod>
   </url>
 </urlset>
