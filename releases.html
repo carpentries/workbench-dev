@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learn how to build, debug, and contribute to the components that make up The Carpentries Workbench.">
 
-<title>15&nbsp; Release Process for Workbench Packages – Workbench Developer's Guide</title>
+<title>15&nbsp; Release Process for the Workbench – Workbench Developer's Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for the Workbench</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -297,7 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./releases.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for the Workbench</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -379,21 +379,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">15.1</span> Background</a></li>
   <li><a href="#versioning" id="toc-versioning" class="nav-link" data-scroll-target="#versioning"><span class="header-section-number">15.2</span> Versioning</a></li>
   <li><a href="#release-process" id="toc-release-process" class="nav-link" data-scroll-target="#release-process"><span class="header-section-number">15.3</span> Release Process</a></li>
-  <li><a href="#workbench-release-schedule" id="toc-workbench-release-schedule" class="nav-link" data-scroll-target="#workbench-release-schedule"><span class="header-section-number">15.4</span> Workbench Release Schedule</a>
+  <li><a href="#docker-image-release" id="toc-docker-image-release" class="nav-link" data-scroll-target="#docker-image-release"><span class="header-section-number">15.4</span> Docker Image Release</a>
   <ul class="collapse">
-  <li><a href="#minor-feature-updates" id="toc-minor-feature-updates" class="nav-link" data-scroll-target="#minor-feature-updates"><span class="header-section-number">15.4.1</span> Minor Feature Updates</a></li>
-  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">15.4.2</span> Breaking Changes</a></li>
+  <li><a href="#prepare-for-release" id="toc-prepare-for-release" class="nav-link" data-scroll-target="#prepare-for-release"><span class="header-section-number">15.4.1</span> Prepare for release</a></li>
+  <li><a href="#create-tag-and-release" id="toc-create-tag-and-release" class="nav-link" data-scroll-target="#create-tag-and-release"><span class="header-section-number">15.4.2</span> Create tag and release</a></li>
   </ul></li>
-  <li><a href="#github-action-schedule" id="toc-github-action-schedule" class="nav-link" data-scroll-target="#github-action-schedule"><span class="header-section-number">15.5</span> GitHub Action Schedule</a></li>
+  <li><a href="#workbench-release-schedule" id="toc-workbench-release-schedule" class="nav-link" data-scroll-target="#workbench-release-schedule"><span class="header-section-number">15.5</span> Workbench Release Schedule</a>
+  <ul class="collapse">
+  <li><a href="#minor-feature-updates" id="toc-minor-feature-updates" class="nav-link" data-scroll-target="#minor-feature-updates"><span class="header-section-number">15.5.1</span> Minor Feature Updates</a></li>
+  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes"><span class="header-section-number">15.5.2</span> Breaking Changes</a></li>
+  </ul></li>
+  <li><a href="#github-action-schedule" id="toc-github-action-schedule" class="nav-link" data-scroll-target="#github-action-schedule"><span class="header-section-number">15.6</span> GitHub Action Schedule</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./releases.html">Package Distribution</a></li><li class="breadcrumb-item"><a href="./releases.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for the Workbench</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for Workbench Packages</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Release Process for the Workbench</span></h1>
 </div>
 
 
@@ -497,16 +502,42 @@ Note
 <p>Once the release is created on GitHub, then the package will be available on the R-Universe in about an hour or less.</p>
 <p>The newly released packages will be incorporated into a Docker image via the <a href="https://github.com/carpentries/workbench-docker">workbench-docker</a> repository.</p>
 </section>
-<section id="workbench-release-schedule" class="level2" data-number="15.4">
-<h2 data-number="15.4" class="anchored" data-anchor-id="workbench-release-schedule"><span class="header-section-number">15.4</span> Workbench Release Schedule</h2>
+<section id="docker-image-release" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="docker-image-release"><span class="header-section-number">15.4</span> Docker Image Release</h2>
+<p>Following a successful release of the Workbench packages, check the <a href="https://carpentries.r-universe.dev/builds">Carpentries r-universe</a> build status to confirm that the packages have been built and ingested by verifying the version number in the Version column matches the package release versions.</p>
+<p>The builds happen typically every hour, so wait until these versions are correct before continuing!</p>
+<section id="prepare-for-release" class="level3" data-number="15.4.1">
+<h3 data-number="15.4.1" class="anchored" data-anchor-id="prepare-for-release"><span class="header-section-number">15.4.1</span> Prepare for release</h3>
+<p>Clone the workbench-docker repo if you haven’t already:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> repo clone carpentries/workbench-docker</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Create a release branch matching the version to release, using the format <code>release-[X.Y.Z]</code>, e.g.:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> release-0.2.9</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This will kick off the <code>Docker CI</code> action to verify that the images can be built, but will not publish any images.</p>
+<p>Once this action completes successfully, follow the instructions below to create a tag and release from this release branch.</p>
+</section>
+<section id="create-tag-and-release" class="level3" data-number="15.4.2">
+<h3 data-number="15.4.2" class="anchored" data-anchor-id="create-tag-and-release"><span class="header-section-number">15.4.2</span> Create tag and release</h3>
+<p>Ensure you are on the <code>release-[X.Y.Z]</code> branch you created above.</p>
+<p>Adding a tag and release can be achieved in a single step with the <a href="https://cli.github.com/">github cli</a> with the command <code>gh release create X.Y.Z</code> for the version number</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create v0.2.9</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ? Title (optional) v0.2.9</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ? Release notes  [Use arrows to move, type to filter]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   Write my own</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; Write using generated notes as template</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   Leave blank</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This will start the build and publish action.</p>
+</section>
+</section>
+<section id="workbench-release-schedule" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="workbench-release-schedule"><span class="header-section-number">15.5</span> Workbench Release Schedule</h2>
 <p>As the Workbench is maintained by a small team, the release process is largely ad-hoc. The capacity of the team to handle issues, fix bugs, and deploy new code is limited.</p>
 <p>However, any release timelines are based on two assumptions:</p>
 <ol type="1">
 <li>For non-hotfix releases, these will always happen Monday to Thursday inclusive. Feature releases will never happen on a Friday.</li>
 <li>For hotfix releases where critical functionality needs to be restored, these may happen at any time.</li>
 </ol>
-<section id="minor-feature-updates" class="level3" data-number="15.4.1">
-<h3 data-number="15.4.1" class="anchored" data-anchor-id="minor-feature-updates"><span class="header-section-number">15.4.1</span> Minor Feature Updates</h3>
+<section id="minor-feature-updates" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="minor-feature-updates"><span class="header-section-number">15.5.1</span> Minor Feature Updates</h3>
 <p>For releases that add new non-breaking features which bump the <a href="#minor">minor version</a>, it is important to alert the community a couple of days in advance of the release so they have a chance to give feedback before the release. Thus, I propose the following timeline:</p>
 <ol type="1">
 <li><strong>Friday (drafting)</strong>: Members of Workbench Maintainer Group draft communications describing new features</li>
@@ -515,15 +546,15 @@ Note
 </ol>
 <p>We release on Wednesday in order to give enough time for the communications to sink in <em>and</em> give enough time for us to release patches to the release before all lessons get rebuilt.</p>
 </section>
-<section id="breaking-changes" class="level3" data-number="15.4.2">
-<h3 data-number="15.4.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">15.4.2</span> Breaking Changes</h3>
+<section id="breaking-changes" class="level3" data-number="15.5.2">
+<h3 data-number="15.5.2" class="anchored" data-anchor-id="breaking-changes"><span class="header-section-number">15.5.2</span> Breaking Changes</h3>
 <p>If there are breaking changes, it is important to give the community enough time to adapt and to offer them a path forward to fix their workflows. Depending on how drastic the change is, it may be important to conduct beta testing to ensure that the change doesn’t contain any unforseen bugs and, importantly, that it <em>improves the workflow for the audience over doing nothing at all</em>.</p>
 <p>The Beta Phase of The Workbench is an extreme version of this, but it <em>is</em> important, because <a href="https://github.com/dwinter/mmod/issues/2">major version changes have real-world consequences</a> that you want to avoid as much as possible.</p>
 <p>The release should still happen on a Wednesday, but the communications aspect should be timely, specific, targeted, and repeated. It may be that you have to communicate about the change one week, one month, or even one quarter ahead of the release. In a volunteer community, you will end up in situations where people are checked out for months at a time and will see everything changed, so please do take care with the communications and changes.</p>
 </section>
 </section>
-<section id="github-action-schedule" class="level2" data-number="15.5">
-<h2 data-number="15.5" class="anchored" data-anchor-id="github-action-schedule"><span class="header-section-number">15.5</span> GitHub Action Schedule</h2>
+<section id="github-action-schedule" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="github-action-schedule"><span class="header-section-number">15.6</span> GitHub Action Schedule</h2>
 <p>Lesson repositories that use the Workbench workflows in GitHub Actions will be largely automatically managed.</p>
 <p>All lesson builds and updates happen every Tuesday at 00:00 UTC.</p>
 <p>Lessons that use R packages for R-based lessons are updated only on the <em>first</em> Tuesday of each month.</p>
