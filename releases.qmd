@@ -1,5 +1,5 @@
 ---
-title: "Release Process for Workbench Packages"
+title: "Release Process for the Workbench"
 ---
 
 ## Background
@@ -139,6 +139,57 @@ the R-Universe in about an hour or less.
 
 The newly released packages will be incorporated into a Docker image via the
 [workbench-docker](https://github.com/carpentries/workbench-docker) repository.
+
+
+## Docker Image Release
+
+Following a successful release of the Workbench packages, check the [Carpentries
+r-universe](https://carpentries.r-universe.dev/builds) build status to confirm
+that the packages have been built and ingested by verifying the version number
+in the Version column matches the package release versions.
+
+The builds happen typically every hour, so wait until these versions are correct
+before continuing!
+
+### Prepare for release
+
+Clone the workbench-docker repo if you haven't already:
+
+```bash
+gh repo clone carpentries/workbench-docker
+```
+
+Create a release branch matching the version to release, using the format
+`release-[X.Y.Z]`, e.g.:
+
+```bash
+git checkout -b release-0.2.9
+```
+
+This will kick off the `Docker CI` action to verify that the images can be built, but
+will not publish any images.
+
+Once this action completes successfully, follow the instructions below to create a
+tag and release from this release branch.
+
+### Create tag and release
+
+Ensure you are on the `release-[X.Y.Z]` branch you created above.
+
+Adding a tag and release can be achieved in a single step with the [github
+cli](https://cli.github.com/) with the command `gh release create X.Y.Z` for
+the version number
+
+```bash
+gh release create v0.2.9
+# ? Title (optional) v0.2.9
+# ? Release notes  [Use arrows to move, type to filter]
+#   Write my own
+# > Write using generated notes as template
+#   Leave blank
+```
+
+This will start the build and publish action.
 
 
 ## Workbench Release Schedule
