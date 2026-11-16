@@ -192,6 +192,54 @@ gh release create v0.2.9
 This will start the build and publish action.
 
 
+## Actions Releases
+
+The underlying [GitHub Actions](https://github.com/carpentries/actions) are published on an ad hoc basis when important features or bugfixes are incorporated.
+
+### Create tag and release
+
+The release process follows that of the other packages and Docker image, i.e.
+
+```bash
+gh release create v1.0.4
+# ? Title (optional) v1.0.4
+# ? Release notes  [Use arrows to move, type to filter]
+#   Write my own
+# > Write using generated notes as template
+#   Leave blank
+```
+
+### Update recent major release version
+
+Once the step above has been completed, the base major release version needs to be updated.
+So, in the case of `v1.0.4`, the `v1` release tag needs to be updated to the same commit as the release:
+
+```bash
+git push origin --delete tag v1
+git tag -fa v1
+git push origin tag v1
+```
+
+## Workflows Releases
+
+The main [Workbench workflows](https://github.com/carpentries/workbench-workflows) are published on an ad hoc basis when important features or bugfixes are incorporated.
+
+### Create tag and release
+
+The release process follows that of the other packages and Docker image, i.e.
+
+```bash
+gh release create v1.0.3
+# ? Title (optional) v1.0.3
+# ? Release notes  [Use arrows to move, type to filter]
+#   Write my own
+# > Write using generated notes as template
+#   Leave blank
+```
+
+When the weekly `04 Maintain: Update Workflows` workflow runs, a PR will be opened by the carpentries-bot to incorporate the updated workflows into the repo.
+
+
 ## Workbench Release Schedule
 
 As the Workbench is maintained by a small team, the release process is largely
